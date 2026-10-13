@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#7256cb">
-<title>Pequeñas Letras · Lectoescritura v0.4</title>
+<title>Pequeñas Letras · Lectoescritura v0.5.1</title>
 <style>
 :root{--ink:#292946;--muted:#706e86;--purple:#6952c2;--purple-dark:#5540a6;--pale:#eee9fd;--bg:#f6f5fb;--edge:#e9e6f3;--teal:#147f78;--yellow:#fff2cb;--good:#14795e;--bad:#a14b52;--shadow:0 16px 48px rgba(56,45,104,.09);color-scheme:light}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:radial-gradient(ellipse at 7% 6%,#ebe5ff 0,transparent 28%),radial-gradient(ellipse at 95% 95%,#dff5f1 0,transparent 32%),var(--bg);min-height:100vh;color:var(--ink)}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f0a838;outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.45}
@@ -54,12 +54,75 @@ header{max-width:1400px;margin:auto;display:flex;align-items:center;justify-cont
 
 .object-table{display:inline-block;vertical-align:middle;width:150px;max-width:100%;height:135px;object-fit:contain}
 .reveal-emoji .object-table{width:115px;height:110px}
+/* v0.5.1: word reading source filters and word identification quiz */
+.reading-modes{display:flex;flex-wrap:wrap;gap:8px;margin:17px auto 8px;justify-content:center}
+.mode-pill{border:2px solid #e4def2;border-radius:99px;padding:10px 14px;background:#f7f5fd;color:#49405f;font-weight:780;min-height:44px;transition:transform .15s,border-color .15s}
+.mode-pill:hover{transform:translateY(-2px);border-color:#a59bd6}
+.mode-pill.active{border-color:#6754b8;box-shadow:0 0 0 2px #e3dafa;color:#49359b}
+.mode-pill.green{background:#d8f0dc;color:#205737}.mode-pill.yellow{background:#fff1be;color:#75591a}
+.mode-pill.pink{background:#fad9e6;color:#91405b}.mode-pill.blue{background:#d5eaf9;color:#225e83}
+.mode-pill.original,.mode-pill.mixed{background:#f6f1fe}
+.bank-note{text-align:center;font-size:13px;color:var(--muted);margin:8px auto 0;max-width:700px}
+@media(max-width:630px){.reading-modes{gap:6px}.mode-pill{padding:9px 12px;min-height:43px;font-size:12px}.bank-note{font-size:12px}}
+
+/* v0.5.1.1: readable word choices in a fixed 2-by-2 layout, including phones. */
+.choice-grid.word-choice-grid{
+  width:min(100%,780px);
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(8px,1.5vw,16px);
+  align-items:stretch;
+}
+.choice-grid.word-choice-grid .choice{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  min-width:0;
+  width:100%;
+  min-height:88px;
+  padding:19px 10px 12px;
+  line-height:1.18;
+}
+.choice-grid.word-choice-grid .choice-text{
+  display:inline-block;
+  max-width:none;
+  white-space:nowrap;
+  word-break:normal;
+  overflow-wrap:normal;
+  font-size:clamp(13px,2.3vw,30px);
+  letter-spacing:-.02em;
+}
+.choice-grid.word-choice-grid .choice kbd{
+  position:absolute;
+  top:6px;
+  right:9px;
+  float:none;
+  font-size:12px;
+}
+.reading-modes .mode-pill.with-skill{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
+  min-width:108px;
+  min-height:62px;
+  line-height:1.2;
+  border-radius:17px;
+}
+.reading-modes .mode-pill.with-skill small{font-size:11px;font-weight:650;opacity:.83}
+@media(max-width:630px){
+  .choice-grid.word-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .choice-grid.word-choice-grid .choice{min-height:82px;padding:19px 6px 11px}
+  .reading-modes .mode-pill.with-skill{min-width:0;flex:1 1 calc(50% - 8px)}
+}
 </style>
 </head>
 <body>
 <header><div class="brand"><div class="logo" aria-hidden="true">✎</div><div><small>Aprender jugando</small><h1 id="appTitle">Pequeñas Letras</h1></div></div><div class="prefs"><label class="pref"><span id="languageLabel">Idioma</span><select id="langSelect" aria-label="Idioma"><option value="es">Castellano</option><option value="ca">Valencià</option><option value="en">English</option></select></label><label class="pref"><span id="caseLabel">Tipo de letra</span><select id="caseSelect" aria-label="Tipo de letra"><option value="upper">MAYÚSCULAS</option><option value="lower">minúsculas</option></select></label><label class="pref"><span id="speedLabel">Velocidad de voz</span><select id="speedSelect" aria-label="Velocidad de voz"><option value="0.82">Lenta</option><option value="0.95" selected>Normal</option><option value="1.1">Rápida</option></select></label></div></header>
 <div class="shell"><nav class="sidebar" aria-label="Actividades"><div class="nav-title" id="navTitle">Actividades</div><div id="navItems"></div><div class="sidebar-bottom" id="navFoot"></div></nav><main class="workspace" id="appMain" tabindex="-1"></main></div>
-<div class="voice-status" id="voiceStatus" role="status" aria-live="polite"></div><footer><span id="footerAppTitle">Pequeñas Letras</span> · v0.4 · HTML · <span id="footerKeyboard">Ratón y teclado</span></footer>
+<div class="voice-status" id="voiceStatus" role="status" aria-live="polite"></div><footer><span id="footerAppTitle">Pequeñas Letras</span> · v0.5.1 · HTML · <span id="footerKeyboard">Ratón y teclado</span></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 'use strict';
@@ -70,6 +133,16 @@ const tx={
  ca:{title:'Lletres Menudes',lang:'Idioma',case:'Tipus de lletra',speed:'Velocitat de la veu',sl:'Lenta',sn:'Normal',sf:'Ràpida',nav:'Les meues activitats',foot:'Tria una activitat. Sense punts ni presses: pots repetir tot el que vulgues.',keyboard:'Ratolí i teclat',activities:['Descobrisc les lletres','Troba la lletra','Màquina de síl·labes','Tria la síl·laba','Unim síl·labes','Llig i descobrix'],short:['Abecedari','Busca lletres','Crea síl·labes','Escolta síl·labes','Forma paraules','Llig paraules'],descs:['Explora les lletres, el nom i exemples de com sonen.','Escolta la consigna i troba la lletra escrita.','Combina dos lletres vàlides i descobrix com es lligen juntes.','Escolta una síl·laba i tria com s’escriu.','Ordena les síl·labes per a formar la paraula del dibuix.','Llig una paraula, toca les parts i descobrix el dibuix.'],listen:'Escoltar',name:'Nom',wordSound:'So dins de la paraula',next:'Un altre exercici',help:'Pista',check:'Comprovar',undo:'Desfer',reset:'Tornar a començar',discover:'Descobrir el dibuix',whole:'Llegir sencera',syllable:'Escoltar síl·laba',soundMode:'Per exemple',nameMode:'Pel nom',promptName:'Escolta el nom de la lletra i tria-la.',promptExample:'Escolta la paraula i tria la lletra inicial.',promptSyllable:'Escolta i selecciona la síl·laba correcta.',clickSpeaker:'Prem l’altaveu per a escoltar-ho.',letterOne:'Primera lletra',letterTwo:'Segona lletra',firstLetter:'Primera',secondLetter:'Segona',cv:'Consonant + vocal',vc:'Vocal + consonant',pair:'Parella vàlida',chooseLetters:'Selecciona una lletra de cada columna.',chooseValid:'Esta combinació no està disponible en este nivell.',wordFromPicture:'Ordena les fitxes per a escriure la paraula del dibuix.',clickOrDrag:'Fes clic en les fitxes (o arrossega-les). També pots prémer 1, 2, 3…',readNow:'Intenta llegir-la abans de descobrir el dibuix.',listenParts:'Toca una part per a escoltar-la.',hidden:'¿?',again:'Torna a escoltar',correct:'Molt bé! ✨',wrong:'Quasi. Revisa l’orde i torna-ho a intentar.',tryAgain:'Prova-ho una altra vegada. Ho pots fer!',newLetter:'Una altra lletra',letterExample:'Exemple',notVoiced:'Esta lletra no sempre representa un so propi.',exampleOnly:'Escolta com apareix en una paraula.',how:'Teclat: números per a triar; N = següent; R = escoltar; H = pista; retrocés = desfer.',warning:'La veu no està disponible en este navegador.',missingVoice:'No s’ha trobat una veu adequada per a {language}. Pots continuar practicant visualment; instal·la una veu de l’idioma per a escoltar-lo.',voiceReady:'Veu disponible en {language}.',voiceInit:'Comprovant les veus del navegador…',hintStart:'La primera síl·laba és: {value}',hintLetter:'Busca la lletra de «{value}».',hintSyllable:'Comença amb {value}.',tipVoice:'La pronunciació depén de les veus instal·lades en l’equip.',soundHelp:'Per a evitar una consonant aïllada mal pronunciada, s’escolta una paraula d’exemple.',enterNext:'Prem N o utilitza «Un altre exercici».',hintUsed:'Esta és una pista; tu pots acabar.',explore:'Explora sense puntuacions',threeLevels:'Pots repetir tots els exercicis lliurement.',tapAgain:'Toca les síl·labes per a escoltar-les.',noVoice:'Àudio no disponible',soundExample:'Escoltar exemple',sample:'Paraula d’exemple',special:'Atenció: esta lletra pot tindre sons diferents o no sonar.',btnCaps:'majúscules',btnLower:'minúscules'},
  en:{title:'Little Letters',lang:'Language',case:'Letter style',speed:'Speech speed',sl:'Slow',sn:'Normal',sf:'Fast',nav:'My activities',foot:'Choose an activity. No points or rush: play as often as you like.',keyboard:'Mouse and keyboard',activities:['Discover letters','Find the letter','Letter-pair machine','Choose the pair','Build a word','Read and reveal'],short:['Alphabet','Find letters','Make pairs','Listen to pairs','Build words','Read words'],descs:['Explore letters, their names and examples of their sounds.','Listen and find the written letter.','Put two letters together using a selection of real English patterns.','Listen to a useful two-letter chunk and choose how it is written.','Put syllable cards in the right order to name the picture.','Read a word, explore its parts and reveal the picture.'],listen:'Listen',name:'Letter name',wordSound:'Sound in a word',next:'Another one',help:'Hint',check:'Check',undo:'Undo',reset:'Start again',discover:'Reveal picture',whole:'Read the whole word',syllable:'Listen to chunk',soundMode:'By example',nameMode:'By name',promptName:'Listen to the letter name and choose it.',promptExample:'Listen to the word and choose its first letter.',promptSyllable:'Listen and choose the written pair.',clickSpeaker:'Press the speaker to listen.',letterOne:'First letter',letterTwo:'Second letter',firstLetter:'First',secondLetter:'Second',cv:'Consonant + vowel',vc:'Vowel + consonant',pair:'Useful pair',chooseLetters:'Choose one letter from each column.',chooseValid:'That pair is not in this beginner set.',wordFromPicture:'Arrange the cards to spell the word in the picture.',clickOrDrag:'Click the cards (or drag them). You can also press 1, 2, 3…',readNow:'Try reading it before revealing the picture.',listenParts:'Tap any part to hear the complete word.',hidden:'?',again:'Listen again',correct:'Great job! ✨',wrong:'Nearly! Check the order and try again.',tryAgain:'Try again. You can do it!',newLetter:'Another letter',letterExample:'Example',notVoiced:'This letter can have several sounds.',exampleOnly:'Listen to how it sounds in a word.',how:'Keyboard: number keys to choose; N = next; R = repeat; H = hint; Backspace = undo.',warning:'Speech is not available in this browser.',missingVoice:'No suitable voice was found for {language}. You can still practise visually; install the language voice on your device to listen.',voiceReady:'Voice available for {language}.',voiceInit:'Checking browser voices…',hintStart:'The first part is: {value}',hintLetter:'Find the first letter of “{value}”.',hintSyllable:'It starts with {value}.',tipVoice:'Speech quality depends on the voices installed on this device.',soundHelp:'To avoid incorrect isolated consonant sounds, you hear an example word.',enterNext:'Press N or use “Another one”.',hintUsed:'That is a hint; you can finish it.',explore:'Explore without scores',threeLevels:'Repeat any activity as often as you like.',tapAgain:'Tap the parts to hear them.',noVoice:'Audio unavailable',soundExample:'Hear example',sample:'Example word',special:'Note: this letter can have different sounds or be silent.',btnCaps:'uppercase',btnLower:'lowercase'}
 };
+for(const [l,d] of Object.entries(tx)){
+ d.identifyTitle={es:'Identifica la palabra',ca:'Identifica la paraula',en:'Find the word'}[l];
+ d.identifyDesc={es:'Escucha una palabra completa y elige cómo se escribe.',ca:'Escolta una paraula sencera i tria com s’escriu.',en:'Listen to a whole word and choose its spelling.'}[l];
+ d.identifyPrompt={es:'Escucha la palabra y selecciona la escritura correcta.',ca:'Escolta la paraula i tria com s’escriu correctament.',en:'Listen to the word and choose the correct spelling.'}[l];
+ d.identifyGuide={es:'Escucha y elige',ca:'Escolta i tria',en:'Listen and choose'}[l];
+ d.readBankIntro={es:'Ahora puedes leer monosílabas y bisílabas del banco de lectura en voz alta.',ca:'Ara pots llegir monosíl·labes i bisíl·labes del banc de lectura en veu alta.',en:'Read one- and two-syllable words from the read-aloud bank.'}[l];
+ d.noIllustration={es:'Comprueba cómo se escribe y se pronuncia.',ca:'Comprova com s’escriu i com es pronuncia.',en:'Check how the word is written and pronounced.'}[l];
+ d.readCheck={es:'Descubrir',ca:'Descobrir',en:'Reveal'}[l];
+ d.identifyKeys={es:'Pulsa 1–4 para responder, R para escuchar de nuevo y N para cambiar de palabra.',ca:'Prem 1–4 per a respondre, R per a escoltar de nou i N per a canviar de paraula.',en:'Press 1–4 to answer, R to listen again, N for another word.'}[l];
+}
 for(const [lang,d] of Object.entries(tx)){ d.voiceCorrect={es:'¡Muy bien!',ca:'Molt bé!',en:'Well done!'}[lang]; d.voiceRetry={es:'Inténtalo de nuevo.',ca:'Torna-ho a intentar.',en:'Try again.'}[lang]; d.voiceLetter={es:'La letra',ca:'La lletra',en:'The letter'}[lang]; d.keyboardFind={es:'Teclado: pulsa directamente la letra o usa 1–4. Mayús+N = otra; Mayús+R = repetir; Mayús+H = pista.',ca:'Teclat: prem directament la lletra o usa 1–4. Maj+N = una altra; Maj+R = repetir; Maj+H = pista.',en:'Keyboard: type the letter or use 1–4. Shift+N = next; Shift+R = repeat; Shift+H = hint.'}[lang]; }
 // Per-language content is explicit: nothing is created with unverified automatic syllabification.
 const letters={
@@ -150,6 +223,51 @@ const readI18n={
  en:{title:'Read aloud',desc:'Read words into the microphone. Progress from green to blue with no confirmed mistakes.',colors:['Green','Yellow','Pink','Blue'],skills:['One-syllable words','Easy two-syllable words','Longer words','Complex spelling'],prompt:'Read this word aloud, without asking for a hint.',start:'🎤 Speak',listen:'Listening…',micError:'I could not hear you. Please try again; this is not counted as a mistake.',heard:'I heard',uncertain:'I might have misheard you. You can try again without losing progress.',retry:'🔁 Try again',sayRight:'✓ I said it correctly',markWrong:'✗ I need practice',great:'Well done! Correct reading.',practice:'Listen to how it sounds and practise again.',model:'🔊 Hear correct word',manual:'Adult marking',manualTip:'Speech recognition is unavailable. An adult should assess the reading.',manualRight:'✓ Correct (adult)',manualWrong:'↻ Needs practice (adult)',goal:'Goal to advance',clean:'First-try correct',streak:'Mistake-free round',rules:'To advance: read at least 90% of different words correctly on the first try with no hints. A confirmed mistake restarts the clean round but never removes completed levels.',reset:'↺ Restart round',resetConfirm:'Restart the correct answers for this round?',completed:'Level completed!',final:'You completed all four colours!',auto:'Moving to the next colour automatically.',manualNote:'You can choose any colour above, even before unlocking it.',unsupported:'Your browser does not support speech recognition. Try Chrome or Edge with microphone permission, or use adult marking.',waiting:'Select “Speak” and read the word. The app will not say it first.',review:'Word awaiting review',missing:'Speech recognition is not available here. No penalty.',preview:'Listening to the model makes this a practice attempt, not an assessed answer.',assisted:'Great practice! This word will return for a try without help.',errRound:'The mistake-free round starts again. Keep practising.',micBlocked:'Microphone permission was denied. Check your settings.',all:'All levels completed',check:'Oral reading assessment · Speech recognition can make mistakes, especially with children.'}
 };
 for(const [lang,guide,keys] of [['es','Lectura guiada','Teclado: barra espaciadora para hablar; Tab y Enter para pulsar botones.'],['ca','Lectura guiada','Teclat: barra espaiadora per a parlar; Tab i Retorn per als botons.'],['en','Guided reading','Keyboard: Space to speak; Tab and Enter to select buttons.']]){readI18n[lang].guide=guide;readI18n[lang].keys=keys;}
+// v0.5.1: reuse the existing read-aloud green and yellow banks, not new guessed words.
+const LEARN_SPLITS = {"es":{"casa":["ca","sa"],"mesa":["me","sa"],"gato":["ga","to"],"pato":["pa","to"],"boca":["bo","ca"],"luna":["lu","na"],"sopa":["so","pa"],"pala":["pa","la"],"cama":["ca","ma"],"pelo":["pe","lo"],"pera":["pe","ra"],"mano":["ma","no"],"goma":["go","ma"],"cola":["co","la"],"vida":["vi","da"],"vino":["vi","no"],"nube":["nu","be"],"dado":["da","do"],"vela":["ve","la"],"fila":["fi","la"],"mapa":["ma","pa"],"moto":["mo","to"],"puma":["pu","ma"],"nido":["ni","do"],"bola":["bo","la"],"rana":["ra","na"],"rosa":["ro","sa"],"ropa":["ro","pa"],"ratón":["ra","tón"],"silla":["si","lla"],"perro":["pe","rro"],"llave":["lla","ve"],"queso":["que","so"],"beso":["be","so"],"nata":["na","ta"],"tapa":["ta","pa"],"cubo":["cu","bo"],"río":["rí","o"],"día":["dí","a"]},"ca":{"poma":["po","ma"],"goma":["go","ma"],"pera":["pe","ra"],"cola":["co","la"],"roda":["ro","da"],"vaca":["va","ca"],"moto":["mo","to"],"nata":["na","ta"],"tapa":["ta","pa"],"pala":["pa","la"],"pela":["pe","la"],"pila":["pi","la"],"gota":["go","ta"],"gorra":["gor","ra"],"bossa":["bos","sa"],"bassa":["bas","sa"],"fada":["fa","da"],"fulla":["fu","lla"],"figa":["fi","ga"],"bota":["bo","ta"],"boca":["bo","ca"],"pota":["po","ta"],"copa":["co","pa"],"sabó":["sa","bó"],"cama":["ca","ma"],"serra":["ser","ra"],"sopa":["so","pa"],"lupa":["lu","pa"],"mico":["mi","co"],"roca":["ro","ca"],"rosa":["ro","sa"],"roba":["ro","ba"],"nina":["ni","na"],"nena":["ne","na"],"rata":["ra","ta"],"casa":["ca","sa"]},"en":{"rabbit":["rab","bit"],"tiger":["ti","ger"],"lemon":["lem","on"],"apple":["ap","ple"],"table":["ta","ble"],"pizza":["piz","za"],"paper":["pa","per"],"water":["wa","ter"],"happy":["hap","py"],"puppy":["pup","py"],"kitten":["kit","ten"],"robot":["ro","bot"],"zero":["ze","ro"],"zebra":["ze","bra"],"open":["o","pen"],"hotel":["ho","tel"],"seven":["sev","en"],"music":["mu","sic"],"baby":["ba","by"],"lady":["la","dy"],"sunny":["sun","ny"],"rainy":["rain","y"],"sister":["sis","ter"],"mother":["moth","er"],"father":["fa","ther"],"rocket":["rock","et"],"pocket":["pock","et"],"basket":["bas","ket"],"dinner":["din","ner"],"window":["win","dow"],"pencil":["pen","cil"],"salad":["sal","ad"],"carrot":["car","rot"],"garden":["gar","den"],"button":["but","ton"],"teddy":["ted","dy"],"farmer":["farm","er"],"camel":["cam","el"]}};
+const LEARN_IMAGES = {"es":{"pan":"🍞","mar":"🌊","sol":"☀️","sal":"🧂","luz":"💡","paz":"🕊️","fin":"🏁","pie":"🦶","voz":"🗣️","dos":"2️⃣","tres":"3️⃣","fe":"🙏","té":"🍵","sí":"✅","no":"⛔","yo":"👤","tú":"👋","él":"🧒","rey":"👑","mes":"🗓️","col":"🥬","sur":"🧭","gas":"🔥","mal":"🤒","mil":"🔢","cal":"🪨","ten":"✋","ven":"👋","hoy":"📆","soy":"👤","hay":"📦","ser":"🧍","par":"👟","río":"🏞️","día":"🌅","pez":"🐟","casa":"🏠","gato":"🐈","pato":"🦆","boca":"👄","luna":"🌙","sopa":"🥣","pala":"🏖️","cama":"🛏️","pelo":"💇","pera":"🍐","mano":"✋","goma":"","cola":"🥤","vida":"🌱","vino":"🍇","nube":"☁️","dado":"🎲","vela":"🕯️","fila":"🚶","mapa":"🗺️","moto":"🏍️","puma":"🐆","nido":"🪺","bola":"⚽","rana":"🐸","rosa":"🌹","ropa":"👚","ratón":"🐭","silla":"🪑","perro":"🐕","llave":"🔑","queso":"🧀","beso":"😘","nata":"🥛","tapa":"🫙","cubo":"🪣","mesa":"🪑"},"ca":{"pa":"🍞","mà":"✋","foc":"🔥","sol":"☀️","peu":"🦶","cap":"🗣️","llit":"🛏️","gos":"🐕","cor":"❤️","mar":"🌊","fil":"🧵","ou":"🥚","rei":"👑","col":"🥬","suc":"🧃","mel":"🍯","nas":"👃","ruc":"🫏","món":"🌍","set":"7️⃣","pal":"🪵","sal":"🧂","gat":"🐈","bol":"🥣","got":"🥛","deu":"🔟","cuc":"🐛","pou":"🕳️","rem":"🚣","vi":"🍇","os":"🦴","dit":"☝️","riu":"🏞️","tap":"🧴","niu":"🪺","dos":"2️⃣","neu":"❄️","dau":"🎲","gall":"🐓","poma":"🍎","goma":"","pera":"🍐","cola":"🥤","roda":"🛞","vaca":"🐄","moto":"🏍️","nata":"🥛","tapa":"🫙","pala":"🏖️","pela":"","pila":"🔋","gota":"💧","gorra":"🧢","bossa":"👜","bassa":"💧","fada":"🧚","fulla":"🍃","figa":"🫒","bota":"🥾","boca":"👄","pota":"🐾","copa":"🏆","sabó":"🧼","cama":"🛏️","serra":"⛰️","sopa":"🥣","lupa":"🔍","mico":"🐒","roca":"🪨","rosa":"🌹","roba":"👕","nina":"🪆","nena":"👧","rata":"🐀","casa":"🏠"},"en":{"cat":"🐈","dog":"🐕","sun":"☀️","pen":"🖊️","cup":"🥤","bed":"🛏️","map":"🗺️","pig":"🐖","fox":"🦊","red":"🔴","hat":"🎩","hen":"🐔","top":"🔝","lip":"👄","bus":"🚌","man":"👨","pan":"🍳","jam":"🍓","mud":"","rug":"","leg":"🦵","box":"📦","net":"🥅","ten":"🔟","run":"🏃","hop":"🐇","pot":"🍲","van":"🚐","zip":"🤐","log":"🪵","big":"🐘","sit":"🪑","dad":"👨","mum":"👩","pet":"🐕","hit":"🥁","rabbit":"🐇","tiger":"🐅","lemon":"🍋","apple":"🍎","table":"🪑","pizza":"🍕","paper":"📄","water":"💧","happy":"😀","puppy":"🐶","kitten":"🐱","robot":"🤖","zero":"0️⃣","zebra":"🦓","open":"🚪","hotel":"🏨","seven":"7️⃣","music":"🎵","baby":"👶","lady":"👩","sunny":"☀️","rainy":"🌧️","sister":"👧","mother":"👩","father":"👨","rocket":"🚀","pocket":"👖","basket":"🧺","dinner":"🍽️","window":"🪟","pencil":"✏️","salad":"🥗","carrot":"🥕","garden":"🌼","button":"🔘","teddy":"🧸","farmer":"👨‍🌾","camel":"🐪"}};
+const learnReadModes=['green','yellow','original','mixed'];
+const identifyModes=['green','yellow','pink','blue'];
+function readCatalog(){
+ const lang=state.lang;
+ const monos=readingBanks[lang].green.filter(w=>!(lang==='es'&&['río','día'].includes(w)));
+ const bis=readingBanks[lang].yellow.concat(lang==='es'?['río','día']:[]);
+ const create=(word)=>[word,LEARN_SPLITS[lang][word]||[word],LEARN_IMAGES[lang][word]||''];
+ const bank1=monos.map(create),bank2=bis.map(create);
+ if(state.readMode==='green')return bank1;
+ if(state.readMode==='yellow')return bank2;
+ if(state.readMode==='original')return words[lang];
+ return [...bank1,...bank2,...words[lang].filter(w=>!monos.includes(w[0])&&!bis.includes(w[0]))];
+}
+function readModeLabels(){return {es:['Monosílabas','Bisílabas','Originales','Mezcladas'],ca:['Monosíl·labes','Bisíl·labes','Originals','Mesclades'],en:['One syllable','Two syllables','Original words','Mixed']}[state.lang]}
+function identifyModeLabels(){return readLabels().colors}
+// The same progression used by «Leo en voz alta», in one-word button subtitles.
+function identifySkillLabels(){
+ const skills=readLabels().skills;
+ const lastTwo={es:['Largas','Complejas'],ca:['Llargues','Complexes'],en:['Longer','Complex']}[state.lang];
+ return state.lang==='en'?['Monosyllables','Disyllables',...lastTwo]:[skills[0].split(' ')[0],skills[1].split(' ')[0],...lastTwo];
+}
+function setReadMode(mode){if(!learnReadModes.includes(mode))return;clearExerciseQueue();state.readMode=mode;newWord();render()}
+function setIdentifyMode(mode){if(!identifyModes.includes(mode))return;clearExerciseQueue();state.identifyMode=mode;makeQuiz();render();queuePrompt()}
+function editDistance(a,b){
+ const x=[...a],y=[...b],r=Array.from({length:x.length+1},(_,i)=>Array(y.length+1).fill(0));
+ for(let i=0;i<=x.length;i++)r[i][0]=i;
+ for(let j=0;j<=y.length;j++)r[0][j]=j;
+ for(let i=1;i<=x.length;i++)for(let j=1;j<=y.length;j++)r[i][j]=Math.min(r[i-1][j]+1,r[i][j-1]+1,r[i-1][j-1]+(x[i-1]===y[j-1]?0:1));
+ return r[x.length][y.length];
+}
+function newIdentifyQuiz(prev){
+ const bank=readingBanks[state.lang][state.identifyMode];
+ const target=pick(bank,prev);
+ // Distractors share a level and, where possible, look/sound similar.
+ const candidates=bank.filter(s=>s!==target).map(w=>({w,score:editDistance(target,w)+Math.abs(w.length-target.length)*.4+(w[0]!==target[0]?.6:0)+Math.random()*2.2})).sort((a,b)=>a.score-b.score);
+ const best=shuffle(candidates.slice(0,Math.max(9,Math.min(16,candidates.length)))).slice(0,3).map(x=>x.w);
+ state.quiz={target,options:shuffle([target,...best])};state.quizResult=null;
+}
+function readingModesUI(modes,selected,action,labels,skills=[]){
+ return '<div class="reading-modes" role="group">'+modes.map((mode,i)=>`<button type="button" class="mode-pill ${mode} ${mode===selected?'active':''} ${skills[i]?'with-skill':''}" data-action="${action}" data-mode="${mode}" aria-pressed="${mode===selected}" aria-label="${safe(labels[i]+(skills[i]?' · '+skills[i]:''))}"><span>${safe(labels[i])}</span>${skills[i]?`<small>${safe(skills[i])}</small>`:''}</button>`).join('')+'</div>';
+}
+
 const READ_STORAGE='pequenas-letras-reading-v03';
 let storedRead={};try{storedRead=JSON.parse(localStorage.getItem(READ_STORAGE)||'{}')||{}}catch(_){storedRead={}};
 const reader={tier:'green',word:null,status:'idle',message:'',heard:'',assisted:false,recognition:null,epoch:0,pendingTimer:0,manual:false};
@@ -245,14 +363,14 @@ function renderReadAloud(){
  shell(`<div class="read-steps">${steps}</div><div class="read-panel"><section class="read-main exercise" aria-label="${safe(t.title)}"><p class="read-prompt">${safe(prompt)}</p><div class="read-word" lang="${safe(locales[state.lang])}">${esc(reader.word||'')}</div>${controls}${response}${reader.status==='idle'||reader.status==='review'?`<button class="btn btn-ghost" data-action="readModel">${safe(t.model)}</button>`:''}</section><aside class="read-info"><h3>${safe(t.colors[readingTiers.indexOf(reader.tier)])} · ${safe(t.skills[readingTiers.indexOf(reader.tier)])}</h3><div class="read-stat"><span>${safe(t.clean)}</span><span>${count} / ${goal}</span></div><div class="read-meter" role="progressbar" aria-valuenow="${count}" aria-valuemax="${goal}" aria-label="${safe(t.clean)}"><div style="width:${pct}%"></div></div><p>${safe(t.goal)}: <strong>${goal} / ${total} (90 %)</strong></p><p>${safe(t.rules)}</p>${browserNote}<div class="read-side-note"><p>${safe(t.manualNote)}</p><p style="margin-top:7px">${safe(t.check)}</p></div><button type="button" class="btn btn-ghost" data-action="readReset">${safe(t.reset)}</button></aside></div><div class="read-tools">${Recognizer?(micReady?`<button class="btn" data-action="readManualToggle">${safe(t.manual)}</button>`:`<button class="btn" data-action="readManualToggle">🎤 ${safe(t.start)}</button>`):''}</div>${!micReady?`<p class="reading-explanation">${safe(t.manualTip)}</p>`:''}`);
 }
 
-const NAV=['alphabet','findLetter','machine','findPair','buildWord','readWord','readAloud'];
-const icons=['🔤','🔎','🧩','👂','🧱','📖','🎙️'];
+const NAV=['alphabet','findLetter','machine','findPair','buildWord','readWord','readAloud','identifyWord'];
+const icons=['🔤','🔎','🧩','👂','🧱','📖','🎙️','🎧'];
 const locales={es:'es-ES',ca:'ca-ES',en:'en-GB'};
 const names={es:'castellano',ca:'valencià',en:'British English'};
 const defaultState={lang:'es',caseMode:'upper',speed:'0.95'};
 let settings;try{settings={...defaultState,...JSON.parse(localStorage.getItem(STORAGE)||'{}')}}catch(_){settings={...defaultState}};
 if(!tx[settings.lang])settings.lang='es';if(!['upper','lower'].includes(settings.caseMode))settings.caseMode='upper';
-const state={...settings,activity:'alphabet',letterIdx:12,quizMode:'name',quiz:null,quizResult:null,machineKind:'CV',machineA:'m',machineB:'a',currentWord:null,selected:[],cardOrder:[],wordDone:false,revealed:false,hint:0,feedback:'',feedbackType:''};
+const state={...settings,activity:'alphabet',letterIdx:12,quizMode:'name',quiz:null,quizResult:null,machineKind:'CV',machineA:'m',machineB:'a',currentWord:null,selected:[],cardOrder:[],wordDone:false,revealed:false,hint:0,feedback:'',feedbackType:'',readMode:'green',identifyMode:'green'};
 let voiceList=[], toastTimer=null, speakIndex=0, currentUtterance=null, activeAudio=null, speechFallbackTimer=null, promptTimer=null, advanceTimer=null, exerciseToken=0, soundContext=null;
 const $=id=>document.getElementById(id),T=()=>tx[state.lang];
 const cap=str=>state.caseMode==='upper'?str.toLocaleUpperCase(locales[state.lang]):str.toLocaleLowerCase(locales[state.lang]);
@@ -352,7 +470,7 @@ function clearExerciseQueue(){
  clearTimeout(promptTimer);clearTimeout(advanceTimer);exerciseToken++;stopVoice();
 }
 function queuePrompt(){
- if(!['findLetter','findPair'].includes(state.activity))return;
+ if(!['findLetter','findPair','identifyWord'].includes(state.activity))return;
  const token=exerciseToken;
  clearTimeout(promptTimer);
  promptTimer=setTimeout(()=>{if(token===exerciseToken&&state.quizResult!==state.quiz?.target)repeat()},120);
@@ -404,10 +522,11 @@ function getLetter(){return letters[state.lang][state.letterIdx%letters[state.la
 function getPairs(){return pairs[state.lang][state.machineKind]}
 function getWord(){return state.currentWord||words[state.lang][0]}
 function makeQuiz(prev){resetFeedback();let options,target;
+ if(state.activity==='identifyWord'){newIdentifyQuiz(prev);return;}
  if(state.activity==='findLetter'){const allowed={es:'aeioumnptlsfjñdr',ca:'aeioumnptlsfjdrv',en:'abcdefghijklmnoprstuvwyz'};const valid=letters[state.lang].filter(item=>state.quizMode==='name'||(allowed[state.lang].includes(item[0])&&!item[3]&&item[1].startsWith(item[0])));target=pick(valid,prev);let pool=shuffle(letters[state.lang].filter(item=>item!==target));options=shuffle([target,...pool.slice(0,3)]).map(a=>a[0]);state.quiz={target:target[0],word:target[1],options};}
  else {const all=[...pairs[state.lang].CV,...pairs[state.lang].VC];target=pick(all,prev);const others=shuffle(all.filter(s=>s!==target));options=shuffle([target,...others.slice(0,3)]);state.quiz={target,options}}state.quizResult=null;
 }
-function newWord(exclude){resetFeedback();const w=pick(words[state.lang],exclude);state.currentWord=w;state.selected=[];state.wordDone=false;state.revealed=false;const candidates=[...new Set(words[state.lang].flatMap(x=>x[1]))].filter(p=>!w[1].includes(p));const distractors=shuffle(candidates).slice(0,Math.max(2,5-w[1].length));const targetCards=w[1].map((v,i)=>({id:'target-'+i,text:v}));const distractorCards=distractors.map((v,i)=>({id:'decoy-'+i,text:v}));state.cardOrder=shuffle([...targetCards,...distractorCards]);}
+function newWord(exclude){resetFeedback();const w=pick(state.activity==='readWord'?readCatalog():words[state.lang],exclude);state.currentWord=w;state.selected=[];state.wordDone=false;state.revealed=false;const candidates=[...new Set(words[state.lang].flatMap(x=>x[1]))].filter(p=>!w[1].includes(p));const distractors=shuffle(candidates).slice(0,Math.max(2,5-w[1].length));const targetCards=w[1].map((v,i)=>({id:'target-'+i,text:v}));const distractorCards=distractors.map((v,i)=>({id:'decoy-'+i,text:v}));state.cardOrder=shuffle([...targetCards,...distractorCards]);}
 function newExercise(){
  if(state.activity==='readAloud'){cancelRead();nextReadWord();render();return}
  clearExerciseQueue();resetFeedback();
@@ -415,7 +534,7 @@ function newExercise(){
  if(state.activity==='machine'){
   const option=pick(getPairs(),state.machineA+state.machineB);state.machineA=option[0];state.machineB=option[1];
  }
- if(['findLetter','findPair'].includes(state.activity))makeQuiz(state.quiz?.target);
+ if(['findLetter','findPair','identifyWord'].includes(state.activity))makeQuiz(state.quiz?.target);
  if(['buildWord','readWord'].includes(state.activity))newWord(state.currentWord);
  render();queuePrompt();
 }
@@ -423,7 +542,7 @@ function go(activity){
  if(state.activity==='readAloud')cancelRead();
  clearExerciseQueue();state.activity=activity;resetFeedback();
  if(activity==='readAloud'){startReader();render();return}
- if(activity==='findLetter'||activity==='findPair')makeQuiz();
+ if(['findLetter','findPair','identifyWord'].includes(activity))makeQuiz();
  if(activity==='buildWord'||activity==='readWord')newWord();
  if(activity==='machine'){
   state.machineKind='CV';
@@ -431,32 +550,53 @@ function go(activity){
  }
  render();queuePrompt();
 }
-function renderNav(){const t=T();$('appTitle').textContent=t.title;$('languageLabel').textContent=t.lang;$('caseLabel').textContent=t.case;$('speedLabel').textContent=t.speed;$('navTitle').textContent=t.nav;$('navFoot').textContent=t.foot;$('footerKeyboard').textContent=t.keyboard;$('footerAppTitle').textContent=t.title;document.title=t.title+' · v0.4';document.documentElement.lang=state.lang==='ca'?'ca':state.lang;
+function renderNav(){const t=T();$('appTitle').textContent=t.title;$('languageLabel').textContent=t.lang;$('caseLabel').textContent=t.case;$('speedLabel').textContent=t.speed;$('navTitle').textContent=t.nav;$('navFoot').textContent=t.foot;$('footerKeyboard').textContent=t.keyboard;$('footerAppTitle').textContent=t.title;document.title=t.title+' · v0.5.1';document.documentElement.lang=state.lang==='ca'?'ca':state.lang;
  $('langSelect').value=state.lang;$('caseSelect').value=state.caseMode;$('speedSelect').value=state.speed;
  const speed=$('speedSelect');[t.sl,t.sn,t.sf].forEach((v,i)=>{speed.options[i].textContent=v});const caps=$('caseSelect');caps.options[0].textContent=state.lang==='en'?'UPPERCASE':'MAYÚSCULAS';caps.options[1].textContent=state.lang==='en'?'lowercase':state.lang==='ca'?'minúscules':'minúsculas';
- $('navItems').innerHTML=NAV.map((id,i)=>`<button class="nav-button ${id===state.activity?'active':''}" data-action="nav" data-id="${id}" aria-current="${id===state.activity?'page':'false'}"><span class="nav-emoji">${icons[i]}</span><span>${safe(i===6?readLabels().title:t.short[i])}</span></button>`).join('');}
-function shell(content){const t=T(),idx=NAV.indexOf(state.activity);const names=idx===6?readLabels():null;$('appMain').innerHTML=`<div class="topline"><div><div class="eyebrow">${safe(names?names.title:t.activities[idx])} · ${idx+1}/${NAV.length}</div><h2>${safe(names?names.title:t.activities[idx])}</h2><p class="description">${safe(names?names.desc:t.descs[idx])}</p></div><span class="help-chip">✦ ${safe(names?names.guide:t.explore)}</span></div>${content}<div class="toolbar"><span class="small-guide"><span class="key-help">${safe(names?names.keys:state.activity==='findLetter'?t.keyboardFind:state.activity==='machine'?(state.lang==='en'?'Keyboard: type a letter to change a column; Shift+N = new, Shift+R = listen, Shift+H = hint.':state.lang==='ca'?'Teclat: escriu una lletra per a canviar-la; Maj+N = nova, Maj+R = escoltar, Maj+H = pista.':'Teclado: escribe una letra para cambiarla; Mayús+N = nueva, Mayús+R = escuchar, Mayús+H = pista.'):t.how)}</span></span><button type="button" class="btn btn-ghost" data-action="new">↻ ${safe(t.next)}</button></div>`}
+ $('navItems').innerHTML=NAV.map((id,i)=>`<button class="nav-button ${id===state.activity?'active':''}" data-action="nav" data-id="${id}" aria-current="${id===state.activity?'page':'false'}"><span class="nav-emoji">${icons[i]}</span><span>${safe(i===6?readLabels().title:i===7?t.identifyTitle:t.short[i])}</span></button>`).join('');}
+function shell(content){const t=T(),idx=NAV.indexOf(state.activity);const names=idx===6?readLabels():idx===7?{title:t.identifyTitle,desc:t.identifyDesc,guide:t.identifyGuide,keys:t.identifyKeys}:null;$('appMain').innerHTML=`<div class="topline"><div><div class="eyebrow">${safe(names?names.title:t.activities[idx])} · ${idx+1}/${NAV.length}</div><h2>${safe(names?names.title:t.activities[idx])}</h2><p class="description">${safe(names?names.desc:t.descs[idx])}</p></div><span class="help-chip">✦ ${safe(names?names.guide:t.explore)}</span></div>${content}<div class="toolbar"><span class="small-guide"><span class="key-help">${safe(names?names.keys:state.activity==='findLetter'?t.keyboardFind:state.activity==='readWord'?{es:'Pulsa las partes para escucharlas. R = escuchar entera; N = otra palabra.',ca:'Prem les parts per a escoltar-les. R = escoltar sencera; N = una altra paraula.',en:'Click the parts to hear them. R = full word; N = new word.'}[state.lang]:state.activity==='machine'?(state.lang==='en'?'Keyboard: type a letter to change a column; Shift+N = new, Shift+R = listen, Shift+H = hint.':state.lang==='ca'?'Teclat: escriu una lletra per a canviar-la; Maj+N = nova, Maj+R = escoltar, Maj+H = pista.':'Teclado: escribe una letra para cambiarla; Mayús+N = nueva, Mayús+R = escuchar, Mayús+H = pista.'):t.how)}</span></span><button type="button" class="btn btn-ghost" data-action="new">↻ ${safe(t.next)}</button></div>`}
 function feedbackHtml(){return `<div class="feedback ${state.feedbackType}" id="feedback" aria-live="polite">${safe(state.feedback)}</div>`}
 function abc(){const t=T(),l=getLetter();let items=letters[state.lang].map((letter,i)=>`<button class="mini-letter ${state.letterIdx===i?'selected':''}" data-action="selectLetter" data-index="${i}" aria-pressed="${state.letterIdx===i}">${esc(letter[0])}</button>`).join('');
  shell(`<div class="letter-grid" aria-label="${safe(t.activities[0])}">${items}</div><section class="exercise"><div class="letter-stage"><div class="giant-letter">${esc(l[0])}</div><div><span class="big-emoji" role="img" aria-label="${safe(l[1])}">${l[2]}</span><div class="sample-word">${letterExampleMarkup(l[0],l[1])}</div><div class="intro-line">${safe(t.sample)}</div><div class="audio-actions"><button class="btn btn-primary" data-action="letterExample">♪ ${safe(t.wordSound)}</button><button class="btn" data-action="letterName">♫ ${safe(t.name)}</button></div></div></div><p class="reading-explanation">${safe(l[3]?t.special:t.soundHelp)}</p></section>${feedbackHtml()}`)}
-function quizScreen(){const t=T(),isLetter=state.activity==='findLetter';if(!state.quiz)makeQuiz();const q=state.quiz;
+function quizScreen(){const t=T(),isLetter=state.activity==='findLetter',isWord=state.activity==='identifyWord';if(!state.quiz)makeQuiz();const q=state.quiz;
  const mode=isLetter?`<div class="segmented" role="group" aria-label="${safe(t.activities[1])}"><button class="${state.quizMode==='name'?'selected':''}" data-action="quizMode" data-mode="name" aria-pressed="${state.quizMode==='name'}">${safe(t.nameMode)}</button><button class="${state.quizMode==='example'?'selected':''}" data-action="quizMode" data-mode="example" aria-pressed="${state.quizMode==='example'}">${safe(t.soundMode)}</button></div>`:'';
- const prompt=isLetter?(state.quizMode==='name'?t.promptName:t.promptExample):t.promptSyllable;
- const choices=q.options.map((option,i)=>{const response=state.quizResult===option;return `<button class="choice ${response?(option===q.target?'correct':'wrong'):''}" data-action="answer" data-index="${i}" ${state.quizResult===q.target?'disabled':''}><kbd>${i+1}</kbd>${esc(option)}</button>`}).join('');
- shell(`${mode}<section class="exercise"><button type="button" class="target-speaker" data-action="repeat" aria-label="${safe(t.listen)}" title="${safe(t.listen)}">🔊</button><p class="target-caption">${safe(prompt)}</p><div class="choice-grid">${choices}</div>${state.hint?`<p class="hint">${safe(isLetter?(state.quizMode==='name'?fmt(t.hintLetter,{value:cap(q.word)}):fmt(t.hintLetter,{value:cap(q.word)})):fmt(t.hintSyllable,{value:cap(q.target[0])}))}</p>`:''}</section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.again)}</button><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button>${state.quizResult===q.target?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)}
+ const prompt=isLetter?(state.quizMode==='name'?t.promptName:t.promptExample):isWord?t.identifyPrompt:t.promptSyllable;
+ const choices=q.options.map((option,i)=>{const response=state.quizResult===option;return `<button class="choice ${response?(option===q.target?'correct':'wrong'):''}" data-action="answer" data-index="${i}" ${state.quizResult===q.target?'disabled':''}><kbd>${i+1}</kbd>${isWord?`<span class="choice-text">${esc(option)}</span>`:esc(option)}</button>`}).join('');
+ shell(`${isWord?readingModesUI(identifyModes,state.identifyMode,'identifyMode',identifyModeLabels(),identifySkillLabels()):mode}<section class="exercise"><button type="button" class="target-speaker" data-action="repeat" aria-label="${safe(t.listen)}" title="${safe(t.listen)}">🔊</button><p class="target-caption">${safe(prompt)}</p><div class="choice-grid ${isWord?'word-choice-grid':''}">${choices}</div>${state.hint?`<p class="hint">${safe(isLetter?(state.quizMode==='name'?fmt(t.hintLetter,{value:cap(q.word)}):fmt(t.hintLetter,{value:cap(q.word)})):isWord?cap(q.target.slice(0,2)+'…'):fmt(t.hintSyllable,{value:cap(q.target[0])}))}</p>`:''}</section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.again)}</button><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button>${state.quizResult===q.target?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)}
 function machine(){const t=T(),pairsSet=getPairs();const A=[...new Set(pairsSet.map(p=>p[0]))];const B=[...new Set(pairsSet.map(p=>p[1]))];const isValid=pairsSet.includes(state.machineA+state.machineB);const chosenPart=(symbols,selected,part)=>symbols.map((ch,i)=>`<button class="letter-choice ${'aeiou'.includes(ch)?'vowel':''} ${ch===selected?'chosen':''}" data-action="machineLetter" data-part="${part}" data-value="${safe(ch)}" aria-pressed="${ch===selected}">${esc(ch)}</button>`).join('');
  shell(`<div class="segmented" role="group"><button data-action="machineKind" data-kind="CV" class="${state.machineKind==='CV'?'selected':''}" aria-pressed="${state.machineKind==='CV'}">${safe(t.cv)}</button><button data-action="machineKind" data-kind="VC" class="${state.machineKind==='VC'?'selected':''}" aria-pressed="${state.machineKind==='VC'}">${safe(t.vc)}</button></div><section class="exercise"><p class="subheading">${safe(t.chooseLetters)}</p><div class="sy-machine"><div><div class="column-label">${safe(t.firstLetter)}</div><div class="letter-choices">${chosenPart(A,state.machineA,'a')}</div></div><div class="machine-plus">+</div><div><div class="column-label">${safe(t.secondLetter)}</div><div class="letter-choices">${chosenPart(B,state.machineB,'b')}</div></div></div><div class="result-syllable" aria-live="polite"><span class="${isValid?'first':'placeholder'}">${esc(state.machineA)}</span><span class="${isValid?'second':'placeholder'}">${esc(state.machineB)}</span></div><p class="machine-note">${safe(isValid?t.pair:t.chooseValid)}</p><div class="row-actions"><button class="btn btn-primary" data-action="repeat" ${isValid?'':'disabled'}>▶ ${safe(t.syllable)}</button></div></section>${feedbackHtml()}<div class="row-actions"><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button></div>`)}
 const mesaTableImage='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMTU2IiByb2xlPSJpbWciIGFyaWEtbGFiZWw9Ik1lc2EgZGUgbWFkZXJhIGNvbiBjdWF0cm8gcGF0YXMiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0id29vZCIgeDE9IjAiIHkxPSIwIiB4Mj0iLjgiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjZDc5NzU2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYWQ2ODNkIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGVsbGlwc2UgY3g9Ijk5IiBjeT0iMTQ1IiByeD0iODYiIHJ5PSI4IiBmaWxsPSIjZGNlM2U1Ii8+PGcgc3Ryb2tlPSIjNzc0NDIyIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0zMiA0OGgxNXY4NHEtMSA5LTggOXQtNy05eiIgZmlsbD0iI2E2NmI0NSIvPjxwYXRoIGQ9Ik0xNTEgNDdoMTV2ODVxLTEgOS04IDl0LTctOXoiIGZpbGw9IiM5ODVhMzUiLz48cGF0aCBkPSJNNTcgNzJoMTN2NjVxMCA2LTcgNnQtNi02eiIgZmlsbD0iI2FiNzE0NyIvPjxwYXRoIGQ9Ik0xMjkgNzJoMTN2NjVxMCA2LTcgNnQtNi02eiIgZmlsbD0iI2I1NzU0NSIvPjxwYXRoIGQ9Ik0yMSA0NmwyNC0xOWgxMTJsMjEgMTktMjEgMTlINDV6IiBmaWxsPSJ1cmwoI3dvb2QpIi8+PHBhdGggZD0iTTIxIDQ2aDE1N3YxM3EtMTMgMTItMjIgMTJINDZxLTEzIDAtMjUtMTJ6IiBmaWxsPSIjYjg3NDQyIi8+PHBhdGggZD0iTTQ1IDQ2aDEzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWFiNzgxIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHBhdGggZD0iTTcwIDMwbC0xNCAyOU0xMjcgMzBsMTkgMjgiIHN0cm9rZT0iI2M5ODQ1MCIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIuNjUiLz48L3N2Zz4=';
 function wordIllustration(w){
- if(state.lang==='es'&&w[0]==='mesa')return `<img class="object-table" src="${mesaTableImage}" alt="Mesa de madera con cuatro patas" />`;
+ if((state.lang==='es'&&w[0]==='mesa')||(state.lang==='en'&&w[0]==='table'))return `<img class="object-table" src="${mesaTableImage}" alt="${state.lang==='en'?'Wooden table with four legs':'Mesa de madera con cuatro patas'}" />`;
  return w[2];
 }
 function buildWord(){const t=T(),w=getWord(),filled=state.selected.map(index=>state.cardOrder[index].text);const slots=w[1].map((s,i)=>`<div class="slot ${filled[i]?'filled':''}" data-action="slot" data-index="${i}" data-drop="slot" title="${safe(t.undo)}">${filled[i]?esc(filled[i]):'_'}</div>`).join('');const tiles=state.cardOrder.map((item,i)=>`<button class="tile" draggable="${!state.selected.includes(i)}" data-action="pickTile" data-index="${i}" ${state.selected.includes(i)||state.wordDone?'disabled':''}><kbd>${i+1}</kbd>${esc(item.text)}</button>`).join('');
  shell(`<section class="exercise"><div class="big-emoji" role="img" aria-label="${safe(w[0])}">${wordIllustration(w)}</div><p class="subheading">${safe(t.wordFromPicture)}</p><div class="slots" id="dropzone" aria-label="${safe(t.wordFromPicture)}">${slots}</div><div class="tiles">${tiles}</div><p class="hint">${safe(t.clickOrDrag)}</p>${state.hint?`<p class="hint accent">${safe(fmt(t.hintStart,{value:cap(w[1][0])}))}</p>`:''}</section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.listen)}</button><button class="btn btn-ghost" data-action="undo" ${state.selected.length===0||state.wordDone?'disabled':''}>↩ ${safe(t.undo)}</button><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button>${state.wordDone?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)}
-function readWord(){const t=T(),w=getWord();const buttons=w[1].map((part,i)=>`<button data-action="readPart" data-index="${i}" title="${safe(t.listenParts)}">${esc(part)}</button>`).join('');
- shell(`<section class="exercise"><p class="subheading">${safe(t.readNow)}</p><div class="big-reading">${esc(w[0])}</div><div class="reading-tiles">${buttons}</div>${state.revealed?`<div class="reveal"><span class="reveal-emoji" role="img" aria-label="${safe(w[0])}">${wordIllustration(w)}</span><span class="reveal-text">${esc(w[0])}</span></div>`:`<div class="hidden-art" aria-hidden="true">?</div>`}<p class="reading-explanation">${safe(t.listenParts)}</p></section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.whole)}</button><button class="btn ${state.revealed?'btn-good':'btn-primary'}" data-action="reveal">${state.revealed?'✓':'👀'} ${safe(t.discover)}</button>${state.revealed?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)}
-function render(){renderNav();if(state.activity==='alphabet')abc();else if(state.activity==='findLetter'||state.activity==='findPair')quizScreen();else if(state.activity==='machine')machine();else if(state.activity==='buildWord')buildWord();else if(state.activity==='readAloud')renderReadAloud();else readWord();updateVoiceStatus()}
-function repeat(){if(state.activity==='readAloud'){readModel();return}if(state.activity==='alphabet'){speak(getLetter()[1])}else if(state.activity==='findLetter'){const q=state.quiz;speak(state.quizMode==='name'?letterName(q.target):q.word)}else if(state.activity==='findPair'){speakIsolatedSyllable(state.quiz.target)}else if(state.activity==='machine'){if(getPairs().includes(state.machineA+state.machineB))speakIsolatedSyllable(state.machineA+state.machineB);else toast(T().chooseValid)}else if(state.activity==='buildWord'||state.activity==='readWord'){speak(getWord()[0])}}
+function readWord(){
+ const t=T(),w=getWord(),isPicture=!!w[2];
+ const buttons=w[1].map((part,i)=>`<button data-action="readPart" data-index="${i}" title="${safe(t.listenParts)}">${esc(part)}</button>`).join('');
+ const reveal=state.revealed?(isPicture?`<div class="reveal"><span class="reveal-emoji" role="img" aria-label="${safe(w[0])}">${wordIllustration(w)}</span><span class="reveal-text">${esc(w[0])}</span></div>`:
+ `<div class="reveal"><span class="reveal-emoji" aria-hidden="true">✓</span><span class="reveal-text">${esc(w[0])}</span><p class="reading-explanation">${safe(t.noIllustration)}</p></div>`):'<div class="hidden-art" aria-hidden="true">?</div>';
+ shell(`${readingModesUI(learnReadModes,state.readMode,'readMode',readModeLabels())}<p class="bank-note">${safe(t.readBankIntro)}</p><section class="exercise"><p class="subheading">${safe(t.readNow)}</p><div class="big-reading">${esc(w[0])}</div><div class="reading-tiles">${buttons}</div>${reveal}<p class="reading-explanation">${safe(t.listenParts)}</p></section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.whole)}</button><button class="btn ${state.revealed?'btn-good':'btn-primary'}" data-action="reveal">${state.revealed?'✓':'👀'} ${safe(t.readCheck)}</button>${state.revealed?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)
+}
+
+// Fit each whole word to its button; never split, truncate or hide a word.
+function fitIdentifyWordOptions(){
+ if(state.activity!=='identifyWord')return;
+ document.querySelectorAll('.word-choice-grid .choice').forEach(button=>{
+  const text=button.querySelector('.choice-text');
+  if(!text)return;
+  text.style.fontSize='';
+  const available=button.clientWidth-24;
+  let size=parseFloat(getComputedStyle(text).fontSize);
+  while(text.getBoundingClientRect().width>available&&size>9){
+   size=Math.max(9,size-.5);
+   text.style.fontSize=size+'px';
+  }
+ });
+}
+function render(){renderNav();if(state.activity==='alphabet')abc();else if(['findLetter','findPair','identifyWord'].includes(state.activity))quizScreen();else if(state.activity==='machine')machine();else if(state.activity==='buildWord')buildWord();else if(state.activity==='readAloud')renderReadAloud();else readWord();fitIdentifyWordOptions();updateVoiceStatus()}
+function repeat(){if(state.activity==='readAloud'){readModel();return}if(state.activity==='alphabet'){speak(getLetter()[1])}else if(state.activity==='findLetter'){const q=state.quiz;speak(state.quizMode==='name'?letterName(q.target):q.word)}else if(state.activity==='findPair'){speakIsolatedSyllable(state.quiz.target)}else if(state.activity==='identifyWord'){speak(state.quiz.target)}else if(state.activity==='machine'){if(getPairs().includes(state.machineA+state.machineB))speakIsolatedSyllable(state.machineA+state.machineB);else toast(T().chooseValid)}else if(state.activity==='buildWord'||state.activity==='readWord'){speak(getWord()[0])}}
 function answer(i){
  if(!state.quiz||state.quizResult===state.quiz.target)return;
  const option=state.quiz.options[i];if(option===undefined)return;
@@ -510,6 +650,8 @@ function hint(){
 function handleClick(evt){
  const el=evt.target.closest('[data-action]');if(!el)return;
  const a=el.dataset.action;
+ if(a==='readMode')return setReadMode(el.dataset.mode);
+ if(a==='identifyMode')return setIdentifyMode(el.dataset.mode);
  if(a==='readTier')return chooseReadTier(el.dataset.tier);
  if(a==='readBegin')return readBegin();
  if(a==='readCorrect')return acceptRead(true);
@@ -561,7 +703,7 @@ function handleKeyboard(evt){
  }
  if(/^[1-9]$/.test(key)){
   const i=Number(key)-1;
-  if(['findLetter','findPair'].includes(state.activity)){
+  if(['findLetter','findPair','identifyWord'].includes(state.activity)){
    if(i<state.quiz.options.length){answer(i);evt.preventDefault()}
   }else if(state.activity==='buildWord'){
    if(i<state.cardOrder.length){chooseTile(i);evt.preventDefault()}
@@ -582,11 +724,11 @@ function onLangCaseChange(){
  const available=letters[state.lang];state.letterIdx=Math.min(state.letterIdx,available.length-1);
  state.quiz=null;state.currentWord=null;state.quizResult=null;state.machineKind='CV';
  const start=pairs[state.lang].CV[0];state.machineA=start[0];state.machineB=start[1];
- if(['findLetter','findPair'].includes(state.activity))makeQuiz();
+ if(['findLetter','findPair','identifyWord'].includes(state.activity))makeQuiz();
  if(['buildWord','readWord'].includes(state.activity))newWord();
  render();queuePrompt();
 }
-$('langSelect').addEventListener('change',e=>{state.lang=e.target.value;onLangCaseChange()});$('caseSelect').addEventListener('change',e=>{state.caseMode=e.target.value;saveSettings();render()});$('speedSelect').addEventListener('change',e=>{state.speed=e.target.value;saveSettings();updateVoiceStatus()});document.addEventListener('click',handleClick);document.addEventListener('keydown',handleKeyboard);
+$('langSelect').addEventListener('change',e=>{state.lang=e.target.value;onLangCaseChange()});$('caseSelect').addEventListener('change',e=>{state.caseMode=e.target.value;saveSettings();render()});$('speedSelect').addEventListener('change',e=>{state.speed=e.target.value;saveSettings();updateVoiceStatus()});document.addEventListener('click',handleClick);document.addEventListener('keydown',handleKeyboard);window.addEventListener('resize',fitIdentifyWordOptions);
 // HTML drag-and-drop for mouse users; keyboard and click are equally functional.
 document.addEventListener('dragstart',e=>{const tile=e.target.closest('.tile');if(!tile||tile.disabled||state.activity!=='buildWord')return;e.dataTransfer.setData('text/plain',tile.dataset.index);e.dataTransfer.effectAllowed='move'});document.addEventListener('dragover',e=>{if(e.target.closest('#dropzone')&&state.activity==='buildWord'){e.preventDefault();e.dataTransfer.dropEffect='move'}});document.addEventListener('drop',e=>{if(e.target.closest('#dropzone')&&state.activity==='buildWord'){e.preventDefault();const i=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(i))chooseTile(i)}});
 if('speechSynthesis' in window){window.speechSynthesis.onvoiceschanged=updateVoiceStatus;window.setTimeout(updateVoiceStatus,600);window.setTimeout(updateVoiceStatus,2300)}
