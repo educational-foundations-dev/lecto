@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#7256cb"><title>Pequeñas Frases · v0.2</title><style>:root{--ink:#292946;--muted:#706e86;--purple:#6952c2;--purple-dark:#5540a6;--pale:#eee9fd;--bg:#f6f5fb;--edge:#e9e6f3;--teal:#147f78;--good:#14795e;--bad:#a14b52;--shadow:0 16px 48px rgba(56,45,104,.09);color-scheme:light}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:radial-gradient(ellipse at 7% 6%,#ebe5ff 0,transparent 28%),radial-gradient(ellipse at 95% 95%,#dff5f1 0,transparent 32%),var(--bg);min-height:100vh;color:var(--ink)}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f0a838;outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.45}button,select{-webkit-tap-highlight-color:transparent}
+header{max-width:1400px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:21px 28px 15px;flex-wrap:wrap}.brand{display:flex;gap:13px;align-items:center}.logo{height:49px;width:49px;border-radius:16px;background:var(--purple);display:grid;place-items:center;color:white;font-size:29px;box-shadow:0 6px 16px #7660c44c;transform:rotate(-5deg)}.brand h1{font-size:22px;letter-spacing:-.7px;margin:0}.brand small{color:var(--muted);font-weight:650;font-size:12px;letter-spacing:1.2px;text-transform:uppercase}.prefs{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.pref{display:grid;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}select{border:1px solid #dbd5ed;background:#fff;color:var(--ink);padding:10px 12px;border-radius:12px;min-height:42px;font-weight:650;min-width:132px}.shell{max-width:1400px;padding:4px 28px 24px;margin:auto;display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}.sidebar,.workspace{background:#fff;border:1px solid var(--edge);border-radius:24px;box-shadow:var(--shadow)}.sidebar{padding:20px 13px;align-self:start}.nav-title{font-size:11px;letter-spacing:2px;color:#8b859e;text-transform:uppercase;font-weight:850;margin:2px 12px 12px}.nav-button{width:100%;border:0;background:transparent;text-align:left;display:flex;align-items:center;gap:12px;border-radius:14px;padding:12px 11px;font-weight:760;color:#59556f;margin:2px 0}.nav-button:hover{background:#f5f2ff}.nav-button.active{background:var(--pale);color:var(--purple-dark)}.nav-emoji{display:grid;place-items:center;min-width:37px;height:37px;background:#f1eef7;border-radius:12px;font-size:21px}.nav-button.active .nav-emoji{background:#fff}.sidebar-bottom{border-top:1px solid var(--edge);margin:16px 9px 0;padding-top:14px;color:var(--muted);font-size:12px;line-height:1.6}.workspace{min-height:610px;padding:27px clamp(17px,3vw,43px) 24px}.topline{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}.eyebrow{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;color:var(--purple);font-weight:900;margin-bottom:8px}.workspace h2{font-size:clamp(23px,3vw,33px);line-height:1.14;letter-spacing:-.9px;margin:0 0 9px}.description{color:var(--muted);font-size:15px;line-height:1.5;max-width:760px;margin:0}.help-chip{background:#f4f1fc;color:#65539f;border-radius:999px;padding:9px 14px;font-weight:750;font-size:12px;white-space:nowrap}.exercise{margin-top:21px;min-height:300px;border:1.5px dashed #ded8f1;background:linear-gradient(150deg,#fbfaff,#fff 55%,#f8fffe);border-radius:23px;padding:clamp(14px,2.8vw,32px);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;text-align:center;gap:16px}.subheading{font-weight:800;color:#676281;font-size:14px;margin:0}.btn{border:0;background:#f0edf8;color:#57478f;padding:12px 18px;border-radius:13px;font-weight:780;min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn:hover{filter:brightness(.97)}.btn-primary{background:var(--purple);color:#fff;box-shadow:0 5px 11px #7259c934}.btn-good{background:#e0f6ec;color:#176b54}.btn-ghost{background:white;border:1px solid #e1daef}.row-actions{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:18px}.feedback{margin-top:14px;color:#71698a;font-size:15px;min-height:28px;font-weight:760;text-align:center;line-height:1.4}.feedback.success{color:var(--good)}.feedback.error{color:var(--bad)}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:17px}.small-guide{color:#88819b;font-size:12px}.small-guide kbd{background:#f3f0fa;border:1px solid #e2ddec;border-radius:6px;padding:2px 6px;color:#5e5679;font-family:inherit;font-weight:800}.voice-status{max-width:1400px;margin:0 auto 18px;padding:0 28px;min-height:22px;font-size:12px;color:#766d86;display:flex;align-items:center;gap:7px}.voice-status.warning{color:#a06b36}.voice-status.ok{color:#30806f}footer{text-align:center;color:#9993a7;font-size:11px;padding:0 15px 18px}
+.read-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0 10px}.read-step{border:2px solid transparent;border-radius:17px;padding:12px 8px;text-align:center;min-height:72px;display:flex;gap:3px;flex-direction:column;align-items:center;justify-content:center;background:#fff;color:var(--ink);font-weight:780;position:relative}.read-step small{font-size:11px;font-weight:650;opacity:.8}.read-step.selected{border-color:var(--purple);box-shadow:0 0 0 3px #6e56c527}.read-step.green{background:#d8f0dc}.read-step.yellow{background:#fff1be}.read-step.pink{background:#fad9e6}.read-step.blue{background:#d5eaf9}
+.sentence{font-size:clamp(25px,4.1vw,46px);font-weight:800;line-height:1.42;color:#514196;letter-spacing:-.03em;max-width:900px;overflow-wrap:break-word}.sentence.large{font-size:clamp(34px,5vw,60px)}.sentence.smaller{font-size:clamp(21px,3vw,34px)}.case-upper{text-transform:uppercase}.case-lower{text-transform:none}.sentence-words{display:flex;flex-wrap:wrap;justify-content:center;gap:5px 10px}.speech-word{border:0;background:transparent;border-radius:9px;padding:1px 4px;color:inherit;font:inherit;line-height:inherit}.speech-word{text-transform:inherit}.speech-word:hover,.speech-word.speaking{background:#e9e2ff;color:#48319b}.sentence-card{padding:18px;border:1px solid #e9e5f4;border-radius:19px;background:#fff;width:100%;max-width:880px}.target-speaker{width:95px;height:95px;border-radius:28px;background:#e8e1ff;border:2px solid #d6c9ff;color:#5a45ac;font-size:44px;display:grid;place-items:center;box-shadow:0 8px 22px #6752c220}.target-speaker:hover{background:#dfd5ff}
+.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,940px);gap:clamp(8px,1.4vw,14px)}.choice{background:#fff;border:2px solid #e4dff2;color:#58449f;border-radius:18px;min-height:88px;padding:17px 14px;font-size:clamp(16px,2.2vw,23px);font-weight:770;line-height:1.35;box-shadow:0 5px 0 #eeeaf7;transition:transform .15s,background .15s;overflow-wrap:break-word;white-space:normal}.choice:hover:not(:disabled){transform:translateY(-3px)}.choice.correct{border-color:#58b598;color:#137959;background:#e8f9ef}.choice.wrong{border-color:#de8a95;background:#fff0f1;color:#a14454}.choice:disabled{opacity:1}.choice .key{font-size:10px;color:#968caf;margin-left:5px;opacity:.72}
+.picture-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,780px);gap:14px}.picture-choice{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border:2px solid #e4dff2;border-radius:18px;padding:8px;min-width:0;box-shadow:0 5px 0 #eeeaf7;transition:transform .15s}.picture-choice:hover:not(:disabled){transform:translateY(-3px)}.picture-choice svg{width:100%;height:auto;max-height:240px;aspect-ratio:1.65;display:block}.picture-choice .pic-no{font-size:12px;color:#857b9c;font-weight:770;margin:4px 0 1px}.picture-choice.correct{border-color:#58b598;background:#e8f9ef}.picture-choice.wrong{border-color:#de8a95;background:#fff0f1}.picture-choice:disabled{opacity:1}
+.build-area{width:100%;min-height:94px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:#f4f0ff;border:2px dashed #c7b7ef;border-radius:16px;padding:10px}.build-area:empty:after{content:'…';font-size:28px;color:#aaa0cb}.word-tile{min-height:52px;border-radius:13px;border:2px solid #d7ceeb;background:#fff;font-weight:790;color:#59449f;padding:9px 14px;font-size:clamp(16px,2.4vw,24px);overflow-wrap:anywhere}.word-tile:hover{border-color:#9787d0}.word-tile.in-slot{background:#e7e2fa;border-color:#b6a6e9}.word-bank{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;align-items:center;width:100%}.word-bank .word-tile:disabled{opacity:.3}.inline-hint{font-size:14px;color:#6b6483;line-height:1.4;margin:0}.two-way{grid-template-columns:repeat(2,minmax(0,1fr));max-width:670px}.progress-row{display:flex;align-items:center;justify-content:space-between;gap:9px;color:#8a8298;font-weight:700;font-size:12px;margin:6px 0 12px}.long-text{background:#fff;max-width:880px;border:1px solid #e6dff2;border-radius:19px;padding:21px 24px;font-size:clamp(19px,2.7vw,27px);font-weight:690;line-height:1.55;color:#3f3d61;overflow-wrap:break-word}.question{font-size:clamp(19px,2.7vw,28px);color:#41366b;font-weight:850;line-height:1.35}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:900px}.compare-card{background:white;border:1px solid #e4dbef;border-radius:18px;padding:18px 15px;font-size:clamp(17px,2.5vw,26px);font-weight:720;line-height:1.42;text-align:center;color:#50417f}.compare-label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:#9187a7;margin-bottom:12px}.toolbar-bottom{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.stat-card{border:1px solid var(--edge);padding:17px;border-radius:17px;background:#faf9ff}.stat-value{font-size:32px;font-weight:890;color:var(--purple)}.stat-label{font-size:12px;color:var(--muted)}.stat-row{display:grid;grid-template-columns:1fr 100px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--edge)}.bar{background:#ebe8f3;border-radius:12px;height:11px;overflow:hidden}.bar div{height:100%;background:#72ae9b;border-radius:12px}.toggle-label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:690;cursor:pointer}.toggle-label input{accent-color:var(--purple);width:18px;height:18px}.confetti-layer{position:fixed;inset:0;z-index:99;pointer-events:none;overflow:hidden}.confetti-bit{position:absolute;top:-18px;width:9px;height:16px;border-radius:2px;animation:confetti-drop 1.8s ease-in forwards}@keyframes confetti-drop{0%{transform:translate(0,-15vh) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate(var(--dx),112vh) rotate(840deg);opacity:0}}.toast{position:fixed;z-index:10;bottom:22px;left:50%;transform:translateX(-50%);border-radius:16px;background:#272441;color:#fff;padding:12px 20px;box-shadow:0 15px 40px #1f194b3b;max-width:min(90vw,670px);font-weight:650;text-align:center;display:none}.toast.show{display:block}
+@media(max-width:970px){.shell{grid-template-columns:1fr}.sidebar{padding:10px;display:flex;align-items:center;flex-wrap:wrap;gap:4px}.nav-title,.sidebar-bottom{display:none}.nav-button{width:auto;flex:1;min-width:175px;justify-content:center;padding:10px 8px}.nav-emoji{min-width:30px;height:30px;font-size:18px}.workspace{min-height:540px}}
+@media(max-width:630px){header{padding:15px 14px 12px}.shell{padding:0 10px 15px;gap:10px}.prefs{width:100%}.pref{flex:1}.pref select{width:100%;min-width:0}.sidebar{border-radius:15px}.nav-button{font-size:12px;min-width:137px}.workspace{padding:19px 13px;border-radius:18px}.exercise{padding:18px 10px;min-height:315px;gap:12px}.read-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.read-step{min-height:62px}.choice{min-height:84px;padding:13px 9px;font-size:clamp(13px,3.3vw,18px)}.picture-grid{gap:8px}.picture-choice{padding:5px}.comparison{grid-template-columns:1fr;gap:8px}.compare-card{padding:12px}.long-text{padding:15px}.help-chip{white-space:normal}.small-guide{width:100%;text-align:center}.toolbar{justify-content:center}.voice-status{padding:0 15px}.stats-grid{grid-template-columns:1fr}}
+@media(max-width:380px){.nav-button{min-width:130px}.choice{font-size:13px}.sentence{font-size:25px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+/* Compact mobile activity menu: avoid a long vertical list above every exercise. */
+@media(max-width:970px){#navItems{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}.nav-button{min-width:0;width:100%;justify-content:flex-start;text-align:left;margin:0}.sidebar{display:block}}
+@media(max-width:630px){#navItems{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.nav-button{gap:6px;padding:8px 6px;min-height:49px;font-size:11px;line-height:1.2}.nav-emoji{min-width:27px;height:28px;font-size:17px}.sidebar{padding:7px}}
+</style></head>
+<body>
+<header><div class="brand"><div class="logo" aria-hidden="true">✎</div><div><small id="strap">Aprender jugando</small><h1 id="appTitle">Pequeñas Frases</h1></div></div><div class="prefs"><label class="pref"><span id="languageLabel">Idioma</span><select id="langSelect" aria-label="Idioma"><option value="es">Castellano</option><option value="ca">Valencià</option><option value="en">English</option></select></label><label class="pref"><span id="caseLabel">Tipo de letra</span><select id="caseSelect" aria-label="Tipo de letra"><option value="upper">MAYÚSCULAS</option><option value="lower">minúsculas</option></select></label><label class="pref"><span id="speedLabel">Velocidad de voz</span><select id="speedSelect" aria-label="Velocidad de voz"><option value="0.82">Lenta</option><option value="0.95">Normal</option><option value="1.1">Rápida</option></select></label></div></header>
+<div class="shell"><nav class="sidebar" aria-label="Actividades"><div class="nav-title" id="navTitle">Mis actividades</div><div id="navItems"></div><div class="sidebar-bottom" id="navFoot"></div></nav><main class="workspace" id="appMain" tabindex="-1"></main></div>
+<div class="voice-status" id="voiceStatus" role="status" aria-live="polite"></div><footer><span id="footerTitle">Pequeñas Frases</span> · v0.2 · HTML sin conexión · <span id="footerKeyboard">Ratón y teclado</span></footer>
+<script>/* Educational material. All three translations are deliberately authored, not machine translated. */
+const tr=(es,ca,en)=>({es,ca,en});
+const B={read:[
+ [
+ tr('El sol brilla.','El sol brilla.','The sun shines.'),tr('La gata duerme.','La gata dorm.','The cat sleeps.'),tr('Lola come pan.','Lola menja pa.','Lola eats bread.'),tr('Mi perro corre.','El meu gos corre.','My dog runs.'),tr('Ana tiene una flor.','Anna té una flor.','Anna has a flower.'),tr('El pato nada en el lago.','L’ànec nada al llac.','The duck swims in the lake.')
+ ],[
+ tr('El niño lleva una mochila roja.','El xiquet porta una motxilla roja.','The boy carries a red backpack.'),tr('Tres pájaros cantan en el árbol.','Tres pardals canten a l’arbre.','Three birds sing in the tree.'),tr('La bicicleta azul está detrás de la casa.','La bicicleta blava està darrere de la casa.','The blue bicycle is behind the house.'),tr('Sara tiene menos lápices que Pablo.','Sara té menys llapis que Pau.','Sara has fewer pencils than Paul.'),tr('Hoy no podemos jugar fuera porque llueve.','Hui no podem jugar fora perquè plou.','We cannot play outside today because it is raining.'),tr('El gato pequeño duerme junto a dos cojines.','El gat menut dorm al costat de dos coixins.','The small cat sleeps next to two cushions.')
+ ],[
+ tr('Después de ordenar sus libros, Irene salió a jugar.','Després d’ordenar els llibres, Irene va eixir a jugar.','After tidying her books, Irene went out to play.'),tr('Aunque hacía viento, el barco siguió navegando.','Encara que feia vent, el vaixell va continuar navegant.','Although it was windy, the boat kept sailing.'),tr('Álex dejó su abrigo donde lo había encontrado.','Àlex va deixar l’abric on l’havia trobat.','Alex left the coat where he had found it.'),tr('El museo cerró antes de que llegaran los visitantes.','El museu va tancar abans que arribaren els visitants.','The museum closed before the visitors arrived.'),tr('Si guardamos agua de lluvia, podremos regar las plantas.','Si guardem aigua de pluja, podrem regar les plantes.','If we collect rainwater, we can water the plants.'),tr('Nora terminó su tarea mientras su hermano preparaba la cena.','Nora va acabar la faena mentre el seu germà preparava el sopar.','Nora finished her homework while her brother prepared dinner.')
+ ],[
+ tr('Aunque la propuesta parecía sencilla, el grupo analizó sus posibles consecuencias.','Encara que la proposta semblava senzilla, el grup va analitzar les possibles conseqüències.','Although the proposal seemed simple, the group examined its possible consequences.'),tr('El experimento no confirma la hipótesis, pero aporta información útil.','L’experiment no confirma la hipòtesi, però aporta informació útil.','The experiment does not confirm the hypothesis, but it provides useful information.'),tr('La confianza se construye cuando las palabras coinciden con las acciones.','La confiança es construeix quan les paraules coincideixen amb les accions.','Trust grows when words match actions.'),tr('El ayuntamiento propuso reducir el tráfico para mejorar la calidad del aire.','L’ajuntament va proposar reduir el trànsit per a millorar la qualitat de l’aire.','The council proposed reducing traffic to improve air quality.'),tr('Ninguna conclusión científica debería quedar al margen de nuevas pruebas.','Cap conclusió científica hauria de quedar al marge de noves proves.','No scientific conclusion should be beyond new evidence.'),tr('Que una opinión sea popular no garantiza que esté respaldada por hechos.','Que una opinió siga popular no garanteix que estiga avalada per fets.','A popular opinion is not necessarily supported by facts.')
+ ]],
+ listen:[
+ [
+ {q:tr('El gato salta.','El gat salta.','The cat jumps.'),wrong:[tr('El gato canta.','El gat canta.','The cat sings.'),tr('El pato salta.','L’ànec salta.','The duck jumps.'),tr('El gato duerme.','El gat dorm.','The cat sleeps.')]},
+ {q:tr('Dos peces nadan.','Dos peixos naden.','Two fish swim.'),wrong:[tr('Tres peces nadan.','Tres peixos naden.','Three fish swim.'),tr('Dos patos nadan.','Dos ànecs naden.','Two ducks swim.'),tr('Dos peces saltan.','Dos peixos salten.','Two fish jump.')]},
+ {q:tr('La flor es roja.','La flor és roja.','The flower is red.'),wrong:[tr('La flor es rosa.','La flor és rosa.','The flower is pink.'),tr('La flor es azul.','La flor és blava.','The flower is blue.'),tr('La hoja es roja.','La fulla és roja.','The leaf is red.')]}
+ ],[
+ {q:tr('El perro duerme debajo de la mesa.','El gos dorm davall de la taula.','The dog sleeps under the table.'),wrong:[tr('El perro duerme encima de la mesa.','El gos dorm damunt de la taula.','The dog sleeps on the table.'),tr('El gato duerme debajo de la mesa.','El gat dorm davall de la taula.','The cat sleeps under the table.'),tr('El perro corre debajo de la mesa.','El gos corre davall de la taula.','The dog runs under the table.')]},
+ {q:tr('La niña tiene cuatro globos amarillos.','La xiqueta té quatre globus grocs.','The girl has four yellow balloons.'),wrong:[tr('La niña tiene tres globos amarillos.','La xiqueta té tres globus grocs.','The girl has three yellow balloons.'),tr('La niña tiene cuatro globos rojos.','La xiqueta té quatre globus rojos.','The girl has four red balloons.'),tr('El niño tiene cuatro globos amarillos.','El xiquet té quatre globus grocs.','The boy has four yellow balloons.')]},
+ {q:tr('Ayer fuimos a la playa en autobús.','Ahir vam anar a la platja amb autobús.','Yesterday we went to the beach by bus.'),wrong:[tr('Hoy fuimos a la playa en autobús.','Hui vam anar a la platja amb autobús.','Today we went to the beach by bus.'),tr('Ayer fuimos al parque en autobús.','Ahir vam anar al parc amb autobús.','Yesterday we went to the park by bus.'),tr('Ayer fuimos a la playa en bicicleta.','Ahir vam anar a la platja amb bicicleta.','Yesterday we went to the beach by bike.')]}
+ ],[
+ {q:tr('Lucía salió después de terminar los deberes.','Llúcia va eixir després d’acabar els deures.','Lucy went out after finishing her homework.'),wrong:[tr('Lucía salió antes de terminar los deberes.','Llúcia va eixir abans d’acabar els deures.','Lucy went out before finishing her homework.'),tr('Lucía durmió después de terminar los deberes.','Llúcia va dormir després d’acabar els deures.','Lucy slept after finishing her homework.'),tr('Lucía salió después de empezar los deberes.','Llúcia va eixir després de començar els deures.','Lucy went out after starting her homework.')]},
+ {q:tr('A pesar del frío, Marta abrió la ventana.','Malgrat el fred, Marta va obrir la finestra.','Despite the cold, Martha opened the window.'),wrong:[tr('A causa del frío, Marta cerró la ventana.','A causa del fred, Marta va tancar la finestra.','Because of the cold, Martha closed the window.'),tr('A pesar del calor, Marta abrió la ventana.','Malgrat la calor, Marta va obrir la finestra.','Despite the heat, Martha opened the window.'),tr('A pesar del frío, Marta cerró la ventana.','Malgrat el fred, Marta va tancar la finestra.','Despite the cold, Martha closed the window.')]},
+ {q:tr('Si no llueve, saldremos en bicicleta.','Si no plou, eixirem amb bicicleta.','If it does not rain, we will go cycling.'),wrong:[tr('Si llueve, saldremos en bicicleta.','Si plou, eixirem amb bicicleta.','If it rains, we will go cycling.'),tr('Si no llueve, iremos andando.','Si no plou, anirem caminant.','If it does not rain, we will walk.'),tr('Aunque llueva, saldremos en bicicleta.','Encara que ploga, eixirem amb bicicleta.','Even if it rains, we will go cycling.')]}
+ ],[
+ {q:tr('No todos los asistentes estuvieron de acuerdo.','No tots els assistents hi van estar d’acord.','Not all attendees agreed.'),wrong:[tr('Todos los asistentes estuvieron de acuerdo.','Tots els assistents hi van estar d’acord.','All attendees agreed.'),tr('Ningún asistente estuvo de acuerdo.','Cap assistent hi va estar d’acord.','No attendees agreed.'),tr('Casi todos los asistentes estuvieron de acuerdo.','Quasi tots els assistents hi van estar d’acord.','Almost all attendees agreed.')]},
+ {q:tr('La decisión se aplazó hasta comprobar los resultados.','La decisió es va ajornar fins a comprovar els resultats.','The decision was postponed until the results were checked.'),wrong:[tr('La decisión se tomó antes de comprobar los resultados.','La decisió es va prendre abans de comprovar els resultats.','The decision was made before checking the results.'),tr('La decisión se anuló al comprobar los resultados.','La decisió es va anul·lar en comprovar els resultats.','The decision was cancelled after checking the results.'),tr('La decisión se aplazó sin comprobar los resultados.','La decisió es va ajornar sense comprovar els resultats.','The decision was postponed without checking the results.')]},
+ {q:tr('El informe sugiere una causa, pero no la demuestra.','L’informe suggereix una causa, però no la demostra.','The report suggests a cause but does not prove it.'),wrong:[tr('El informe demuestra una causa sin dudas.','L’informe demostra una causa sense dubtes.','The report proves a cause beyond doubt.'),tr('El informe no menciona ninguna causa.','L’informe no esmenta cap causa.','The report mentions no cause.'),tr('El informe sugiere una causa y la demuestra.','L’informe suggereix una causa i la demostra.','The report suggests and proves a cause.')]}
+ ]],
+ comprehension:[
+ [
+ {s:tr('Eva bebe leche.','Eva beu llet.','Eva drinks milk.'),q:tr('¿Qué bebe Eva?','Què beu Eva?','What does Eva drink?'),o:[tr('Agua','Aigua','Water'),tr('Leche','Llet','Milk'),tr('Zumo','Suc','Juice'),tr('Té','Te','Tea')],a:1,cl:tr('Busca la bebida.','Busca la beguda.','Look for the drink.')},
+ {s:tr('El oso está en la cueva.','L’os està a la cova.','The bear is in the cave.'),q:tr('¿Dónde está el oso?','On està l’os?','Where is the bear?'),o:[tr('En el río','Al riu','In the river'),tr('En el árbol','A l’arbre','In the tree'),tr('En la cueva','A la cova','In the cave'),tr('En casa','A casa','At home')],a:2,cl:tr('Busca el lugar.','Busca el lloc.','Look for the place.')},
+ {s:tr('Tomás tiene dos pelotas.','Tomàs té dues pilotes.','Tom has two balls.'),q:tr('¿Cuántas pelotas tiene?','Quantes pilotes té?','How many balls does he have?'),o:[tr('Una','Una','One'),tr('Tres','Tres','Three'),tr('Cuatro','Quatre','Four'),tr('Dos','Dues','Two')],a:3,cl:tr('Fíjate en la cantidad.','Fixa’t en la quantitat.','Pay attention to the number.')}
+ ],[
+ {s:tr('Paula dejó las llaves encima de la mesa.','Paula va deixar les claus damunt de la taula.','Paula left the keys on the table.'),q:tr('¿Dónde dejó las llaves?','On va deixar les claus?','Where did she leave the keys?'),o:[tr('Debajo de la mesa','Davall de la taula','Under the table'),tr('En el cajón','Al calaix','In the drawer'),tr('Encima de la mesa','Damunt de la taula','On the table'),tr('En el suelo','A terra','On the floor')],a:2,cl:tr('Busca la posición exacta.','Busca la posició exacta.','Look for the exact position.')},
+ {s:tr('Ni Marcos ni Elena fueron al cine el sábado.','Ni Marc ni Elena van anar al cine dissabte.','Neither Mark nor Elena went to the cinema on Saturday.'),q:tr('¿Quién fue al cine?','Qui va anar al cine?','Who went to the cinema?'),o:[tr('Los dos','Els dos','Both of them'),tr('Marcos','Marc','Mark'),tr('Ninguno de los dos','Cap dels dos','Neither of them'),tr('Elena','Elena','Elena')],a:2,cl:tr('Fíjate en la doble negación.','Fixa’t en la doble negació.','Pay attention to the negative expression.')},
+ {s:tr('Nerea tiene cinco cromos y Lucas tiene tres.','Nerea té cinc cromos i Lluc en té tres.','Nerea has five stickers and Luke has three.'),q:tr('¿Quién tiene más cromos?','Qui té més cromos?','Who has more stickers?'),o:[tr('Lucas','Lluc','Luke'),tr('Nerea','Nerea','Nerea'),tr('Los dos igual','Els dos igual','Both have the same'),tr('No lo sabemos','No ho sabem','We cannot tell')],a:1,cl:tr('Compara las dos cantidades.','Compara les dues quantitats.','Compare the two quantities.')}
+ ],[
+ {s:tr('Julián recogió el paraguas antes de entrar en casa.','Julià va plegar el paraigua abans d’entrar a casa.','Julian folded his umbrella before entering the house.'),q:tr('¿Qué hizo primero?','Què va fer primer?','What did he do first?'),o:[tr('Entrar en casa','Entrar a casa','Enter the house'),tr('Recoger el paraguas','Plegar el paraigua','Fold the umbrella'),tr('Abrir la puerta','Obrir la porta','Open the door'),tr('Salir de casa','Eixir de casa','Leave the house')],a:1,cl:tr('La palabra «antes» marca el orden.','La paraula «abans» marca l’ordre.','The word “before” shows the order.')},
+ {s:tr('Aunque sabía la respuesta, Abril prefirió escuchar antes de intervenir.','Encara que sabia la resposta, Abril va preferir escoltar abans d’intervindre.','Although she knew the answer, April chose to listen before speaking.'),q:tr('¿Qué hizo Abril?','Què va fer Abril?','What did April do?'),o:[tr('Interrumpió a todos','Va interrompre tothom','She interrupted everyone'),tr('Se fue del aula','Va eixir de l’aula','She left the classroom'),tr('Escuchó primero','Va escoltar primer','She listened first'),tr('No conocía la respuesta','No sabia la resposta','She did not know the answer')],a:2,cl:tr('Separa lo que sabía de lo que hizo.','Separa el que sabia del que va fer.','Separate what she knew from what she did.')},
+ {s:tr('Si mañana hace sol, visitaremos el jardín botánico.','Si demà fa sol, visitarem el jardí botànic.','If it is sunny tomorrow, we will visit the botanical garden.'),q:tr('¿La visita está asegurada?','La visita està assegurada?','Is the visit certain?'),o:[tr('Sí, iremos siempre','Sí, hi anirem sempre','Yes, definitely'),tr('No, depende del tiempo','No, depén del temps','No, it depends on the weather'),tr('Solo si nieva','Només si neva','Only if it snows'),tr('Ya hemos ido','Ja hi hem anat','We have already been')],a:1,cl:tr('La palabra «si» introduce una condición.','La paraula «si» introdueix una condició.','The word “if” introduces a condition.')}
+ ],[
+ {s:tr('La mayoría de los vecinos apoyó la propuesta, aunque varios solicitaron cambios.','La majoria del veïnat va donar suport a la proposta, encara que alguns van demanar canvis.','Most residents supported the proposal, although several requested changes.'),q:tr('¿Qué podemos afirmar con seguridad?','Què podem afirmar amb seguretat?','What can we say for certain?'),o:[tr('Todos estaban de acuerdo','Tothom hi estava d’acord','Everyone agreed'),tr('Nadie apoyó la propuesta','Ningú va donar suport a la proposta','Nobody supported it'),tr('Hubo apoyo y también peticiones de cambio','Hi va haver suport i peticions de canvi','There was support and also requests for changes'),tr('La propuesta se aprobó','La proposta es va aprovar','The proposal was approved')],a:2,cl:tr('No confundas apoyo con aprobación.','No confundisques suport amb aprovació.','Do not confuse support with approval.')},
+ {s:tr('Los datos muestran una relación, pero no prueban que un hecho cause el otro.','Les dades mostren una relació, però no proven que un fet cause l’altre.','The data show a link but do not prove that one event causes the other.'),q:tr('¿Qué NO se ha demostrado?','Què NO s’ha demostrat?','What has NOT been proved?'),o:[tr('La existencia de los datos','L’existència de les dades','That the data exist'),tr('Una relación entre hechos','Una relació entre fets','A link between events'),tr('Una relación de causa y efecto','Una relació de causa i efecte','A cause-and-effect relationship'),tr('Que se hizo un análisis','Que es va fer una anàlisi','That an analysis was done')],a:2,cl:tr('Relacionar no es demostrar causalidad.','Relacionar no és demostrar causalitat.','A link does not prove causation.')},
+ {s:tr('El texto describe la propuesta del alcalde, sin indicar si llegó a aplicarse.','El text descriu la proposta de l’alcalde, sense indicar si es va arribar a aplicar.','The text describes the mayor’s proposal without saying whether it was carried out.'),q:tr('¿Qué información falta?','Quina informació falta?','What information is missing?'),o:[tr('Quién la propuso','Qui la va proposar','Who proposed it'),tr('Si se llevó a la práctica','Si es va posar en pràctica','Whether it was put into practice'),tr('Que hubo una propuesta','Que hi va haver una proposta','That there was a proposal'),tr('Que la propuesta era municipal','Que era una proposta municipal','That it was a council proposal')],a:1,cl:tr('No inventes un resultado que no aparece.','No inventes un resultat que no apareix.','Do not assume an outcome not stated.')}
+ ]]
+};
+B.differences=[
+ [
+  {a:tr('El gato es blanco.','El gat és blanc.','The cat is white.'),b:tr('El gato es negro.','El gat és negre.','The cat is black.'),same:false,cl:tr('El color ha cambiado.','El color ha canviat.','The colour has changed.')},
+  {a:tr('Ana tiene una pelota.','Anna té una pilota.','Anna has a ball.'),b:tr('Una pelota es de Ana.','Una pilota és d’Anna.','A ball belongs to Anna.'),same:true,cl:tr('El orden cambia, no la información.','Canvia l’ordre, no la informació.','The word order changes, not the meaning.')},
+  {a:tr('El perro corre.','El gos corre.','The dog runs.'),b:tr('El perro no corre.','El gos no corre.','The dog does not run.'),same:false,cl:tr('La palabra «no» cambia el sentido.','La paraula «no» canvia el sentit.','The word “not” changes the meaning.')}
+ ],[
+  {a:tr('Marina llegó antes que Jorge.','Marina va arribar abans que Jordi.','Marina arrived before George.'),b:tr('Jorge llegó después que Marina.','Jordi va arribar després que Marina.','George arrived after Marina.'),same:true,cl:tr('«Antes» y «después» describen el mismo orden.','«Abans» i «després» descriuen el mateix ordre.','“Before” and “after” describe the same order.')},
+  {a:tr('Solo dos niños llevan gorra.','Només dos xiquets porten gorra.','Only two children wear caps.'),b:tr('Todos los niños llevan gorra.','Tots els xiquets porten gorra.','All the children wear caps.'),same:false,cl:tr('«Solo dos» no es «todos».','«Només dos» no és «tots».','“Only two” is not “all”.')},
+  {a:tr('La pelota está dentro de la caja.','La pilota està dins de la caixa.','The ball is inside the box.'),b:tr('La caja contiene la pelota.','La caixa conté la pilota.','The box contains the ball.'),same:true,cl:tr('Expresan la misma posición.','Expressen la mateixa posició.','They express the same position.')}
+ ],[
+  {a:tr('Celia estudió porque tenía un examen.','Cèlia va estudiar perquè tenia un examen.','Celia studied because she had a test.'),b:tr('Celia tenía un examen y por eso estudió.','Cèlia tenia un examen i per això va estudiar.','Celia had a test, so she studied.'),same:true,cl:tr('Se mantiene la misma causa.','Es manté la mateixa causa.','The reason is the same.')},
+  {a:tr('Si nieva, cancelaremos la excursión.','Si neva, cancel·larem l’excursió.','If it snows, we will cancel the trip.'),b:tr('Cancelaremos la excursión aunque no nieve.','Cancel·larem l’excursió encara que no neve.','We will cancel the trip even if it does not snow.'),same:false,cl:tr('La condición es diferente.','La condició és diferent.','The condition is different.')},
+  {a:tr('A ninguno le faltaba material.','A ningú li faltava material.','Nobody was missing equipment.'),b:tr('Todos tenían el material necesario.','Tothom tenia el material necessari.','Everyone had the necessary equipment.'),same:true,cl:tr('Dos formas de decir que todos tenían material.','Dues maneres de dir que tothom tenia material.','Two ways of saying everyone had what they needed.')}
+ ],[
+  {a:tr('No todos los alumnos participaron.','No tot l’alumnat hi va participar.','Not all the students took part.'),b:tr('Ningún alumno participó.','Cap alumne hi va participar.','No students took part.'),same:false,cl:tr('«No todos» no equivale a «ninguno».','«No tots» no equival a «cap».','“Not all” does not mean “none”.')},
+  {a:tr('Se observó una correlación entre los fenómenos.','Es va observar una correlació entre els fenòmens.','A correlation was observed between the events.'),b:tr('Se demostró que un fenómeno causaba el otro.','Es va demostrar que un fenomen causava l’altre.','It was proved that one event caused the other.'),same:false,cl:tr('Correlación no demuestra causalidad.','Correlació no demostra causalitat.','Correlation does not prove causation.')},
+  {a:tr('La medida puede reducir el consumo.','La mesura pot reduir el consum.','The measure may reduce consumption.'),b:tr('Es posible que la medida reduzca el consumo.','És possible que la mesura reduïsca el consum.','It is possible that the measure will reduce consumption.'),same:true,cl:tr('Ambas expresan posibilidad, no certeza.','Totes dues expressen possibilitat, no certesa.','Both express possibility, not certainty.')}
+ ]];
+B.vocabulary=[
+ [
+ {s:tr('El ratón es diminuto.','El ratolí és diminut.','The mouse is tiny.'),word:tr('diminuto','diminut','tiny'),o:[tr('Muy pequeño','Molt menut','Very small'),tr('Muy rápido','Molt ràpid','Very fast'),tr('Muy grande','Molt gran','Very big'),tr('Muy lento','Molt lent','Very slow')],a:0,cl:tr('Piensa en su tamaño.','Pensa en la seua grandària.','Think about its size.')},
+ {s:tr('El conejo está alegre.','El conill està alegre.','The rabbit is cheerful.'),word:tr('alegre','alegre','cheerful'),o:[tr('Enfadado','Enfadat','Angry'),tr('Contento','Content','Happy'),tr('Cansado','Cansat','Tired'),tr('Asustado','Espantat','Frightened')],a:1,cl:tr('Piensa en cómo se siente.','Pensa en com se sent.','Think about how it feels.')}
+ ],[
+ {s:tr('Mario se apresuró para llegar a tiempo.','Mario es va afanyar per a arribar a temps.','Mario hurried to arrive on time.'),word:tr('se apresuró','es va afanyar','hurried'),o:[tr('Se detuvo','Es va aturar','Stopped'),tr('Se escondió','Es va amagar','Hid'),tr('Se dio prisa','Es va donar pressa','Rushed'),tr('Se durmió','Es va adormir','Fell asleep')],a:2,cl:tr('Necesitaba llegar a tiempo.','Necessitava arribar a temps.','He needed to be on time.')},
+ {s:tr('El sendero era estrecho y pasamos de uno en uno.','La senda era estreta i vam passar d’un en un.','The path was narrow, so we went one by one.'),word:tr('estrecho','estreta','narrow'),o:[tr('Con poco espacio','Amb poc d’espai','Not wide'),tr('Muy largo','Molt llarg','Very long'),tr('Sin salida','Sense eixida','Without an exit'),tr('Con piedras','Amb pedres','Stony')],a:0,cl:tr('La pista es «de uno en uno».','La pista és «d’un en un».','The clue is “one by one”.')}
+ ],[
+ {s:tr('Clara vaciló antes de escoger una respuesta.','Clara va vacil·lar abans de triar una resposta.','Clara hesitated before choosing an answer.'),word:tr('vaciló','va vacil·lar','hesitated'),o:[tr('Dudó','Va dubtar','Was unsure'),tr('Se enfadó','Es va enfadar','Got angry'),tr('Celebró','Ho va celebrar','Celebrated'),tr('Copió','Va copiar','Copied')],a:0,cl:tr('No se decidía enseguida.','No es decidia de seguida.','She did not decide immediately.')},
+ {s:tr('El equipo llegó a un acuerdo después de debatir.','L’equip va arribar a un acord després de debatre.','The team reached an agreement after discussing the issue.'),word:tr('debatir','debatre','discussing'),o:[tr('Dormir juntos','Dormir junts','Sleeping together'),tr('Intercambiar argumentos','Intercanviar arguments','Exchanging arguments'),tr('Correr deprisa','Córrer de pressa','Running quickly'),tr('Copiar una respuesta','Copiar una resposta','Copying an answer')],a:1,cl:tr('Hablaron y valoraron ideas.','Van parlar i van valorar idees.','They talked and considered ideas.')}
+ ],[
+ {s:tr('Su interpretación era plausible, aunque faltaban pruebas.','La seua interpretació era plausible, encara que faltaven proves.','Her interpretation was plausible, although evidence was missing.'),word:tr('plausible','plausible','plausible'),o:[tr('Imposible','Impossible','Impossible'),tr('Razonable o creíble','Raonable o creïble','Reasonable or believable'),tr('Demostrada','Demostrada','Proven'),tr('Insignificante','Insignificant','Unimportant')],a:1,cl:tr('Algo puede ser creíble sin estar demostrado.','Una cosa pot ser creïble sense estar demostrada.','Something can be plausible without being proven.')},
+ {s:tr('La solución parecía viable con los recursos disponibles.','La solució semblava viable amb els recursos disponibles.','The solution seemed feasible with the available resources.'),word:tr('viable','viable','feasible'),o:[tr('Muy costosa','Molt costosa','Very expensive'),tr('Popular','Popular','Popular'),tr('Posible de realizar','Possible de dur a terme','Possible to carry out'),tr('Absolutamente segura','Absolutament segura','Absolutely safe')],a:2,cl:tr('Considera si se puede llevar a cabo.','Considera si es pot dur a terme.','Consider whether it can be carried out.')}
+ ]];
+B.inference=[
+ [
+ {s:tr('Nico abre el paraguas. Empiezan a caer gotas.','Nico obri el paraigua. Comencen a caure gotes.','Nico opens his umbrella. Drops begin to fall.'),q:tr('¿Qué tiempo hace?','Quin temps fa?','What is the weather like?'),o:[tr('Nieva','Neva','It is snowing'),tr('Llueve','Plou','It is raining'),tr('Hace mucho sol','Fa molt de sol','It is very sunny'),tr('Hay niebla','Hi ha boira','It is foggy')],a:1,cl:tr('Relaciona las gotas y el paraguas.','Relaciona les gotes i el paraigua.','Think about the drops and the umbrella.')},
+ {s:tr('Lía bosteza y apaga la luz. Se mete en la cama.','Lia badalla i apaga el llum. Es fica al llit.','Lia yawns and switches off the light. She gets into bed.'),q:tr('¿Qué hará probablemente ahora?','Què farà probablement ara?','What will she probably do now?'),o:[tr('Dormir','Dormir','Sleep'),tr('Nadar','Nadar','Swim'),tr('Cocinar','Cuinar','Cook'),tr('Ir al colegio','Anar a escola','Go to school')],a:0,cl:tr('Piensa en para qué se mete en la cama.','Pensa per a què es fica al llit.','Think about why she got into bed.')},
+ {s:tr('Leo mira su helado. Se está derritiendo.','Leo mira el seu gelat. S’està desfent.','Leo looks at his ice cream. It is melting.'),q:tr('¿Qué puede estar pasando?','Què pot estar passant?','What might be happening?'),o:[tr('Hace calor','Fa calor','It is warm'),tr('Hace mucho frío','Fa molt de fred','It is freezing'),tr('El helado está hecho de piedra','El gelat és de pedra','The ice cream is made of stone'),tr('Se ha convertido en pan','S’ha convertit en pa','It has turned into bread')],a:0,cl:tr('Piensa en qué hace que se derrita.','Pensa què fa que es desfaça.','Think about what makes it melt.')}
+ ],[
+ {s:tr('Óscar encontró huellas mojadas en el pasillo. Al lado de la puerta había un paraguas goteando.','Òscar va trobar petjades mullades al corredor. Al costat de la porta hi havia un paraigua que degotava.','Oscar found wet footprints in the hallway. A dripping umbrella stood beside the door.'),q:tr('¿Qué es razonable pensar?','Què és raonable pensar?','What is reasonable to think?'),o:[tr('Alguien entró mojado','Algú va entrar mullat','Someone came in wet'),tr('Alguien encendió el horno','Algú va encendre el forn','Someone turned on the oven'),tr('Se rompió un vaso','Es va trencar un got','A glass broke'),tr('Estuvieron pintando','Van estar pintant','Someone was painting')],a:0,cl:tr('Relaciona las huellas y el paraguas.','Relaciona les petjades i el paraigua.','Connect the footprints with the umbrella.')},
+ {s:tr('Carla dejó su bocadillo en la mesa. Al volver, encontró migas y a su perro lamiéndose el hocico.','Carla va deixar l’entrepà a la taula. En tornar, va trobar molles i el gos llepant-se el musell.','Carla left her sandwich on the table. When she returned, she found crumbs and her dog licking its mouth.'),q:tr('¿Qué pudo haber ocurrido?','Què podria haver passat?','What may have happened?'),o:[tr('El perro pudo comerse el bocadillo','El gos podria haver-se menjat l’entrepà','The dog may have eaten the sandwich'),tr('El perro preparó otro bocadillo','El gos va preparar un altre entrepà','The dog made another sandwich'),tr('La mesa salió a pasear','La taula va eixir a passejar','The table went for a walk'),tr('Carla aún no había llegado','Carla encara no havia arribat','Carla had not arrived yet')],a:0,cl:tr('Es una deducción, no algo que se vio directamente.','És una deducció, no una cosa observada directament.','It is an inference, not something directly observed.')},
+ {s:tr('Dani llegó a clase con la camiseta empapada y dejó las botas junto al radiador.','Dani va arribar a classe amb la camiseta xopada i va deixar les botes al costat del radiador.','Dani arrived at school with a soaked shirt and left his boots by the radiator.'),q:tr('¿Qué explicación es más probable?','Quina explicació és més probable?','Which explanation is most likely?'),o:[tr('Se mojó antes de llegar','Es va mullar abans d’arribar','He got wet before arriving'),tr('Se tumbó al sol','Es va gitar al sol','He sunbathed'),tr('Se vistió de gala','Es va vestir de gala','He dressed for a party'),tr('No salió de casa','No va eixir de casa','He never left home')],a:0,cl:tr('Considera por qué está todo mojado.','Considera per què està tot mullat.','Think about why everything is wet.')}
+ ],[
+ {s:tr('La biblioteca estaba a punto de cerrar. Inés devolvió el libro, pero antes copió una página en su cuaderno.','La biblioteca estava a punt de tancar. Inés va tornar el llibre, però abans va copiar una pàgina al quadern.','The library was about to close. Ines returned the book, but first copied a page into her notebook.'),q:tr('¿Por qué pudo copiar la página?','Per què podria haver copiat la pàgina?','Why might she have copied the page?'),o:[tr('Quería conservar esa información','Volia conservar aquella informació','She wanted to keep that information'),tr('Deseaba perder el cuaderno','Volia perdre el quadern','She wanted to lose her notebook'),tr('El libro estaba vacío','El llibre estava buit','The book was empty'),tr('La biblioteca estaba abriendo','La biblioteca estava obrint','The library was opening')],a:0,cl:tr('Piensa qué puede necesitar después.','Pensa què podria necessitar després.','Think about what she might need later.')},
+ {s:tr('El equipo ensayó durante semanas. Cuando falló el micrófono, siguieron la representación sin detenerse.','L’equip va assajar durant setmanes. Quan va fallar el micròfon, van continuar la representació sense parar.','The team rehearsed for weeks. When the microphone failed, they continued the performance without stopping.'),q:tr('¿Qué cualidad demostraron?','Quina qualitat van demostrar?','What quality did they show?'),o:[tr('Capacidad de adaptación','Capacitat d’adaptació','Adaptability'),tr('Falta de preparación','Falta de preparació','Lack of preparation'),tr('Desinterés','Desinterés','Lack of interest'),tr('Miedo a actuar','Por d’actuar','Fear of performing')],a:0,cl:tr('Observa cómo reaccionaron al problema.','Observa com van reaccionar al problema.','Notice how they handled the problem.')},
+ {s:tr('Aina dijo que no le importaba perder, pero al acabar se quedó en silencio y evitó mirar a sus compañeros.','Aina va dir que no li importava perdre, però en acabar es va quedar callada i va evitar mirar els companys.','Aina said she did not mind losing, but afterward she fell silent and avoided looking at her teammates.'),q:tr('¿Qué interpretación es prudente?','Quina interpretació és prudent?','Which interpretation is cautious?'),o:[tr('Quizá está decepcionada','Potser està decebuda','She may be disappointed'),tr('Sabemos que odia a su equipo','Sabem que odia l’equip','We know she hates her team'),tr('Seguro que está alegre','Segur que està alegre','She is definitely happy'),tr('Se ha olvidado del partido','S’ha oblidat del partit','She forgot the game')],a:0,cl:tr('Una emoción puede inferirse, pero no asegurarse.','Una emoció es pot inferir, però no assegurar.','An emotion can be inferred, but not known for certain.')}
+ ],[
+ {s:tr('En una encuesta a treinta alumnos, veintidós dijeron preferir ir andando al colegio. El titular afirma: «Todos los jóvenes prefieren caminar».','En una enquesta a trenta alumnes, vint-i-dos van dir que preferien anar caminant a l’escola. El titular afirma: «Tots els joves prefereixen caminar».','In a survey of thirty pupils, twenty-two said they preferred walking to school. The headline claims: “All young people prefer walking”.'),q:tr('¿Qué problema tiene el titular?','Quin problema té el titular?','What is wrong with the headline?'),o:[tr('Generaliza más allá de los datos','Generalitza més enllà de les dades','It generalises beyond the data'),tr('Da el número exacto','Dona el nombre exacte','It gives the exact number'),tr('Describe solo la encuesta','Descriu només l’enquesta','It only describes the survey'),tr('No utiliza palabras','No utilitza paraules','It uses no words')],a:0,cl:tr('«Veintidós de treinta» no significa «todos los jóvenes».','«Vint-i-dos de trenta» no significa «tots els joves».','“Twenty-two out of thirty” does not mean “all young people”.')},
+ {s:tr('Una planta del experimento creció más cerca de la ventana. También recibió más agua que las otras.','Una planta de l’experiment va créixer més prop de la finestra. També va rebre més aigua que les altres.','One plant in the experiment grew more near the window. It also received more water than the others.'),q:tr('¿Podemos asegurar que la luz causó el mayor crecimiento?','Podem assegurar que la llum va causar el creixement més gran?','Can we be sure that light caused the greater growth?'),o:[tr('No, también cambió el riego','No, també va canviar el reg','No, watering also changed'),tr('Sí, sin ninguna duda','Sí, sense cap dubte','Yes, without any doubt'),tr('Sí, porque todas recibieron la misma agua','Sí, perquè totes van rebre la mateixa aigua','Yes, because all got the same water'),tr('No, porque las plantas no crecen','No, perquè les plantes no creixen','No, because plants never grow')],a:0,cl:tr('Hay más de una variable diferente.','Hi ha més d’una variable diferent.','More than one variable changed.')},
+ {s:tr('El ayuntamiento anuncia que estudiará construir una nueva biblioteca. Un mensaje afirma: «La biblioteca abrirá el próximo mes».','L’ajuntament anuncia que estudiarà construir una biblioteca nova. Un missatge afirma: «La biblioteca obrirà el mes que ve».','The council announces it will study building a new library. A message claims: “The library will open next month”.'),q:tr('¿Qué podemos concluir?','Què podem concloure?','What can we conclude?'),o:[tr('El anuncio no confirma ninguna fecha de apertura','L’anunci no confirma cap data d’obertura','The announcement confirms no opening date'),tr('La obra ha terminado','L’obra ha acabat','Construction has finished'),tr('La biblioteca abrirá mañana','La biblioteca obrirà demà','The library opens tomorrow'),tr('Ya se compraron los libros','Ja s’han comprat els llibres','The books have been bought')],a:0,cl:tr('Estudiar una posibilidad no equivale a realizarla.','Estudiar una possibilitat no equival a fer-la realitat.','Studying a possibility does not mean it has happened.')}
+ ]];
+B.picture=[
+ [
+  {p:tr('El perro negro duerme debajo de la mesa.','El gos negre dorm davall de la taula.','The black dog sleeps under the table.'),hint:tr('Mira el color del perro y su posición.','Mira el color del gos i la seua posició.','Look at the dog’s colour and position.'),v:[{k:'dog',c:'black',pos:'under'},{k:'dog',c:'white',pos:'under'},{k:'dog',c:'black',pos:'on'},{k:'dog',c:'black',pos:'right'}],a:0},
+  {p:tr('Hay tres manzanas rojas en la cesta.','Hi ha tres pomes roges a la cistella.','There are three red apples in the basket.'),hint:tr('Cuenta las manzanas, fíjate en el color y en dónde están.','Compta les pomes i mira el color i el lloc.','Count the apples, notice their colour and where they are.'),v:[{k:'apple',n:2,c:'red',pos:'basket'},{k:'apple',n:3,c:'green',pos:'basket'},{k:'apple',n:3,c:'red',pos:'table'},{k:'apple',n:3,c:'red',pos:'basket'}],a:3},
+  {p:tr('El gato gris está encima del sofá rojo.','El gat gris està damunt del sofà roig.','The grey cat is on the red sofa.'),hint:tr('Mira el gato, el color del sofá y la posición.','Mira el gat, el color del sofà i la posició.','Look at the cat, the sofa colour and their position.'),v:[{k:'cat',cat:'grey',sofa:'red',pos:'on'},{k:'cat',cat:'orange',sofa:'red',pos:'on'},{k:'cat',cat:'grey',sofa:'blue',pos:'on'},{k:'cat',cat:'grey',sofa:'red',pos:'under'}],a:0}
+ ],[
+  {p:tr('Hay dos libros azules dentro de la mochila.','Hi ha dos llibres blaus dins de la motxilla.','There are two blue books inside the backpack.'),hint:tr('Comprueba cantidad, color y lugar.','Comprova quantitat, color i lloc.','Check the number, colour and location.'),v:[{k:'books',n:2,c:'blue',pos:'in'},{k:'books',n:3,c:'blue',pos:'in'},{k:'books',n:2,c:'red',pos:'in'},{k:'books',n:2,c:'blue',pos:'out'}],a:0},
+  {p:tr('Dos pájaros amarillos vuelan a la izquierda de la casa.','Dos pardals grocs volen a l’esquerra de la casa.','Two yellow birds fly to the left of the house.'),hint:tr('Fíjate en cuántos son, el color y a qué lado están.','Fixa’t en quants són, el color i a quin costat estan.','Check how many, their colour and which side they are on.'),v:[{k:'birds',n:1,c:'yellow',side:'left'},{k:'birds',n:2,c:'yellow',side:'right'},{k:'birds',n:2,c:'blue',side:'left'},{k:'birds',n:2,c:'yellow',side:'left'}],a:3},
+  {p:tr('La niña sostiene tres globos verdes.','La xiqueta sosté tres globus verds.','The girl is holding three green balloons.'),hint:tr('Mira quién los lleva, cuántos son y de qué color.','Mira qui els porta, quants n’hi ha i de quin color són.','Notice who holds them, how many and what colour.'),v:[{k:'balloons',n:3,c:'green',who:'girl'},{k:'balloons',n:2,c:'green',who:'girl'},{k:'balloons',n:3,c:'red',who:'girl'},{k:'balloons',n:3,c:'green',who:'boy'}],a:0}
+ ],[
+  {p:tr('Primero se lava las manos y después come una manzana.','Primer es llava les mans i després menja una poma.','First she washes her hands and then eats an apple.'),hint:tr('Observa las dos acciones y su orden.','Observa les dues accions i l’ordre.','Look at the two actions and their order.'),v:[{k:'sequence',steps:['eat','wash']},{k:'sequence',steps:['wash','eat']},{k:'sequence',steps:['wash','read']},{k:'sequence',steps:['eat','read']}],a:1},
+  {p:tr('El ciclista lleva casco rojo y pasa delante del árbol.','El ciclista porta casc roig i passa per davant de l’arbre.','The cyclist wears a red helmet and passes in front of the tree.'),hint:tr('Mira el casco y si la bicicleta está delante o detrás.','Mira el casc i si la bicicleta està davant o darrere.','Notice the helmet and whether the bike is in front or behind.'),v:[{k:'cycle',helmet:'red',front:true},{k:'cycle',helmet:'blue',front:true},{k:'cycle',helmet:'red',front:false},{k:'cycle',helmet:'yellow',front:false}],a:0},
+  {p:tr('La niña entrega un regalo azul al niño.','La xiqueta entrega un regal blau al xiquet.','The girl gives a blue gift to the boy.'),hint:tr('¿Quién entrega el regalo? ¿De qué color es?','Qui entrega el regal? De quin color és?','Who gives the gift? What colour is it?'),v:[{k:'gift',from:'girl',c:'blue'},{k:'gift',from:'boy',c:'blue'},{k:'gift',from:'girl',c:'red'},{k:'gift',from:'boy',c:'red'}],a:0}
+ ],[
+  {p:tr('El niño deposita una botella de vidrio en el contenedor verde.','El xiquet deposita una botella de vidre en el contenidor verd.','The boy puts a glass bottle into the green recycling bin.'),hint:tr('Comprueba el objeto y el color del contenedor.','Comprova l’objecte i el color del contenidor.','Check the object and the bin colour.'),v:[{k:'recycle',item:'glass',bin:'green'},{k:'recycle',item:'paper',bin:'green'},{k:'recycle',item:'glass',bin:'blue'},{k:'recycle',item:'glass',bin:'yellow'}],a:0},
+  {p:tr('Bajo la lluvia, la niña presta su paraguas rojo al niño.','Davall de la pluja, la xiqueta deixa el paraigua roig al xiquet.','In the rain, the girl lends her red umbrella to the boy.'),hint:tr('Mira quién presta el paraguas y su color.','Mira qui deixa el paraigua i el seu color.','Notice who lends the umbrella and its colour.'),v:[{k:'umbrella',from:'boy',c:'red',rain:true},{k:'umbrella',from:'girl',c:'blue',rain:true},{k:'umbrella',from:'girl',c:'red',rain:true},{k:'umbrella',from:'girl',c:'red',rain:false}],a:2},
+  {p:tr('El vaso azul contiene más agua que el vaso rojo.','El got blau conté més aigua que el got roig.','The blue glass contains more water than the red glass.'),hint:tr('Compara el nivel de agua de los dos vasos.','Compara el nivell d’aigua dels dos gots.','Compare the water levels in the two glasses.'),v:[{k:'water',blue:75,red:35},{k:'water',blue:30,red:70},{k:'water',blue:60,red:60},{k:'water',blue:25,red:25}],a:0}
+ ]];
+/* Banco adicional v0.2. Todas las variantes están disponibles en castellano, valenciano e inglés. */
+const T=(es,ca,en)=>({es,ca,en});
+const LX=['es','ca','en'];
+const F=(fn)=>T(...LX.map(lang=>fn(lang)));
+const f=(s)=>String(s).trim().replace(/\s+/g,' ');
+const capital=(s)=>s.charAt(0).toLocaleUpperCase()+s.slice(1);
+const period=(s)=>f(s).replace(/[. ]*$/, '')+'.';
+const PACK=[[],[],[],[]];
+function add(l,s,q,good,bad,eq,wrong){PACK[l].push({s,q,good,bad,eq,wrong});}
+const names=[T('Nora','Nora','Nora'),T('Pablo','Pau','Paul'),T('Lucía','Llúcia','Lucy'),T('Hugo','Hugo','Hugo'),T('Marta','Marta','Martha')];
+const sel=(arr,i)=>arr[i%arr.length];
+// NIVEL 1 · Lectura directa: animales, pertenencias, colores, cantidades, acciones.
+const animals=[
+ [T('El gato','El gat','The cat'),T('en el sofá','al sofà','on the sofa'),T('en la cama','al llit','on the bed')],
+ [T('El perro','El gos','The dog'),T('en la alfombra','a l’estora','on the rug'),T('en el jardín','al jardí','in the garden')],
+ [T('El conejo','El conill','The rabbit'),T('en la cesta','a la cistella','in the basket'),T('en la caja','a la caixa','in the box')],
+ [T('El pato','L’ànec','The duck'),T('junto al estanque','al costat de l’estany','beside the pond'),T('en el estanque','a l’estany','in the pond')],
+ [T('La tortuga','La tortuga','The turtle'),T('bajo el árbol','davall de l’arbre','under the tree'),T('sobre la piedra','damunt de la pedra','on the rock')]
+];
+animals.forEach(([who,where,alt],i)=>{const s=F(k=>`${who[k]} ${k==='en'?'is sleeping':'duerme'}`); // reemplazamos con frases naturales específicas
+ const text=F(k=>k==='en'?`${who.en} is sleeping ${where.en}.`:`${who[k]} ${k==='ca'?'dorm':'duerme'} ${where[k]}.`);
+ const question=T('¿Dónde duerme?','On dorm?','Where is it sleeping?');
+ const answer=F(k=>capital(where[k]));
+ const bad=[F(k=>capital(alt[k])),T('En la calle','Al carrer','In the street'),T('En la cocina','A la cuina','In the kitchen')];
+ const eq=F(k=> k==='en'?`${capital(where.en)}, ${who.en.toLowerCase()} is sleeping.`:`${capital(where[k])} ${k==='ca'?'dorm':'duerme'} ${who[k].toLowerCase()}.`);
+ const wrong=F(k=>k==='en'?`${who.en} is sleeping ${alt.en}.`:`${who[k]} ${k==='ca'?'dorm':'duerme'} ${alt[k]}.`);
+ add(0,text,question,answer,bad,eq,wrong);
+});
+const possessions=[
+ [T('una pelota roja','una pilota roja','a red ball'),T('una cometa azul','un estel blau','a blue kite')],
+ [T('un libro verde','un llibre verd','a green book'),T('un libro amarillo','un llibre groc','a yellow book')],
+ [T('una mochila morada','una motxilla morada','a purple backpack'),T('una mochila roja','una motxilla roja','a red backpack')],
+ [T('un lápiz amarillo','un llapis groc','a yellow pencil'),T('un lápiz verde','un llapis verd','a green pencil')],
+ [T('una bufanda azul','una bufanda blava','a blue scarf'),T('una bufanda verde','una bufanda verda','a green scarf')]
+];
+possessions.forEach(([obj,alt],i)=>{const n=names[i],nn=names[(i+1)%5];
+ add(0,F(k=>`${n[k]} ${k==='en'?'has':k==='ca'?'té':'tiene'} ${obj[k]}.`), T('¿Quién tiene el objeto?','Qui té l’objecte?','Who owns the object?'), n,
+ [nn,names[(i+2)%5],names[(i+3)%5]],
+ F(k=>k==='en'?`${capital(obj.en)} belongs to ${n.en}.`:`${capital(obj[k])} ${k==='ca'?'és de':'es de'} ${n[k]}.`),
+ F(k=>`${n[k]} ${k==='en'?'has':k==='ca'?'té':'tiene'} ${alt[k]}.`));
+});
+const coloured=[
+ [T('El coche','El cotxe','The car'),T('rojo','roig','red'),T('azul','blau','blue')],
+ [T('La flor','La flor','The flower'),T('amarilla','groga','yellow'),T('rosa','rosa','pink')],
+ [T('La casa','La casa','The house'),T('blanca','blanca','white'),T('verde','verda','green')],
+ [T('El globo','El globus','The balloon'),T('verde','verd','green'),T('amarillo','groc','yellow')],
+ [T('La taza','La tassa','The cup'),T('azul','blava','blue'),T('roja','roja','red')]
+];
+coloured.forEach(([obj,c,alt],i)=>{
+ const s=F(k=>k==='en'?`${obj.en} is ${c.en}.`:`${obj[k]} ${k==='ca'?'és':'es'} ${c[k]}.`);
+ const q=T('¿De qué color es?','De quin color és?','What colour is it?');
+ const good=F(k=>capital(c[k]));const bad=[F(k=>capital(alt[k])),T('Negro','Negre','Black'),T('Gris','Gris','Grey')];
+ const eq=F(k=>k==='en'?`It is a ${c.en} ${obj.en.slice(4).toLowerCase()}.`:`${obj[k]} ${k==='ca'?'no és':'no es'} ${alt[k]}, ${k==='ca'?'sinó':'sino'} ${c[k]}.`);
+ const wrong=F(k=>k==='en'?`${obj.en} is ${alt.en}.`:`${obj[k]} ${k==='ca'?'és':'es'} ${alt[k]}.`);
+ add(0,s,q,good,bad,eq,wrong);
+});
+const countFacts=[
+ [T('dos','dues','two'),T('tres','tres','three'),T('flores','flors','flowers'),T('en el jarrón','al gerro','in the vase')],
+ [T('tres','tres','three'),T('cuatro','quatre','four'),T('peces','peixos','fish'),T('en el río','al riu','in the river')],
+ [T('cuatro','quatre','four'),T('dos','dos','two'),T('manzanas','pomes','apples'),T('en la cesta','a la cistella','in the basket')],
+ [T('cinco','cinc','five'),T('tres','tres','three'),T('estrellas','estrelles','stars'),T('en el dibujo','al dibuix','in the drawing')],
+ [T('seis','sis','six'),T('dos','dos','two'),T('lápices','llapis','pencils'),T('en la caja','a la caixa','in the box')]
+];
+countFacts.forEach(([number,alt,obj,loc],i)=>{
+ add(0,F(k=>k==='en'?`There are ${number.en} ${obj.en} ${loc.en}.`:k==='ca'?`Hi ha ${number.ca} ${obj.ca} ${loc.ca}.`:`Hay ${number.es} ${obj.es} ${loc.es}.`),
+ T('¿Cuántos hay?','Quants n’hi ha?','How many are there?'), F(k=>capital(number[k])),
+ [F(k=>capital(alt[k])),T('Uno','Un','One'),T('Ocho','Huit','Eight')],
+ F(k=>k==='en'?`${capital(loc.en)}, there are ${number.en} ${obj.en}.`:k==='ca'?`${capital(loc.ca)} hi ha ${number.ca} ${obj.ca}.`:`${capital(loc.es)} hay ${number.es} ${obj.es}.`),
+ F(k=>k==='en'?`There are ${alt.en} ${obj.en} ${loc.en}.`:k==='ca'?`Hi ha ${alt.ca} ${obj.ca} ${loc.ca}.`:`Hay ${alt.es} ${obj.es} ${loc.es}.`));
+});
+const actions=[
+ [T('Nora','Nora','Nora'),T('la ventana','la finestra','the window'),T('la puerta','la porta','the door'),T('abre','obri','opens')],
+ [T('Pablo','Pau','Paul'),T('la mochila','la motxilla','the backpack'),T('el libro','el llibre','the book'),T('cierra','tanca','closes')],
+ [T('Lucía','Llúcia','Lucy'),T('una carta','una carta','a letter'),T('un cuento','un conte','a story'),T('escribe','escriu','writes')],
+ [T('Hugo','Hugo','Hugo'),T('una torre','una torre','a tower'),T('un barco','un vaixell','a boat'),T('dibuja','dibuixa','draws')],
+ [T('Marta','Marta','Martha'),T('el suelo','el terra','the floor'),T('la mesa','la taula','the table'),T('limpia','neteja','cleans')]
+];
+actions.forEach(([n,obj,alt,verb],i)=>{
+ add(0,F(k=>`${n[k]} ${verb[k]} ${obj[k]}.`),T('¿Qué objeto aparece en la frase?','Quin objecte apareix en la frase?','Which object is mentioned?'),
+ F(k=>capital(obj[k])),[F(k=>capital(alt[k])),T('Un paraguas','Un paraigua','An umbrella'),T('Una bicicleta','Una bicicleta','A bicycle')],
+ F(k=>k==='en'?`${capital(obj.en)} is what ${n.en} ${verb.en}.`:`${capital(obj[k])} ${k==='ca'?'és el que':'es lo que'} ${n[k]} ${verb[k]}.`),
+ F(k=>`${n[k]} ${verb[k]} ${alt[k]}.`));
+});
+// NIVEL 2 · Cantidades, comparación, negación, tiempo, relaciones espaciales.
+const NUM=[T('dos','dues','two'),T('tres','tres','three'),T('cuatro','quatre','four'),T('cinco','cinc','five'),T('seis','sis','six')];
+const COLORS=[T('rojas','roges','red'),T('azules','blaus','blue'),T('amarillas','grogues','yellow'),T('verdes','verdes','green'),T('moradas','morades','purple')];
+const OBJECTS=[T('flores','flors','flowers'),T('libros','llibres','books'),T('pelotas','pilotes','balls'),T('botellas','botelles','bottles'),T('cajas','caixes','boxes')];
+const PLACE=[T('sobre la mesa','damunt de la taula','on the table'),T('en la mochila','dins de la motxilla','in the backpack'),T('junto al banco','al costat del banc','beside the bench'),T('dentro del armario','dins de l’armari','inside the cupboard'),T('debajo de la cama','davall del llit','under the bed')];
+for(let i=0;i<5;i++){
+ const n=NUM[i],c=COLORS[i],obj=OBJECTS[i],loc=PLACE[i],alt=NUM[(i+1)%5];
+ add(1,F(k=>k==='en'?`There are ${n.en} ${c.en} ${obj.en} ${loc.en}.`:k==='ca'?`Hi ha ${n.ca} ${obj.ca} ${c.ca} ${loc.ca}.`:`Hay ${n.es} ${obj.es} ${c.es} ${loc.es}.`),
+ T('¿Cuántos objetos se mencionan?','Quants objectes s’esmenten?','How many objects are mentioned?'),F(k=>capital(n[k])),
+ [F(k=>capital(alt[k])),T('Uno','Un','One'),T('Ocho','Huit','Eight')],
+ F(k=>k==='en'?`${capital(loc.en)}, there are ${n.en} ${c.en} ${obj.en}.`:k==='ca'?`${capital(loc.ca)} hi ha ${n.ca} ${obj.ca} ${c.ca}.`:`${capital(loc.es)} hay ${n.es} ${obj.es} ${c.es}.`),
+ F(k=>k==='en'?`There are ${alt.en} ${c.en} ${obj.en} ${loc.en}.`:k==='ca'?`Hi ha ${alt.ca} ${obj.ca} ${c.ca} ${loc.ca}.`:`Hay ${alt.es} ${obj.es} ${c.es} ${loc.es}.`));
+}
+for(let i=0;i<5;i++){
+ const p=names[i],other=names[(i+1)%5],nums=['siete','ocho','seis','nueve','cinco'], numsCA=['set','huit','sis','nou','cinc'],numsEN=['seven','eight','six','nine','five'];const n=T(nums[i],numsCA[i],numsEN[i]);const m=T('tres','tres','three');
+ add(1,F(k=>`${p[k]} ${k==='en'?'has':k==='ca'?'té':'tiene'} ${n[k]} ${k==='en'?'stickers':'cromos'}, ${k==='en'?'but':k==='ca'?'però':'pero'} ${other[k]} ${k==='en'?'has':k==='ca'?'en té':'tiene'} ${m[k]}.`),
+ T('¿Quién tiene más cromos?','Qui té més cromos?','Who has more stickers?'),p,[other,T('Los dos igual','Els dos igual','They have the same'),T('No se sabe','No se sap','We cannot tell')],
+ F(k=>k==='en'?`${p.en} has more stickers than ${other.en}.`:k==='ca'?`${p.ca} té més cromos que ${other.ca}.`:`${p.es} tiene más cromos que ${other.es}.`),
+ F(k=>k==='en'?`${other.en} has more stickers than ${p.en}.`:k==='ca'?`${other.ca} té més cromos que ${p.ca}.`:`${other.es} tiene más cromos que ${p.es}.`));
+}
+const negatives=[
+ [T('la mochila','la motxilla','the backpack'),T('en el armario','a l’armari','in the cupboard'),T('debajo de la mesa','davall de la taula','under the table')],
+ [T('la pelota','la pilota','the ball'),T('en el jardín','al jardí','in the garden'),T('detrás de la puerta','darrere de la porta','behind the door')],
+ [T('el libro','el llibre','the book'),T('en el cajón','al calaix','in the drawer'),T('sobre la silla','damunt de la cadira','on the chair')],
+ [T('la bufanda','la bufanda','the scarf'),T('en la bolsa','a la bossa','in the bag'),T('sobre la cama','damunt del llit','on the bed')],
+ [T('el paraguas','el paraigua','the umbrella'),T('en el coche','al cotxe','in the car'),T('junto a la puerta','al costat de la porta','beside the door')]
+];
+negatives.forEach(([obj,no,yes],i)=>{
+ add(1,F(k=>k==='en'?`${capital(obj.en)} is not ${no.en}, but ${yes.en}.`:k==='ca'?`${capital(obj.ca)} no està ${no.ca}, sinó ${yes.ca}.`:`${capital(obj.es)} no está ${no.es}, sino ${yes.es}.`),
+ T('¿Dónde está realmente?','On està realment?','Where is it actually?'),F(k=>capital(yes[k])),
+ [F(k=>capital(no[k])),T('En el techo','Al sostre','On the roof'),T('En la calle','Al carrer','In the street')],
+ F(k=>k==='en'?`${capital(obj.en)} is ${yes.en}, not ${no.en}.`:`${capital(obj[k])} ${k==='ca'?'està':'está'} ${yes[k]}, no ${no[k]}.`),
+ F(k=>k==='en'?`${capital(obj.en)} is ${no.en}, not ${yes.en}.`:`${capital(obj[k])} ${k==='ca'?'està':'está'} ${no[k]}, no ${yes[k]}.`));
+});
+const temporal=[
+ [T('merendar','berenar','having a snack'),T('se lavó las manos','es va llavar les mans','washed her hands'),T('se lavó las manos','es va llavar les mans','washing her hands')],
+ [T('salir al patio','eixir al pati','going into the playground'),T('se puso el abrigo','es va posar l’abric','put on his coat'),T('ponerse el abrigo','posar-se l’abric','putting on his coat')],
+ [T('leer el cuento','llegir el conte','reading the story'),T('encendió la lámpara','va encendre el llum','turned on the lamp'),T('encender la lámpara','encendre el llum','turning on the lamp')],
+ [T('irse a dormir','anar-se’n a dormir','going to bed'),T('se cepilló los dientes','es va raspallar les dents','brushed his teeth'),T('cepillarse los dientes','raspallar-se les dents','brushing her teeth')],
+ [T('empezar a pintar','començar a pintar','starting to paint'),T('preparó los pinceles','va preparar els pinzells','prepared the brushes'),T('preparar los pinceles','preparar els pinzells','preparing the brushes')]
+];
+temporal.forEach(([later,earlier,inf],i)=>{const n=names[i];
+ const s=F(k=>k==='en'?`Before ${later.en}, ${n.en} ${earlier.en}.`:k==='ca'?`Abans de ${later.ca}, ${n.ca} ${earlier.ca}.`.replace(/de (eixir|anar-se’n)/,'d’$1'):`Antes de ${later.es}, ${n.es} ${earlier.es}.`);
+ const eq=F(k=>k==='en'?`${n.en} ${earlier.en} before ${later.en}.`:k==='ca'?`${n.ca} ${earlier.ca} abans de ${later.ca}.`:`${n.es} ${earlier.es} antes de ${later.es}.`);
+ const wrong=F(k=>k==='en'?`After ${later.en}, ${n.en} ${earlier.en}.`:k==='ca'?`Després de ${later.ca}, ${n.ca} ${earlier.ca}.`:`Después de ${later.es}, ${n.es} ${earlier.es}.`);
+ add(1,s,T('¿Qué hizo primero?','Què va fer primer?','What did the person do first?'),F(k=>capital(inf[k])),[F(k=>capital(later[k])),T('Se fue a casa','Va anar-se’n a casa','Went home'),T('Nada de eso','Res d’això','None of these')],eq,wrong);
+});
+const positions=[
+ [T('El perro blanco','El gos blanc','The white dog'),T('a la izquierda del árbol','a l’esquerra de l’arbre','to the left of the tree'),T('a la derecha del árbol','a la dreta de l’arbre','to the right of the tree')],
+ [T('La bicicleta roja','La bicicleta roja','The red bicycle'),T('detrás de la casa','darrere de la casa','behind the house'),T('delante de la casa','davant de la casa','in front of the house')],
+ [T('El balón azul','La pilota blava','The blue ball'),T('debajo del banco','davall del banc','under the bench'),T('encima del banco','damunt del banc','on the bench')],
+ [T('La taza verde','La tassa verda','The green cup'),T('entre dos platos','entre dos plats','between two plates'),T('junto al plato','al costat del plat','beside a plate')],
+ [T('El conejo gris','El conill gris','The grey rabbit'),T('junto a la fuente','al costat de la font','beside the fountain'),T('lejos de la fuente','lluny de la font','far from the fountain')]
+];
+positions.forEach(([obj,yes,no],i)=>{
+ add(1,F(k=>`${obj[k]} ${k==='en'?'is':k==='ca'?'està':'está'} ${yes[k]}.`),T('¿Dónde se encuentra?','On es troba?','Where is it?'),F(k=>capital(yes[k])),[F(k=>capital(no[k])),T('Dentro de casa','Dins de casa','Inside the house'),T('En la cocina','A la cuina','In the kitchen')],
+ F(k=>k==='en'?`${capital(yes.en)} is where ${obj.en.toLowerCase()} is.`:k==='ca'?`${capital(yes.ca)} és on està ${obj.ca.toLowerCase()}.`:`${capital(yes.es)} es donde está ${obj.es.toLowerCase()}.`),
+ F(k=>`${obj[k]} ${k==='en'?'is':k==='ca'?'està':'está'} ${no[k]}.`));
+});
+// NIVEL 3 · Causas, secuencias, concesiones, condiciones y matices.
+const causal=[
+ [T('Raúl','Raül','Raul'),T('llegó tarde','va arribar tard','arrived late'),T('perdió el autobús','va perdre l’autobús','he missed the bus'),T('el autobús','l’autobús','the bus')],
+ [T('Sara','Sara','Sarah'),T('abrió el paraguas','va obrir el paraigua','opened her umbrella'),T('empezó a llover','va començar a ploure','it started raining'),T('la lluvia','la pluja','the rain')],
+ [T('Dani','Dani','Danny'),T('encendió la luz','va encendre el llum','switched on the light'),T('la habitación estaba oscura','l’habitació estava fosca','the room was dark'),T('la oscuridad','la foscor','the darkness')],
+ [T('Inés','Inés','Ines'),T('pidió ayuda','va demanar ajuda','asked for help'),T('no entendía las instrucciones','no entenia les instruccions','she did not understand the instructions'),T('la dificultad para entender','la dificultat per a entendre','difficulty understanding')],
+ [T('Marcos','Marc','Mark'),T('regresó a casa','va tornar a casa','returned home'),T('olvidó sus llaves','es va oblidar de les claus','he forgot his keys'),T('las llaves olvidadas','les claus oblidades','the forgotten keys')]
+];
+causal.forEach(([name,effect,cause,reason],i)=>{const con=F(k=>k==='en'?'because':k==='ca'?'perquè':'porque');
+ add(2,F(k=>`${name[k]} ${effect[k]} ${con[k]} ${cause[k]}.`), T('¿Cuál fue la causa?','Quina en va ser la causa?','What was the cause?'),F(k=>capital(reason[k])),
+ [T('La casualidad','La casualitat','Coincidence'),T('Una visita','Una visita','A visit'),T('Una celebración','Una celebració','A celebration')],
+ F(k=>k==='en'?`Because ${cause.en}, ${name.en} ${effect.en}.`:k==='ca'?`Com que ${cause.ca}, ${name.ca} ${effect.ca}.`:`Como ${cause.es}, ${name.es} ${effect.es}.`),
+ F(k=>k==='en'?`${name.en} ${effect.en} because the weather was sunny.`:k==='ca'?`${name.ca} ${effect.ca} encara que ${cause.ca}.`:`${name.es} ${effect.es} aunque ${cause.es}.`));
+});
+const afters=[
+ [T('cerró el libro','va tancar el llibre','closed the book'),T('guardó sus apuntes','va guardar els apunts','put away the notes')],
+ [T('recogió la mesa','va parar taula','cleared the table'),T('lavó los platos','va llavar els plats','washed the dishes')],
+ [T('se puso el casco','es va posar el casc','put on the helmet'),T('montó en bicicleta','va pujar a la bicicleta','got on the bicycle')],
+ [T('revisó la mochila','va revisar la motxilla','checked the backpack'),T('salió de excursión','va eixir d’excursió','set out on the trip')],
+ [T('leyó el mensaje','va llegir el missatge','read the message'),T('llamó a su amiga','va telefonar a l’amiga','called her friend')]
+];
+afters.forEach(([first,second],i)=>{const name=names[i];add(2,
+ F(k=>k==='en'?`${name.en} ${first.en} and afterwards ${second.en}.`:`${name[k]} ${first[k]} ${k==='ca'?'i després':'y después'} ${second[k]}.`),
+ T('¿Qué ocurrió después?','Què va passar després?','What happened afterwards?'),F(k=>capital(second[k])),
+ [F(k=>capital(first[k])),T('Se perdió el tren','Es va perdre el tren','The train was missed'),T('Nadie hizo nada','Ningú no va fer res','Nobody did anything')],
+ F(k=>k==='en'?`After ${name.en} ${first.en}, ${name.en} ${second.en}.`:k==='ca'?`Després que ${name.ca} ${first.ca}, ${name.ca} ${second.ca}.`:`Después de que ${name.es} ${first.es}, ${name.es} ${second.es}.`),
+ F(k=>k==='en'?`${name.en} ${second.en} and afterwards ${first.en}.`:`${name[k]} ${second[k]} ${k==='ca'?'i després':'y después'} ${first[k]}.`));});
+const concessions=[
+ [T('llovía','plovia','it was raining'),T('Nora','Nora','Nora'),T('fue caminando al colegio','va anar a peu a l’escola','walked to school')],
+ [T('estaba cansado','estava cansat','he was tired'),T('Pablo','Pau','Paul'),T('terminó el dibujo','va acabar el dibuix','finished the drawing')],
+ [T('hacía frío','feia fred','it was cold'),T('Lucía','Llúcia','Lucy'),T('abrió la ventana','va obrir la finestra','opened the window')],
+ [T('había poco tiempo','hi havia poc temps','there was little time'),T('Hugo','Hugo','Hugo'),T('revisó su trabajo','va revisar el treball','checked his work')],
+ [T('la subida era difícil','la pujada era difícil','the climb was difficult'),T('Marta','Marta','Martha'),T('continuó andando','va continuar caminant','kept walking')]
+];
+concessions.forEach(([obstacle,n,act],i)=>{
+ add(2,F(k=>k==='en'?`Although ${obstacle.en}, ${n.en} ${act.en}.`:k==='ca'?`Encara que ${obstacle.ca}, ${n.ca} ${act.ca}.`:`Aunque ${obstacle.es}, ${n.es} ${act.es}.`),
+ T('¿Qué hizo a pesar de la dificultad?','Què va fer malgrat la dificultat?','What did the person do despite the difficulty?'),F(k=>capital(act[k])),
+ [T('Se rindió','Es va rendir','Gave up'),T('Se fue a dormir','Se’n va anar a dormir','Went to sleep'),T('Pidió que lo hicieran otros','Va demanar que ho feren altres','Asked others to do it')],
+ F(k=>k==='en'?`${n.en} ${act.en} despite the fact that ${obstacle.en}.`:k==='ca'?`Malgrat que ${obstacle.ca}, ${n.ca} ${act.ca}.`:`Aunque ${obstacle.es}, ${n.es} ${act.es}.`),
+ F(k=>k==='en'?`Because ${obstacle.en}, ${n.en} refused to continue.`:k==='ca'?`Com que ${obstacle.ca}, ${n.ca} no va voler continuar.`:`Como ${obstacle.es}, ${n.es} no quiso continuar.`));});
+const conditional=[
+ [T('hace sol','fa sol','it is sunny'),T('iremos a la piscina','anirem a la piscina','we will go to the swimming pool'),T('el tiempo soleado','el temps assolellat','sunny weather')],
+ [T('terminamos los deberes','acabem els deures','we finish our homework'),T('jugaremos al ajedrez','jugarem als escacs','we will play chess'),T('terminar los deberes','acabar els deures','finishing homework')],
+ [T('hace viento','fa vent','it is windy'),T('volará la cometa','volarà l’estel','the kite will fly'),T('que sople el viento','que bufe el vent','there being wind')],
+ [T('llega el paquete','arriba el paquet','the parcel arrives'),T('abriremos la caja','obrirem la caixa','we will open the box'),T('la llegada del paquete','l’arribada del paquet','the parcel arriving')],
+ [T('hay entradas','hi ha entrades','there are tickets'),T('asistiremos al concierto','anirem al concert','we will go to the concert'),T('que haya entradas','que hi haja entrades','there being tickets')]
+];
+conditional.forEach(([cond,conseq,thing],i)=>{
+ add(2,F(k=>k==='en'?`If ${cond.en}, ${conseq.en}.`:`Si ${cond[k]}, ${conseq[k]}.`),
+ T('¿De qué depende lo que sucederá?','De què depén el que passarà?','What does the outcome depend on?'),F(k=>capital(thing[k])),
+ [T('Del color de la pared','Del color de la paret','The colour of the wall'),T('De una fiesta anterior','D’una festa anterior','An earlier party'),T('De lo que pasó ayer','Del que va passar ahir','What happened yesterday')],
+ F(k=>k==='en'?`${conseq.en.charAt(0).toUpperCase()+conseq.en.slice(1)} if ${cond.en}.`:`${capital(conseq[k])} si ${cond[k]}.`),
+ F(k=>k==='en'?`${capital(conseq.en)} whether or not ${cond.en}.`:k==='ca'?`${capital(conseq.ca)} passe el que passe.`:`${capital(conseq.es)} pase lo que pase.`));});
+const comparisons=[
+ [T('El árbol del patio','L’arbre del pati','The tree in the playground'),T('más alto','més alt','taller'),T('el de la plaza','el de la plaça','the one in the square'),T('la altura','l’altura','height')],
+ [T('La caja de cartón','La caixa de cartó','The cardboard box'),T('más ligera','més lleugera','lighter'),T('la de madera','la de fusta','the wooden one'),T('el peso','el pes','weight')],
+ [T('El camino de la montaña','El camí de la muntanya','The mountain path'),T('más largo','més llarg','longer'),T('el del parque','el del parc','the park path'),T('la distancia','la distància','distance')],
+ [T('La botella azul','La botella blava','The blue bottle'),T('más grande','més gran','bigger'),T('la roja','la roja','the red one'),T('el tamaño','la grandària','size')],
+ [T('El cuento de hoy','El conte de hui','Today’s story'),T('más corto','més curt','shorter'),T('el de ayer','el d’ahir','yesterday’s story'),T('la longitud','la longitud','length')]
+];
+comparisons.forEach(([one,cmp,two,measure],i)=>{
+ add(2,F(k=>k==='en'?`${one.en} is ${cmp.en} than ${two.en}.`:`${one[k]} ${k==='ca'?'és':'es'} ${cmp[k]} que ${two[k]}.`),
+ T('¿Qué característica se compara?','Quina característica es compara?','What characteristic is being compared?'),F(k=>capital(measure[k])),
+ [T('El sabor','El sabor','Taste'),T('El ruido','El soroll','Noise'),T('La temperatura','La temperatura','Temperature')],
+ F(k=>k==='en'?`Compared with ${two.en}, ${one.en.toLowerCase()} is ${cmp.en}.`:k==='ca'?`En comparació amb ${two.ca}, ${one.ca.toLowerCase()} és ${cmp.ca}.`:`En comparación con ${two.es}, ${one.es.toLowerCase()} es ${cmp.es}.`),
+ F(k=>k==='en'?`${two.en.charAt(0).toUpperCase()+two.en.slice(1)} is ${cmp.en} than ${one.en.toLowerCase()}.`:`${capital(two[k])} ${k==='ca'?'és':'es'} ${cmp[k]} que ${one[k].toLowerCase()}.`));});
+// NIVEL 4 · Distinguir evidencia, condiciones, opiniones y afirmaciones no respaldadas.
+const evidence=[
+ [T('veinte','vint','twenty'),T('doce','dotze','twelve'),T('la biblioteca','la biblioteca','the library')],
+ [T('treinta','trenta','thirty'),T('dieciocho','díhuit','eighteen'),T('el transporte público','el transport públic','public transport')],
+ [T('cuarenta','quaranta','forty'),T('veinticinco','vint-i-cinc','twenty-five'),T('los parques','els parcs','parks')],
+ [T('cincuenta','cinquanta','fifty'),T('treinta y uno','trenta-un','thirty-one'),T('la lectura','la lectura','reading')],
+ [T('sesenta','seixanta','sixty'),T('treinta y siete','trenta-set','thirty-seven'),T('el comedor','el menjador','the canteen')]
+];
+evidence.forEach(([all,part,topic],i)=>{
+ add(3,F(k=>k==='en'?`Of ${all.en} pupils surveyed, ${part.en} were in favour of ${topic.en}; not everyone agreed.`:k==='ca'?`Dels ${all.ca} alumnes enquestats, ${part.ca} estaven a favor de ${topic.ca}; no tots hi coincidien.`.replace('de el ','del ').replace('de els ','dels '):`De los ${all.es} alumnos encuestados, ${part.es} estaban a favor de ${topic.es}; no todos estaban de acuerdo.`.replace('de el ','del ')),
+ T('¿Qué conclusión está respaldada por los datos?','Quina conclusió està avalada per les dades?','Which conclusion is supported by the data?'),
+ T('Hubo apoyo, pero no fue unánime','Hi va haver suport, però no va ser unànime','There was support, but it was not unanimous'),
+ [T('Todos estaban de acuerdo','Tothom hi estava d’acord','Everyone agreed'),T('Nadie apoyó la idea','Ningú no va donar suport a la idea','Nobody supported the idea'),T('No participaron alumnos','No hi van participar alumnes','No pupils took part')],
+ F(k=>k==='en'?`${part.en.charAt(0).toUpperCase()+part.en.slice(1)} out of ${all.en} pupils supported ${topic.en}, so support was not unanimous.`:k==='ca'?`${capital(part.ca)} dels ${all.ca} alumnes donaren suport a ${topic.ca}, però no tots.`:`${capital(part.es)} de los ${all.es} alumnos apoyaron ${topic.es}, pero no todos.`),
+ T('Todos los encuestados apoyaron la propuesta sin excepciones.','Totes les persones enquestades donaren suport a la proposta sense excepcions.','Everyone surveyed supported the proposal without exception.'));
+});
+const variable=[
+ [T('las plantas','les plantes','the plants'),T('la luz','la llum','the light'),T('el agua','l’aigua','the water')],
+ [T('las semillas','les llavors','the seeds'),T('la temperatura','la temperatura','the temperature'),T('la humedad','la humitat','the humidity')],
+ [T('la masa de pan','la massa de pa','bread dough'),T('la levadura','el llevat','yeast'),T('el tiempo de reposo','el temps de repòs','the resting time')],
+ [T('los cubitos de hielo','els glaçons','ice cubes'),T('la temperatura ambiente','la temperatura ambient','room temperature'),T('el tamaño','la mida','the size')],
+ [T('los barquitos de papel','les barquetes de paper','paper boats'),T('la forma','la forma','shape'),T('el tipo de papel','el tipus de paper','paper type')]
+];
+variable.forEach(([obj,a,b],i)=>{
+ add(3,F(k=>k==='en'?`When comparing ${obj.en}, the team changed both ${a.en} and ${b.en}. The result cannot be attributed to just one factor.`:k==='ca'?`En comparar ${obj.ca}, l’equip va canviar tant ${a.ca} com ${b.ca}. El resultat no es pot atribuir a un únic factor.`:`Al comparar ${obj.es}, el equipo cambió tanto ${a.es} como ${b.es}. El resultado no se puede atribuir a un único factor.`),
+ T('¿Por qué no puede aislarse la causa?','Per què no es pot aïllar la causa?','Why cannot the cause be isolated?'),
+ T('Se modificaron dos variables','Es modificaren dues variables','Two variables were changed'),
+ [T('Todos los factores se mantuvieron iguales','Tots els factors es mantingueren iguals','All factors stayed the same'),T('No se observaron resultados','No es van observar resultats','No results were observed'),T('Las variables no influyen nunca','Les variables no influeixen mai','Variables never matter')],
+ F(k=>k==='en'?`Because ${a.en} and ${b.en} both changed, the experiment does not identify a single cause.`:k==='ca'?`Com que van canviar ${a.ca} i ${b.ca}, l’experiment no identifica una causa única.`:`Como cambiaron ${a.es} y ${b.es}, el experimento no identifica una causa única.`),
+ T('El experimento demuestra una causa única con certeza.','L’experiment demostra amb certesa una causa única.','The experiment proves one single cause with certainty.'));
+});
+const announced=[
+ [T('una biblioteca nueva','una biblioteca nova','a new library'),T('su construcción','la seua construcció','its construction')],
+ [T('un parque infantil','un parc infantil','a playground'),T('su apertura','la seua obertura','its opening')],
+ [T('una línea de autobús','una línia d’autobús','a bus route'),T('su puesta en marcha','la seua posada en funcionament','its launch')],
+ [T('una exposición','una exposició','an exhibition'),T('su inauguración','la seua inauguració','its opening')],
+ [T('una zona peatonal','una zona per a vianants','a pedestrian area'),T('su aprobación','la seua aprovació','its approval')]
+];
+announced.forEach(([project,action],i)=>{
+ add(3,F(k=>k==='en'?`The council will study the possibility of ${project.en}. No date has been confirmed for ${action.en}.`:k==='ca'?`L’ajuntament estudiarà la possibilitat de ${project.ca}. No s’ha confirmat cap data per a ${action.ca}.`.replace('de una ', 'd’una ').replace('de un ','d’un '):`El ayuntamiento estudiará la posibilidad de ${project.es}. No se ha confirmado ninguna fecha para ${action.es}.`),
+ T('¿Qué información falta en el anuncio?','Quina informació falta en l’anunci?','What information is missing from the announcement?'),
+ T('Una fecha confirmada','Una data confirmada','A confirmed date'),
+ [T('Que existe una propuesta','Que hi ha una proposta','That there is a proposal'),T('Quién lo estudiará','Qui ho estudiarà','Who will study it'),T('Que todavía es una posibilidad','Que encara és una possibilitat','That it is still a possibility')],
+ F(k=>k==='en'?`A possible ${project.en} is being considered, but no date is confirmed.`:k==='ca'?`S’estudia la possibilitat de ${project.ca}, però no hi ha data confirmada.`.replace('de una ','d’una ').replace('de un ','d’un '):`Se estudia la posibilidad de ${project.es}, pero no hay fecha confirmada.`),
+ F(k=>k==='en'?`The opening date for ${project.en} has been fixed.`:k==='ca'?`Ja s’ha fixat la data per a ${project.ca}.`:`Ya se ha fijado la fecha para ${project.es}.`));
+});
+const opinions=[
+ [T('Esta película es la mejor del año','Esta pel·lícula és la millor de l’any','This is the best film of the year'),T('la fecha de estreno','la data d’estrena','its release date')],
+ [T('Este cuadro es precioso','Este quadre és preciós','This painting is beautiful'),T('las dimensiones del cuadro','les dimensions del quadre','the size of the painting')],
+ [T('Ese libro es aburrido','Eixe llibre és avorrit','That book is boring'),T('el número de páginas','el nombre de pàgines','the number of pages')],
+ [T('Mi equipo es el más divertido','El meu equip és el més divertit','My team is the most fun'),T('el resultado del partido','el resultat del partit','the match score')],
+ [T('Esta comida es deliciosa','Este menjar és deliciós','This food is delicious'),T('la lista de ingredientes','la llista d’ingredients','the list of ingredients')]
+];
+opinions.forEach(([claim,fact],i)=>{
+ add(3,F(k=>k==='en'?`A review says, “${claim.en}”. The article also includes factual information such as ${fact.en}.`:k==='ca'?`Una ressenya diu: «${claim.ca}». L’article també inclou dades verificables, com ${fact.ca}.`:`Una reseña dice: «${claim.es}». El artículo también incluye datos verificables, como ${fact.es}.`),
+ T('¿Qué parte es una opinión?','Quina part és una opinió?','Which part is an opinion?'),claim,
+ [fact,T('La existencia del artículo','L’existència de l’article','That the article exists'),T('El nombre del autor','El nom de l’autor','The author’s name')],
+ F(k=>k==='en'?`The judgement “${claim.en}” is an opinion, not a measurable fact.`:k==='ca'?`El judici «${claim.ca}» és una opinió, no una dada mesurable.`:`El juicio «${claim.es}» es una opinión, no un dato medible.`),
+ F(k=>k==='en'?`The claim “${claim.en}” is an objective measurement.`:k==='ca'?`La frase «${claim.ca}» és una mesura objectiva.`:`La frase «${claim.es}» es una medida objetiva.`));
+});
+const conditionalComplex=[
+ [T('se confirma la previsión de tormenta','es confirma la previsió de tempesta','the storm forecast is confirmed'),T('la excursión','l’excursió','the trip'),T('posiblemente se cancelará','possiblement es cancel·larà','may be cancelled')],
+ [T('los análisis muestran contaminación','les anàlisis mostren contaminació','tests show contamination'),T('el baño en el río','el bany al riu','swimming in the river'),T('quedará prohibido','quedarà prohibit','will be prohibited')],
+ [T('el grupo logra la financiación','el grup aconseguix finançament','the group obtains funding'),T('el proyecto','el projecte','the project'),T('podrá empezar','podrà començar','can begin')],
+ [T('las entradas se agotan','les entrades s’esgoten','tickets sell out'),T('la sesión extra','la sessió extra','the extra session'),T('podría organizarse','podria organitzar-se','might be arranged')],
+ [T('se alcanzan los objetivos','s’assolixen els objectius','the goals are met'),T('la iniciativa','la iniciativa','the initiative'),T('podría renovarse','podria renovar-se','might be renewed')]
+];
+conditionalComplex.forEach(([condition,target,outcome],i)=>{
+ add(3,F(k=>k==='en'?`If ${condition.en}, ${target.en} ${outcome.en}. The outcome is not yet certain.`:k==='ca'?`Si ${condition.ca}, ${target.ca} ${outcome.ca}. Encara no és un resultat segur.`:`Si ${condition.es}, ${target.es} ${outcome.es}. Todavía no es un resultado seguro.`),
+ T('¿Qué impide afirmarlo como un hecho?','Què impedix afirmar-ho com un fet?','Why is it not yet a fact?'),
+ T('Depende de una condición','Depén d’una condició','It depends on a condition'),
+ [T('Ya ocurrió ayer','Ja va passar ahir','It happened yesterday'),T('No hay ningún supuesto','No hi ha cap supòsit','There is no condition'),T('Lo ha visto todo el mundo','Ho ha vist tot el món','Everyone has seen it')],
+ F(k=>k==='en'?`${capital(target.en)} ${outcome.en} only if ${condition.en}.`:`${capital(target[k])} ${outcome[k]} ${k==='ca'?'només si':'solo si'} ${condition[k]}.`),
+ F(k=>k==='en'?`${capital(target.en)} ${outcome.en} regardless of whether ${condition.en}.`:`${capital(target[k])} ${outcome[k]} ${k==='ca'?'passe el que passe':'pase lo que pase'}.`));
+});
+// Reutilizamos los escenarios revisados con formatos propios de cada modalidad.
+for(let l=0;l<4;l++){
+ const rows=PACK[l];
+ B.read[l]=B.read[l].concat(rows.map(x=>x.s)).slice(0,25);
+ B.listen[l]=B.listen[l].concat(rows.map(x=>({q:x.s,wrong:[x.wrong,x.eq,F(k=>x.s[k].replace(/\.$/,'!'))]}))).slice(0,25);
+ // Las frases equivalentes no son distractores auditivos; se sustituyen con frases de otros escenarios.
+ const old=B.listen[l].length;
+ B.listen[l].forEach((r,i)=>{if(i>=3){const base=rows[(i-3)%rows.length];r.wrong=[base.wrong,rows[Math.floor(((i-3)%25)/5)*5+(((i-3)%5+1)%5)].s,rows[Math.floor(((i-3)%25)/5)*5+(((i-3)%5+2)%5)].s];}});
+ B.comprehension[l]=B.comprehension[l].concat(rows.map(x=>({s:x.s,q:x.q,o:[x.good,...x.bad],a:0,cl:T('Busca la información exacta de la frase.','Busca la informació exacta de la frase.','Look for the exact information in the sentence.')}))).slice(0,25);
+ B.differences[l]=B.differences[l].concat(rows.map((x,i)=>({a:x.s,b:i%2?x.eq:x.wrong,same:!!(i%2),cl:T('Compara lo que expresan ambas frases.','Compara el que expressen les dues frases.','Compare what both sentences actually say.')}))).slice(0,25);
+}
+// Vocabulario contextual. Se trabaja con 25 palabras por nivel y no con repeticiones de una misma pregunta.
+const VOCAB=[
+ [
+ ['alegre','content','happy','Estaba alegre al recibir una carta.','Estava content en rebre una carta.','He was happy when he received a letter.','Contento','Content','Happy'],
+ ['enorme','enorme','enormous','El elefante era enorme junto al ratón.','L’elefant era enorme al costat del ratolí.','The elephant looked enormous next to the mouse.','Muy grande','Molt gran','Very large'],
+ ['diminuto','diminut','tiny','El insecto diminuto cabía en la mano.','L’insecte diminut cabia a la mà.','The tiny insect fitted in a hand.','Muy pequeño','Molt menut','Very small'],
+ ['rápido','ràpid','fast','El tren rápido llegó antes que el otro.','El tren ràpid va arribar abans que l’altre.','The fast train arrived before the other one.','Que se mueve deprisa','Que es mou de pressa','Moving quickly'],
+ ['suave','suau','soft','La manta suave no raspaba la piel.','La manta suau no raspava la pell.','The soft blanket did not scratch the skin.','Que no raspa','Que no raspa','Not rough'],
+ ['vacío','buit','empty','El vaso estaba vacío: no quedaba agua.','El got estava buit: no quedava aigua.','The glass was empty: no water was left.','Sin nada dentro','Sense res dins','With nothing inside'],
+ ['oscuro','fosc','dark','El cuarto oscuro necesitaba una lámpara.','L’habitació fosca necessitava un llum.','The dark room needed a lamp.','Con poca luz','Amb poca llum','With little light'],
+ ['pesado','pesat','heavy','La maleta pesada costaba levantarla.','La maleta pesada costava d’alçar.','The heavy suitcase was hard to lift.','Que pesa mucho','Que pesa molt','Weighing a lot'],
+ ['valiente','valent','brave','El bombero valiente entró para ayudar.','El bomber valent va entrar per ajudar.','The brave firefighter went in to help.','Que afronta el miedo','Que afronta la por','Facing fear'],
+ ['silencio','silenci','silence','En la biblioteca había silencio y nadie gritaba.','A la biblioteca hi havia silenci i ningú no cridava.','There was silence in the library; nobody shouted.','Ausencia de ruido','Absència de soroll','Lack of noise'],
+ ['brillante','brillant','shiny','La estrella brillante destacaba en el cielo.','L’estrela brillant destacava al cel.','The shiny star stood out in the sky.','Que da mucha luz','Que fa molta llum','Giving off much light'],
+ ['estrecho','estret','narrow','El pasillo estrecho solo dejaba pasar a uno.','El corredor estret sols deixava passar una persona.','The narrow hallway only let one person through.','Con poca anchura','Amb poca amplària','Not wide'],
+ ['templado','tebi','lukewarm','El agua templada no quemaba ni estaba fría.','L’aigua tèbia no cremava ni estava freda.','The lukewarm water was neither hot nor cold.','Ni frío ni caliente','Ni fred ni calent','Neither hot nor cold'],
+ ['húmedo','humit','damp','El suelo húmedo tenía gotas de agua.','El terra humit tenia gotes d’aigua.','The damp floor had drops of water.','Un poco mojado','Un poc mullat','A little wet'],
+ ['fragante','fragant','fragrant','La flor fragante olía muy bien.','La flor fragant feia molt bona olor.','The fragrant flower smelled lovely.','Que huele bien','Que fa bona olor','Smelling pleasant'],
+ ['tímido','tímid','shy','El niño tímido habló muy bajito al principio.','El xiquet tímid va parlar fluixet al principi.','The shy child spoke quietly at first.','Que se muestra reservado','Que es mostra reservat','Reserved with others'],
+ ['furioso','furiós','furious','Leo estaba furioso y protestó gritando.','Leo estava furiós i va protestar cridant.','Leo was furious and shouted in protest.','Muy enfadado','Molt enfadat','Very angry'],
+ ['tranquilo','tranquil','calm','Pese al ruido, el perro siguió tranquilo.','Malgrat el soroll, el gos va continuar tranquil.','Despite the noise, the dog stayed calm.','Sin nervios','Sense nervis','Not worried or agitated'],
+ ['curioso','curiós','curious','El gato curioso miró dentro de todas las cajas.','El gat curiós va mirar dins de totes les caixes.','The curious cat looked inside every box.','Con ganas de descubrir','Amb ganes de descobrir','Eager to discover'],
+ ['torcido','tort','crooked','El cuadro estaba torcido y lo enderezamos.','El quadre estava tort i el vam redreçar.','The picture was crooked, so we straightened it.','Que no está recto','Que no està recte','Not straight'],
+ ['escaso','escàs','scarce','Había escaso pan; solo quedaba un trozo.','Hi havia poc pa; només en quedava un tros.','Bread was scarce; only one piece remained.','Muy poco','Molt poc','Very little'],
+ ['lejano','llunyà','distant','El castillo lejano se veía pequeño desde allí.','El castell llunyà es veia menut des d’allí.','The distant castle looked small from there.','Que está muy lejos','Que està molt lluny','Far away'],
+ ['asombrado','sorprés','astonished','Hugo estaba asombrado al ver el truco.','Hugo estava sorprés en veure el truc.','Hugo was astonished when he saw the trick.','Muy sorprendido','Molt sorprés','Very surprised'],
+ ['proteger','protegir','protect','Usamos casco para proteger la cabeza.','Usem casc per a protegir el cap.','We wear a helmet to protect our head.','Evitar daños','Evitar danys','Keep from harm'],
+ ['repartir','repartir','share out','Vamos a repartir el pastel entre todos.','Repartirem el pastís entre tots.','We will share out the cake among everyone.','Dar una parte a cada uno','Donar una part a cadascú','Give each person a share']
+ ],
+ [
+ ['distraído','distret','distracted','Estaba distraído y no oyó su nombre.','Estava distret i no va sentir el nom.','He was distracted and did not hear his name.','Con la atención en otra cosa','Amb l’atenció en una altra cosa','Not paying attention'],
+ ['puntual','puntual','punctual','Sara llegó puntual, justo a la hora prevista.','Sara va arribar puntual, just a l’hora prevista.','Sarah arrived punctually, at the exact agreed time.','A la hora acordada','A l’hora acordada','At the agreed time'],
+ ['resbaladizo','relliscós','slippery','El suelo resbaladizo podía provocar caídas.','El terra relliscós podia provocar caigudes.','The slippery floor could cause falls.','Que hace perder el equilibrio','Que fa perdre l’equilibri','Easy to slip on'],
+ ['frágil','fràgil','fragile','El jarrón frágil podía romperse con un golpe.','El gerro fràgil es podia trencar amb un colp.','The fragile vase could break from a knock.','Que se rompe fácilmente','Que es trenca fàcilment','Easy to break'],
+ ['prudente','prudent','cautious','Fue prudente al mirar antes de cruzar.','Va ser prudent en mirar abans de travessar.','She was cautious and looked before crossing.','Que evita riesgos innecesarios','Que evita riscos innecessaris','Avoiding unnecessary risk'],
+ ['agotado','esgotat','exhausted','Tras la carrera estaba agotado y necesitaba descansar.','Després de la cursa estava esgotat i havia de descansar.','After the race he was exhausted and needed rest.','Muy cansado','Molt cansat','Extremely tired'],
+ ['perplejo','perplex','puzzled','Se quedó perplejo al no entender la sorpresa.','Es va quedar perplex perquè no entenia la sorpresa.','He looked puzzled because he did not understand the surprise.','Confundido o desconcertado','Confós o desconcertat','Confused'],
+ ['inmóvil','immòbil','motionless','El lagarto permaneció inmóvil, sin dar un paso.','El fardatxo va quedar immòbil, sense moure’s.','The lizard stayed motionless, without moving.','Sin moverse','Sense moure’s','Not moving'],
+ ['escoger','triar','choose','Tuvimos que escoger una de las cuatro opciones.','Vam haver de triar una de les quatre opcions.','We had to choose one of the four options.','Seleccionar','Seleccionar','Select'],
+ ['prestar','prestar','lend','Voy a prestar mi lápiz a Marta y me lo devolverá.','Prestaré el llapis a Marta i me’l tornarà.','I will lend my pencil to Martha and she will return it.','Dejar temporalmente','Deixar temporalment','Give temporarily'],
+ ['recuperar','recuperar','recover','Pudo recuperar el cuaderno que había perdido.','Va poder recuperar el quadern que havia perdut.','She could recover the notebook she had lost.','Volver a tener','Tornar a tindre','Get back'],
+ ['refugio','refugi','shelter','Buscaron refugio bajo el techo para no mojarse.','Van buscar refugi baix del sostre per no banyar-se.','They looked for shelter under the roof to stay dry.','Lugar que protege','Lloc que protegix','A protective place'],
+ ['trayecto','trajecte','journey','El trayecto de casa al colegio duró diez minutos.','El trajecte de casa a l’escola va durar deu minuts.','The journey from home to school took ten minutes.','Recorrido entre lugares','Recorregut entre llocs','Travel between places'],
+ ['retraso','retard','delay','El tren llegó con retraso, quince minutos después.','El tren va arribar amb retard, quinze minuts després.','The train arrived with a delay, fifteen minutes late.','Llegar más tarde de lo previsto','Arribar més tard del previst','Being later than planned'],
+ ['indicio','indici','clue','Encontraron un indicio: una huella junto a la puerta.','Van trobar un indici: una petjada al costat de la porta.','They found a clue: a footprint by the door.','Señal que ayuda a investigar','Senyal que ajuda a investigar','A sign that helps investigation'],
+ ['reducir','reduir','reduce','Para reducir el ruido cerraron la ventana.','Per a reduir el soroll van tancar la finestra.','To reduce noise they closed the window.','Hacer menor','Fer menor','Make smaller'],
+ ['aumentar','augmentar','increase','Querían aumentar la producción y hacer más piezas.','Volien augmentar la producció i fer més peces.','They wanted to increase production and make more items.','Hacer mayor','Fer major','Make greater'],
+ ['obstáculo','obstacle','obstacle','Una piedra era un obstáculo en el camino.','Una pedra era un obstacle al camí.','A rock was an obstacle in the path.','Dificultad que impide pasar','Dificultat que impedix passar','Something blocking the way'],
+ ['valorar','valorar','assess','Antes de elegir tuvieron que valorar las dos propuestas.','Abans de triar van haver de valorar les dues propostes.','Before choosing, they had to assess both proposals.','Examinar su importancia','Examinar-ne la importància','Judge their value'],
+ ['advertir','advertir','warn','El cartel quiso advertir del peligro.','El cartell volia advertir del perill.','The sign aimed to warn people of danger.','Avisar','Avisar','Notify of danger'],
+ ['discreto','discret','discreet','Habló de forma discreta para no llamar la atención.','Va parlar de manera discreta per no cridar l’atenció.','He spoke discreetly to avoid attention.','Con poca ostentación','Sense cridar l’atenció','Unobtrusive'],
+ ['preciso','precís','precise','Dio una explicación precisa, sin detalles confusos.','Va donar una explicació precisa, sense detalls confusos.','She gave a precise explanation with no confusing details.','Exacto','Exacte','Exact'],
+ ['breve','breu','brief','Su mensaje fue breve: solo dos líneas.','El missatge era breu: només dues línies.','The message was brief: only two lines.','De poca duración o extensión','De poca duració o extensió','Short in length'],
+ ['habitual','habitual','usual','Era habitual verlo allí cada mañana.','Era habitual veure’l allí cada matí.','It was usual to see him there each morning.','Que sucede con frecuencia','Que passa sovint','Happening often'],
+ ['extraño','estrany','strange','El ruido extraño no se parecía a ninguno conocido.','El soroll estrany no s’assemblava a cap conegut.','The strange noise was unlike any familiar one.','Poco común','Poc habitual','Unusual']
+ ],
+ [
+ ['deducir','deduir','infer','Con las pistas pudo deducir quién había llegado primero.','Amb les pistes va poder deduir qui havia arribat primer.','Using the clues, she could infer who arrived first.','Sacar una conclusión a partir de pistas','Traure una conclusió a partir de pistes','Draw a conclusion from clues'],
+ ['consecuencia','conseqüència','consequence','La consecuencia de no estudiar fue suspender la prueba.','La conseqüència de no estudiar va ser suspendre la prova.','The consequence of not studying was failing the test.','Resultado de una acción','Resultat d’una acció','Result of an action'],
+ ['contradicción','contradicció','contradiction','Había una contradicción: una nota decía sí y otra no.','Hi havia una contradicció: una nota deia sí i l’altra no.','There was a contradiction: one note said yes and another no.','Afirmaciones incompatibles','Afirmacions incompatibles','Statements that conflict'],
+ ['inevitable','inevitable','inevitable','La lluvia era inevitable según la previsión segura.','La pluja era inevitable segons la previsió segura.','Rain was inevitable according to the certain forecast.','Que no puede evitarse','Que no es pot evitar','Impossible to avoid'],
+ ['incierto','incert','uncertain','El resultado seguía incierto porque faltaban votos.','El resultat era incert perquè faltaven vots.','The outcome was uncertain because votes remained.','Que no se sabe con seguridad','Que no se sap amb seguretat','Not known for sure'],
+ ['compartir','compartir','share','Decidieron compartir los materiales con otro grupo.','Van decidir compartir el material amb un altre grup.','They decided to share the materials with another group.','Usar o dar algo entre varios','Usar o donar alguna cosa entre diversos','Use or give something together'],
+ ['revisar','revisar','review','Conviene revisar el texto para corregir errores.','Convé revisar el text per corregir errors.','It is wise to review the text to fix errors.','Volver a examinar','Tornar a examinar','Examine again'],
+ ['apresurarse','afanyar-se','hurry','No conviene apresurarse al responder sin leer.','No convé afanyar-se a respondre sense llegir.','It is unwise to hurry before reading.','Hacer algo con mucha prisa','Fer alguna cosa amb molta pressa','Act with great haste'],
+ ['justificar','justificar','justify','Debes justificar tu respuesta con una razón.','Has de justificar la resposta amb un motiu.','You must justify your answer with a reason.','Explicar por qué','Explicar per què','Give a reason'],
+ ['intención','intenció','intention','Su intención era ayudar, no molestar.','La seua intenció era ajudar, no molestar.','Her intention was to help, not annoy.','Propósito de una acción','Propòsit d’una acció','Purpose behind an action'],
+ ['conservar','conservar','preserve','Quería conservar la foto y evitar perderla.','Volia conservar la foto i evitar perdre-la.','He wanted to preserve the photo and avoid losing it.','Mantener algo','Mantindre alguna cosa','Keep something'],
+ ['transformar','transformar','transform','La oruga se puede transformar en mariposa.','L’eruga es pot transformar en papallona.','The caterpillar can transform into a butterfly.','Cambiar de forma','Canviar de forma','Change form'],
+ ['hipótesis','hipòtesi','hypothesis','La hipótesis era una explicación que aún debían comprobar.','La hipòtesi era una explicació que encara havien de comprovar.','The hypothesis was an explanation still to be tested.','Explicación provisional comprobable','Explicació provisional comprovable','A testable provisional explanation'],
+ ['evidencia','evidència','evidence','Una fotografía fue evidencia de que estuvieron allí.','Una fotografia va ser evidència que hi havien estat.','A photograph was evidence that they had been there.','Prueba o indicio fundamentado','Prova o indici fonamentat','Supporting proof or indication'],
+ ['fiable','fiable','reliable','La fuente fiable comprobaba sus datos antes de publicarlos.','La font fiable comprovava les dades abans de publicar-les.','The reliable source checked data before publication.','Que merece confianza','Que mereix confiança','Worthy of trust'],
+ ['suponer','suposar','assume','Podemos suponerlo, pero no sabemos si es cierto.','Ho podem suposar, però no sabem si és cert.','We can assume it, but we do not know whether it is true.','Dar algo por posible sin demostrarlo','Donar alguna cosa per possible sense demostrar-la','Take something as possible without proof'],
+ ['desmentir','desmentir','refute','Las nuevas pruebas permitieron desmentir el rumor.','Les proves noves van permetre desmentir el rumor.','New evidence helped refute the rumour.','Mostrar que algo es falso','Mostrar que alguna cosa és falsa','Show something is false'],
+ ['ambiguo','ambigu','ambiguous','El aviso era ambiguo: podía interpretarse de dos formas.','L’avís era ambigu: es podia entendre de dues maneres.','The notice was ambiguous and could mean two things.','Que admite varios sentidos','Que admet diversos sentits','Open to more than one meaning'],
+ ['reflexionar','reflexionar','reflect','Antes de decidir prefirió reflexionar con calma.','Abans de decidir va preferir reflexionar amb calma.','Before deciding, she chose to reflect carefully.','Pensar detenidamente','Pensar detingudament','Think carefully'],
+ ['cuestionar','qüestionar','question','Podemos cuestionar una afirmación sin atacar a nadie.','Podem qüestionar una afirmació sense atacar ningú.','We can question a claim without attacking anyone.','Poner en duda para examinar','Posar en dubte per examinar','Express doubt for examination'],
+ ['coincidir','coincidir','agree','Los equipos parecían coincidir en la misma solución.','Els equips semblaven coincidir en la mateixa solució.','The teams seemed to agree on the same solution.','Estar de acuerdo','Estar d’acord','Share the same view'],
+ ['prioridad','prioritat','priority','Su prioridad era acabar la tarea urgente.','La seua prioritat era acabar la tasca urgent.','Her priority was finishing the urgent task.','Lo más importante primero','El més important primer','What matters most first'],
+ ['perspectiva','perspectiva','perspective','Desde otra perspectiva, el problema parecía distinto.','Des d’una altra perspectiva, el problema semblava diferent.','From another perspective, the problem looked different.','Forma de mirar o interpretar','Manera de mirar o interpretar','A way of looking at something'],
+ ['coherente','coherent','coherent','La explicación era coherente porque sus ideas encajaban.','L’explicació era coherent perquè les idees encaixaven.','The explanation was coherent because its ideas fitted together.','Que tiene lógica interna','Que té lògica interna','Logically consistent'],
+ ['eficaz','eficaç','effective','El método resultó eficaz porque consiguió el objetivo.','El mètode va resultar eficaç perquè va aconseguir l’objectiu.','The method proved effective because it met the goal.','Que consigue lo buscado','Que aconseguix el que es busca','Achieving the intended result']
+ ],
+ [
+ ['sesgo','biaix','bias','El sesgo apareció cuando solo preguntaron a quienes estaban de acuerdo.','El biaix va aparéixer quan sols preguntaren a qui hi estava d’acord.','Bias appeared when they only asked people who agreed.','Inclinación que distorsiona un juicio','Inclinació que distorsiona un judici','A tendency that distorts judgement'],
+ ['correlación','correlació','correlation','La correlación mostraba que dos datos variaban juntos.','La correlació mostrava que dues dades variaven juntes.','The correlation showed two measures changing together.','Relación estadística entre variables','Relació estadística entre variables','Statistical relationship between variables'],
+ ['causalidad','causalitat','causation','La causalidad exige demostrar que un factor produce otro.','La causalitat exigix demostrar que un factor en provoca un altre.','Causation requires showing one factor produces another.','Relación de causa y efecto','Relació de causa i efecte','A cause-and-effect relationship'],
+ ['relevante','rellevant','relevant','La información relevante ayudó a resolver el problema.','La informació rellevant va ajudar a resoldre el problema.','Relevant information helped solve the problem.','Importante para la cuestión','Important per a la qüestió','Important to the issue'],
+ ['subjetivo','subjectiu','subjective','Decir que la canción es preciosa es un juicio subjetivo.','Dir que la cançó és preciosa és un judici subjectiu.','Saying the song is beautiful is a subjective judgement.','Dependiente de una opinión personal','Dependent d’una opinió personal','Based on a personal view'],
+ ['objetivo','objectiu','objective','Un dato objetivo puede comprobarse sin depender del gusto.','Una dada objectiva es pot comprovar sense dependre del gust.','An objective fact can be checked without relying on taste.','Verificable con independencia de opiniones','Verificable al marge d’opinions','Verifiable independently of opinions'],
+ ['verificar','verificar','verify','Debían verificar la noticia consultando otras fuentes.','Havien de verificar la notícia consultant altres fonts.','They had to verify the news using other sources.','Comprobar la exactitud','Comprovar l’exactitud','Check accuracy'],
+ ['generalizar','generalitzar','generalise','No podemos generalizar a toda la ciudad con tres opiniones.','No podem generalitzar a tota la ciutat amb tres opinions.','We cannot generalise to a whole city from three opinions.','Extender una conclusión a muchos casos','Estendre una conclusió a molts casos','Apply a conclusion broadly'],
+ ['refutar','refutar','refute','La evidencia pudo refutar aquella explicación inicial.','L’evidència va poder refutar aquella explicació inicial.','The evidence could refute that initial explanation.','Demostrar que una afirmación es falsa','Demostrar que una afirmació és falsa','Demonstrate a claim is false'],
+ ['consenso','consens','consensus','El consenso se alcanzó cuando todos aceptaron el acuerdo.','El consens es va aconseguir quan tots acceptaren l’acord.','Consensus was reached when everyone accepted the agreement.','Acuerdo entre participantes','Acord entre participants','General agreement'],
+ ['incertidumbre','incertesa','uncertainty','La incertidumbre seguía porque faltaban datos.','La incertesa continuava perquè faltaven dades.','Uncertainty remained because data were missing.','Falta de seguridad o certeza','Manca de seguretat o certesa','Lack of certainty'],
+ ['predecir','predir','predict','Intentaron predecir la temperatura del día siguiente.','Van intentar predir la temperatura de l’endemà.','They tried to predict the next day’s temperature.','Anunciar lo que puede suceder','Anunciar el que pot passar','Say what may happen'],
+ ['contrastar','contrastar','compare','Decidieron contrastar versiones antes de concluir.','Van decidir contrastar versions abans de concloure.','They decided to compare accounts before concluding.','Comparar para comprobar diferencias','Comparar per comprovar diferències','Compare to check differences'],
+ ['argumento','argument','argument','El argumento era una razón que apoyaba su idea.','L’argument era una raó que donava suport a la idea.','The argument was a reason supporting her idea.','Razón usada para defender una idea','Raó usada per defensar una idea','A reason supporting a claim'],
+ ['suposición','suposició','assumption','Su suposición aún no estaba apoyada por pruebas.','La seua suposició encara no estava avalada per proves.','The assumption was not yet supported by evidence.','Idea aceptada provisionalmente','Idea acceptada provisionalment','A provisional belief'],
+ ['probabilidad','probabilitat','probability','La probabilidad mide cuánto puede ocurrir un suceso.','La probabilitat mesura com de possible és un succés.','Probability measures how likely an event is.','Medida de posibilidad','Mesura de possibilitat','Measure of likelihood'],
+ ['proporción','proporció','proportion','La proporción era tres alumnos de cada diez.','La proporció era tres alumnes de cada deu.','The proportion was three pupils out of ten.','Relación entre cantidades','Relació entre quantitats','Relationship between quantities'],
+ ['limitación','limitació','limitation','La muestra pequeña era una limitación del estudio.','La mostra menuda era una limitació de l’estudi.','A small sample was a limitation of the study.','Restricción de lo que puede concluirse','Restricció del que es pot concloure','A restriction on what can be concluded'],
+ ['fundamentar','fonamentar','substantiate','Debían fundamentar la afirmación con datos fiables.','Havien de fonamentar l’afirmació amb dades fiables.','They had to substantiate the claim with reliable data.','Apoyar con razones o pruebas','Donar suport amb raons o proves','Support with reasons or evidence'],
+ ['interpretación','interpretació','interpretation','Su interpretación de la gráfica no era la única posible.','La seua interpretació de la gràfica no era l’única possible.','Their interpretation of the graph was not the only possible one.','Explicación del significado','Explicació del significat','An explanation of meaning'],
+ ['parcial','parcial','partial','El informe era parcial porque omitía algunos resultados.','L’informe era parcial perquè ometia alguns resultats.','The report was partial because it omitted some results.','Que no incluye el conjunto completo','Que no inclou el conjunt complet','Not covering the whole'],
+ ['provisional','provisional','provisional','La conclusión provisional podía cambiar con más datos.','La conclusió provisional podia canviar amb més dades.','The provisional conclusion could change with more data.','Temporal y susceptible de revisión','Temporal i revisable','Temporary and subject to change'],
+ ['ambigüedad','ambigüitat','ambiguity','La ambigüedad del titular permitía dos lecturas.','L’ambigüitat del titular permetia dues lectures.','The ambiguity of the headline allowed two readings.','Posibilidad de varios significados','Possibilitat de diversos significats','Possibility of multiple meanings'],
+ ['pertinente','pertinent','pertinent','Su pregunta pertinente estaba relacionada con el tema.','La seua pregunta pertinent estava relacionada amb el tema.','Her pertinent question was related to the subject.','Adecuado o relacionado con el asunto','Adequat o relacionat amb l’assumpte','Relevant to the subject'],
+ ['conclusión','conclusió','conclusion','La conclusión resumió lo que los datos permitían afirmar.','La conclusió va resumir el que les dades permetien afirmar.','The conclusion summarised what the data supported.','Resultado final de un razonamiento','Resultat final d’un raonament','Final result of reasoning']
+ ]
+];
+for(let l=0;l<4;l++){
+ const a=VOCAB[l];const entries=a.map((r,i)=>{
+ const word=T(r[0],r[1],r[2]),s=T(r[3],r[4],r[5]),good=T(r[6],r[7],r[8]);
+ // Definiciones de otros campos semánticos: no sinónimos accidentales.
+ const idx=[(i+6)%25,(i+12)%25,(i+18)%25];
+ const options=[good,...idx.map(j=>T(...a[j].slice(6,9)))];
+ return {word,s,o:options,a:0,cl:T('Busca las pistas que ofrece el contexto.','Busca les pistes que oferix el context.','Look for clues in the context.')};
+ });
+ B.vocabulary[l]=B.vocabulary[l].concat(entries).slice(0,25);
+}
+// Inferencias: 5 tipos de pista por nivel, 5 situaciones por tipo (25 distintas).
+const INFERENCE=[[],[],[],[]];
+const inf=(l,s,q,yes,no,cl)=>INFERENCE[l].push({s,q,o:[yes,...no],a:0,cl});
+const CAUSES=[
+ [T('un paraguas mojado','un paraigua mullat','a wet umbrella'),T('había llovido','havia plogut','it had rained')],
+ [T('migajas y un plato vacío','molles i un plat buit','crumbs and an empty plate'),T('alguien había comido','algú havia menjat','someone had eaten')],
+ [T('huellas de barro','petjades de fang','muddy footprints'),T('alguien entró con barro','algú va entrar amb fang','someone came in with mud')],
+ [T('una caja abierta','una caixa oberta','an opened box'),T('alguien había abierto la caja','algú havia obert la caixa','someone had opened the box')],
+ [T('flores recién regadas','flors acabades de regar','freshly watered flowers'),T('alguien las había regado','algú les havia regat','someone had watered them')]
+];
+for(let l=0;l<4;l++){
+ CAUSES.forEach(([clue,cause],i)=>{
+ const n=names[i];
+ const lead=[T('Vio','Va veure','noticed'),T('Encontró','Va trobar','found'),T('Descubrió','Va descobrir','discovered'),T('Observó','Va observar','observed')][l];
+ const s=F(k=>k==='en'?`${n.en} ${lead.en} ${clue.en} when arriving home.`:k==='ca'?`${n.ca} ${lead.ca.toLowerCase()} ${clue.ca} en arribar a casa.`:`${n.es} ${lead.es.toLowerCase()} ${clue.es} al llegar a casa.`);
+ inf(l,s,T('¿Qué es razonable pensar?','Què és raonable pensar?','What is reasonable to infer?'),F(k=>capital(cause[k])),
+ [T('Que nadie pasó por allí','Que ningú no hi va passar','That nobody had been there'),T('Que se fue la luz','Que se’n va anar la llum','That the power went out'),T('Que empezó a nevar dentro','Que va començar a nevar dins','That it snowed indoors')],
+ T('Relaciona la pista con una explicación posible.','Relaciona la pista amb una explicació possible.','Connect the clue with a possible explanation.'));
+ });
+ // cinco planes frustrados / decisiones probables
+ for(let i=0;i<5;i++){
+ const name=names[i],thing=sel([T('la bicicleta','la bicicleta','the bicycle'),T('la cometa','l’estel','the kite'),T('el libro','el llibre','the book'),T('el balón','la pilota','the ball'),T('la mochila','la motxilla','the backpack')],i);
+ const s=F(k=>k==='en'?`${name.en} looked everywhere for ${thing.en} but could not find it.`:`${name[k]} ${k==='ca'?'va buscar':'buscó'} ${thing[k]} ${k==='ca'?'per tot arreu, però no va tindre èxit':'por todas partes, pero no tuvo éxito'}.`);
+ inf(l,s,T('¿Qué podemos deducir?','Què podem deduir?','What can we infer?'),T('No encontró lo que buscaba','No va trobar el que buscava','The item was not found'),
+ [T('Lo encontró enseguida','Ho va trobar de seguida','The item was found immediately'),T('Nunca buscó nada','No va buscar res','Nothing was searched for'),T('Lo compró ayer','Ho va comprar ahir','It was bought yesterday')],
+ T('No atribuyas acciones que no se mencionan.','No atribuïsques accions que no s’esmenten.','Do not add actions that were not mentioned.'));
+ }
+ // cinco actuaciones basadas en prudencia y reacción
+ const reactions=[
+ [T('vio humo en la cocina','va veure fum a la cuina','saw smoke in the kitchen'),T('avisó a un adulto','va avisar una persona adulta','told an adult'),T('prevenir un peligro','previndre un perill','prevent danger')],
+ [T('encontró un perro herido','va trobar un gos ferit','found an injured dog'),T('pidió ayuda','va demanar ajuda','asked for help'),T('ayudar al animal','ajudar l’animal','help the animal')],
+ [T('oyó truenos','va sentir trons','heard thunder'),T('entró en casa','va entrar a casa','went indoors'),T('buscar resguardo','buscar refugi','seek shelter')],
+ [T('leyó una noticia sorprendente','va llegir una notícia sorprenent','read surprising news'),T('consultó otra fuente','va consultar una altra font','checked another source'),T('comprobar la noticia','comprovar la notícia','check the news')],
+ [T('notó que su amigo estaba triste','va notar que l’amic estava trist','noticed a friend was sad'),T('se quedó a escucharlo','es va quedar a escoltar-lo','stayed to listen'),T('acompañarlo','acompanyar-lo','offer support')]
+ ];
+ reactions.forEach(([signal,act,reason],i)=>{
+ const name=names[i];
+ inf(l,F(k=>`${name[k]} ${signal[k]} ${k==='en'?'and':k==='ca'?'i':'y'} ${act[k]}.`),T('¿Qué intención parece más probable?','Quina intenció sembla més probable?','Which intention seems most likely?'),F(k=>capital(reason[k])),
+ [T('Interrumpir una fiesta','Interrompre una festa','Interrupt a party'),T('Olvidarlo todo','Oblidar-ho tot','Forget everything'),T('Cambiar de nombre','Canviar de nom','Change their name')],
+ T('Distingue la acción de su intención probable.','Distingix l’acció de la intenció probable.','Distinguish an action from a likely intention.'));
+ });
+ // cinco situaciones de evidencias incompletas
+ const absences=[
+ [T('una carta sin remitente','una carta sense remitent','a letter without a sender'),T('quién la escribió','qui la va escriure','who wrote it')],
+ [T('un billete sin fecha','un bitllet sense data','a ticket with no date'),T('cuándo se usó','quan es va usar','when it was used')],
+ [T('un mapa sin escala','un mapa sense escala','a map without a scale'),T('la distancia real','la distància real','the actual distance')],
+ [T('una gráfica sin títulos','una gràfica sense títols','a graph without labels'),T('qué variables representa','quines variables representa','which variables it shows')],
+ [T('una foto sin información','una foto sense informació','a photo without information'),T('dónde se tomó','on es va fer','where it was taken')]
+ ];
+ absences.forEach(([clue,missing],i)=>{
+ inf(l,F(k=>k==='en'?`${names[i].en} examined ${clue.en}, but it contained no further information.`:`${names[i][k]} ${k==='ca'?'va examinar':'examinó'} ${clue[k]}, ${k==='ca'?'però no hi havia més informació':'pero no había más información'}.`),
+ T('¿Qué no podemos saber con seguridad?','Què no podem saber amb seguretat?','What cannot be known for sure?'),F(k=>capital(missing[k])),
+ [T('Que existe un objeto','Que existix un objecte','That an object exists'),T('Que alguien lo examinó','Que algú el va examinar','That someone examined it'),T('Que falta información','Que falta informació','That information is missing')],
+ T('No inventes información que no aparece.','No inventes informació que no apareix.','Do not invent missing information.'));
+ });
+ // cinco conclusiones cautelosas de incertidumbre
+ const probable=[
+ [T('tal vez llueva mañana','potser ploga demà','it may rain tomorrow'),T('la lluvia no está asegurada','la pluja no és segura','rain is not certain')],
+ [T('quizá llegue el paquete','potser arribe el paquet','the parcel may arrive'),T('la llegada no está confirmada','l’arribada no està confirmada','arrival is not confirmed')],
+ [T('es posible que gane Ana','és possible que guanye Anna','Ana might win'),T('todavía no sabemos quién ganará','encara no sabem qui guanyarà','we do not know who will win')],
+ [T('puede que el tren se retrase','potser el tren es retarde','the train may be late'),T('el retraso no es seguro','el retard no és segur','a delay is not certain')],
+ [T('parece que hubo un error','sembla que hi va haver un error','there seems to have been a mistake'),T('la existencia del error no está demostrada','l’existència de l’error no està demostrada','the mistake has not been proved')]
+ ];
+ probable.forEach(([claim,care],i)=>{
+ inf(l,F(k=>k==='en'?`${names[i].en} said that ${claim.en}.`:`${names[i][k]} ${k==='ca'?'va dir':'dijo'} que ${claim[k]}.`),
+ T('¿Cuál es la interpretación más prudente?','Quina és la interpretació més prudent?','Which is the most cautious interpretation?'),F(k=>capital(care[k])),
+ [T('Ya está confirmado','Ja està confirmat','It is already confirmed'),T('Nunca puede ocurrir','No pot passar mai','It can never happen'),T('Ocurrió hace un mes','Va passar fa un mes','It happened a month ago')],
+ T('Palabras como «quizá» no indican certeza.','Paraules com «potser» no indiquen certesa.','Words like “perhaps” do not indicate certainty.'));
+ });
+ B.inference[l]=B.inference[l].concat(INFERENCE[l]).slice(0,25);
+}
+// Inferencias graduadas: en los dos primeros niveles las pistas son cotidianas,
+// breves y observables. Los niveles altos conservan la interpretación crítica.
+const YOUNG=[[],[]];
+const yi=(l,s,q,yes,no,cl)=>YOUNG[l].push({s,q,o:[yes,...no],a:0,cl});
+const wet=[
+ T('la acera mojada','la vorera mullada','the wet pavement'),T('un paraguas empapado','un paraigua xopat','a soaked umbrella'),T('charcos en el patio','bassals al pati','puddles in the playground'),T('el césped mojado','la gespa mullada','the wet grass'),T('las botas llenas de agua','les botes plenes d’aigua','boots full of water')
+];
+wet.forEach((x,i)=>{const n=names[i];yi(0,
+ F(k=>k==='en'?`${n.en} sees ${x.en}.`:`${n[k]} ${k==='ca'?'veu':'ve'} ${x[k]}.`),
+ T('¿Qué pudo pasar?','Què podria haver passat?','What may have happened?'),
+ T('Ha llovido','Ha plogut','It may have rained'),[T('Ha nevado dentro de casa','Ha nevat dins de casa','It snowed indoors'),T('Ha salido el sol toda la noche','Ha fet sol tota la nit','It was sunny all night'),T('No había agua','No hi havia aigua','There was no water')],
+ T('La humedad puede ser una pista de lluvia.','La humitat pot ser una pista de pluja.','Wet surfaces can be a clue to rain.'))});
+const sleepy=[
+ T('bosteza sin parar','badalla sense parar','keeps yawning'),T('cierra los ojos en el sofá','tanca els ulls al sofà','closes their eyes on the sofa'),T('se frota los ojos y bosteza','es frega els ulls i badalla','rubs their eyes and yawns'),T('se duerme en la silla','s’adorm a la cadira','falls asleep on a chair'),T('pide irse a la cama','demana anar al llit','asks to go to bed')
+];
+sleepy.forEach((x,i)=>yi(0,F(k=>`${names[i][k]} ${x[k]}.`),
+ T('¿Cómo puede encontrarse?','Com es pot trobar?','How might the person feel?'),T('Con sueño','Amb son','Sleepy'),
+ [T('Con mucha hambre','Amb molta fam','Very hungry'),T('Muy enfadado','Molt enfadat','Very angry'),T('Con miedo al agua','Amb por de l’aigua','Afraid of water')],T('Fíjate en lo que hace la persona.','Fixa’t en el que fa la persona.','Look at what the person is doing.')));
+const crumbs=[
+ T('un plato vacío y algunas migas','un plat buit i unes molles','an empty plate and a few crumbs'),T('una cáscara de plátano y la mesa limpia','una pell de plàtan i la taula neta','a banana peel and a clean table'),T('un vaso de leche vacío','un got de llet buit','an empty glass of milk'),T('una manzana mordida','una poma mossegada','an apple with a bite taken out'),T('las servilletas usadas del desayuno','els torcaboques usats de l’esmorzar','used napkins from breakfast')
+];
+crumbs.forEach((x,i)=>yi(0,F(k=>k==='en'?`${names[i].en} finds ${x.en}.`:`${names[i][k]} ${k==='ca'?'troba':'encuentra'} ${x[k]}.`),
+ T('¿Qué puede haber ocurrido?','Què pot haver passat?','What may have happened?'),T('Alguien ha comido o bebido','Algú ha menjat o begut','Someone may have eaten or drunk'),
+ [T('Se ha encendido la televisión','S’ha encés la televisió','The television was turned on'),T('Un libro se ha roto','Un llibre s’ha trencat','A book broke'),T('Ha caído nieve','Ha caigut neu','Snow fell')],T('Relaciona los restos con la comida.','Relaciona les restes amb el menjar.','Connect the remains with eating.')));
+const goingOut=[
+ T('se pone los zapatos junto a la puerta','es posa les sabates al costat de la porta','puts on shoes by the door'),T('coge las llaves de casa','agafa les claus de casa','picks up the house keys'),T('prepara su mochila para clase','prepara la motxilla per a classe','packs a backpack for class'),T('coge el abrigo para salir','agafa l’abric per a eixir','grabs a coat to go out'),T('se coloca el casco de la bicicleta','es posa el casc de la bicicleta','puts on a bicycle helmet')
+];
+goingOut.forEach((x,i)=>yi(0,F(k=>`${names[i][k]} ${x[k]}.`),
+ T('¿Qué podría hacer a continuación?','Què podria fer després?','What might happen next?'),T('Salir de casa','Eixir de casa','Leave home'),
+ [T('Irse a dormir','Anar-se’n a dormir','Go to sleep'),T('Preparar una tarta','Preparar un pastís','Bake a cake'),T('Lavar el coche','Llavar el cotxe','Wash the car')],T('Los preparativos dan pistas.','Els preparatius donen pistes.','Preparations give us clues.')));
+const cold=[
+ T('se pone un abrigo grueso','es posa un abric gruixut','puts on a thick coat'),T('se coloca unos guantes','es posa uns guants','puts on gloves'),T('busca una bufanda de lana','busca una bufanda de llana','looks for a wool scarf'),T('se tapa con una manta','es tapa amb una manta','covers up with a blanket'),T('lleva gorro y abrigo','porta gorro i abric','wears a hat and coat')
+];
+cold.forEach((x,i)=>yi(0,F(k=>`${names[i][k]} ${x[k]}.`),
+ T('¿Qué puede estar pasando?','Què pot estar passant?','What may be happening?'),T('Hace frío','Fa fred','It may be cold'),
+ [T('Hace muchísimo calor','Fa moltíssima calor','It is extremely hot'),T('Se ha roto un lápiz','S’ha trencat un llapis','A pencil broke'),T('Han cerrado la biblioteca','Han tancat la biblioteca','The library closed')],T('La ropa nos da información.','La roba ens dona informació.','Clothes can offer clues.')));
+// Amarillo: más de una pista, causas, motivos y secuencias.
+const second=[
+ [T('buscó su lápiz en la mochila','va buscar el llapis a la motxilla','searched the backpack for a pencil'),T('no lo encontró','no el va trobar','did not find it')],
+ [T('buscó las llaves en el cajón','va buscar les claus al calaix','searched the drawer for the keys'),T('el cajón estaba vacío','el calaix estava buit','the drawer was empty')],
+ [T('miró debajo de la cama para buscar el balón','va mirar davall del llit per buscar la pilota','looked under the bed for the ball'),T('allí no había nada','allí no hi havia res','nothing was there')],
+ [T('revisó la estantería para buscar el cuento','va revisar la prestatgeria per buscar el conte','checked the shelf for the storybook'),T('vio que no estaba','va veure que no hi era','saw it was missing')],
+ [T('abrió su estuche para sacar la goma','va obrir l’estoig per traure la goma','opened the pencil case for the eraser'),T('la goma no estaba','la goma no hi era','the eraser was missing')]
+];
+second.forEach(([first,last],i)=>yi(1,
+ F(k=>k==='en'?`${names[i].en} ${first.en}, but ${last.en}.`:`${names[i][k]} ${first[k]}, ${k==='ca'?'però':'pero'} ${last[k]}.`),
+ T('¿Qué es razonable deducir?','Què és raonable deduir?','What is reasonable to infer?'),T('No encontró lo que buscaba','No va trobar el que buscava','The missing item was not found'),
+ [T('Lo encontró enseguida','Ho va trobar de seguida','The item was found immediately'),T('No buscó nada','No va buscar res','Nothing was searched for'),T('Decidió tirarlo','Va decidir tirar-ho','The item was thrown away')],T('Distingue buscar de encontrar.','Distingix buscar de trobar.','Searching is not the same as finding.')));
+const explain=[
+ [T('el suelo estaba mojado','el terra estava mullat','the floor was wet'),T('vio un cubo volcado','va veure un poal bolcat','noticed a tipped-over bucket'),T('Se pudo derramar agua','Es podria haver vessat aigua','Water may have spilled')],
+ [T('se apagó la lámpara','es va apagar el llum','the lamp went out'),T('la bombilla estaba rota','la bombeta estava trencada','the bulb was broken'),T('La bombilla pudo fallar','La bombeta podria haver fallat','The bulb may have failed')],
+ [T('faltaba un trozo del pastel','faltava un tros del pastís','a slice of cake was missing'),T('había migas en la mesa','hi havia molles a la taula','there were crumbs on the table'),T('Alguien pudo comer pastel','Algú podria haver menjat pastís','Someone may have eaten some cake')],
+ [T('el jardín tenía la tierra húmeda','el jardí tenia la terra humida','the garden soil was damp'),T('la regadera estaba llena a medias','la regadora estava mig plena','the watering can was half full'),T('Alguien pudo regar','Algú podria haver regat','Someone may have watered it')],
+ [T('el perro tenía las patas sucias','el gos tenia les potes brutes','the dog had muddy paws'),T('la puerta del jardín estaba abierta','la porta del jardí estava oberta','the garden door was open'),T('El perro pudo salir al jardín','El gos podria haver eixit al jardí','The dog may have been in the garden')]
+];
+explain.forEach(([a,b,yes],i)=>yi(1,F(k=>k==='en'?`${capital(a.en)}. ${capital(b.en)}.`:`${capital(a[k])}. ${capital(b[k])}.`),
+ T('¿Qué explicación encaja mejor?','Quina explicació encaixa millor?','Which explanation fits best?'),yes,
+ [T('Se perdió un avión','Es va perdre un avió','An aeroplane went missing'),T('Todos se fueron al cine','Tots van anar al cine','Everyone went to the cinema'),T('No sucedió nada','No va passar res','Nothing happened')],T('Relaciona las dos pistas.','Relaciona les dues pistes.','Connect the two clues.')));
+const reasons=[
+ [T('había un bebé durmiendo','hi havia un bebé dormint','a baby was sleeping'),T('habló muy bajito','va parlar molt baixet','spoke very quietly'),T('No quería despertar al bebé','No volia despertar el bebé','The baby should not wake up')],
+ [T('empezó una tormenta','va començar una tempesta','a storm began'),T('cerró las ventanas','va tancar les finestres','closed the windows'),T('Quería proteger la casa','Volia protegir la casa','To protect the house')],
+ [T('su amiga estaba triste','la seua amiga estava trista','her friend was sad'),T('se quedó a escucharla','es va quedar a escoltar-la','stayed to listen'),T('Quería acompañar a su amiga','Volia acompanyar l’amiga','To support the friend')],
+ [T('olió comida quemada','va olorar menjar cremat','smelled burnt food'),T('avisó a un adulto','va avisar una persona adulta','told an adult'),T('Quería evitar un peligro','Volia evitar un perill','To prevent danger')],
+ [T('iba a cruzar una calle','anava a travessar un carrer','was about to cross a road'),T('se paró y miró a ambos lados','es va parar i va mirar als dos costats','stopped and looked both ways'),T('Quería cruzar con seguridad','Volia travessar amb seguretat','To cross safely')]
+];
+reasons.forEach(([a,b,yes],i)=>yi(1,F(k=>k==='en'?`${names[i].en} noticed ${a.en} and ${b.en}.`:`${names[i][k]} ${k==='ca'?'va veure que':'vio que'} ${a[k]} ${k==='ca'?'i':'y'} ${b[k]}.`),
+ T('¿Por qué pudo actuar así?','Per què podria haver actuat així?','Why might the person have acted this way?'),yes,
+ [T('Quería llegar tarde','Volia arribar tard','Wanted to be late'),T('Deseaba perder el tiempo','Volia perdre el temps','Wanted to waste time'),T('No tenía ningún motivo','No tenia cap motiu','Had no reason')],T('Piensa qué pretendía conseguir.','Pensa què pretenia aconseguir.','Consider the likely intention.')));
+const sequences2=[
+ [T('preparó la mochila','va preparar la motxilla','packed the backpack'),T('se fue al colegio','se’n va anar a l’escola','left for school')],
+ [T('puso los platos','va posar els plats','put out the plates'),T('sirvió la comida','va servir el menjar','served the meal')],
+ [T('se lavó las manos','es va llavar les mans','washed their hands'),T('empezó a cocinar','va començar a cuinar','started cooking')],
+ [T('buscó el paraguas','va buscar el paraigua','looked for the umbrella'),T('salió a la calle','va eixir al carrer','went outside')],
+ [T('leyó las instrucciones','va llegir les instruccions','read the instructions'),T('montó el juguete','va muntar el joguet','assembled the toy')]
+];
+sequences2.forEach(([a,b],i)=>yi(1,F(k=>k==='en'?`First ${names[i].en} ${a.en}, and then ${b.en}.`:`Primer ${names[i][k]} ${a[k]} ${k==='ca'?'i després':'y después'} ${b[k]}.`),
+ T('¿Qué ocurrió antes?','Què va passar abans?','What happened first?'),F(k=>capital(a[k])),
+ [F(k=>capital(b[k])),T('Se acabó la clase','Es va acabar la classe','Class ended'),T('Se puso a dormir','Es va posar a dormir','Went to sleep')],T('La palabra «primero» marca el orden.','La paraula «primer» marca l’ordre.','The word “first” marks the order.')));
+const feelings=[
+ [T('recibió una sorpresa agradable','va rebre una sorpresa agradable','received a pleasant surprise'),T('sonrió y dio un salto','va somriure i va fer un bot','smiled and jumped'),T('Estaba contento','Estava content','Was happy')],
+ [T('perdió su juguete favorito','va perdre el joguet favorit','lost a favourite toy'),T('se le llenaron los ojos de lágrimas','se li ompliren els ulls de llàgrimes','had tears in the eyes'),T('Se sentía triste','Se sentia trist','Felt sad')],
+ [T('oyó un golpe fuerte de repente','va sentir un colp fort de sobte','heard a sudden loud bang'),T('se sobresaltó','es va espantar','jumped in fright'),T('Se asustó','Es va espantar','Was startled')],
+ [T('aprobó una prueba difícil','va aprovar una prova difícil','passed a difficult test'),T('sonrió orgulloso','va somriure amb orgull','smiled proudly'),T('Se sentía satisfecho','Se sentia satisfet','Felt satisfied')],
+ [T('esperó mucho sin poder jugar','va esperar molt sense poder jugar','waited a long time without playing'),T('miraba el reloj constantemente','mirava el rellotge tota l’estona','kept looking at the clock'),T('Estaba impaciente','Estava impacient','Was impatient')]
+];
+feelings.forEach(([a,b,yes],i)=>yi(1,F(k=>k==='en'?`${names[i].en} ${a.en} and ${b.en}.`:`${names[i][k]} ${a[k]} ${k==='ca'?'i':'y'} ${b[k]}.`),
+ T('¿Cómo se sentía probablemente?','Com es devia sentir?','How was the person probably feeling?'),yes,
+ [T('No tenía sentimientos','No tenia sentiments','Had no feelings'),T('Quería aprender a nadar','Volia aprendre a nadar','Wanted to learn swimming'),T('No había pasado nada','No havia passat res','Nothing had happened')],T('La conducta puede revelar una emoción.','La conducta pot revelar una emoció.','Behaviour can hint at an emotion.')));
+for(let l=0;l<2;l++)B.inference[l]=B.inference[l].slice(0,3).concat(YOUNG[l].slice(0,22));
+
+// Viñetas dibujadas, cada pregunta con una sola combinación correcta.
+const VISUAL=[];
+const pic=(l,p,hint,candidates)=>{
+ VISUAL[l]??=[];
+ const one=candidates[0];VISUAL[l].push({p,hint,v:candidates,a:0});
+};
+const VCOL=[['red','rojo','roja','rojos','roges','red'],['blue','azul','azul','azules','blaus','blue'],['green','verde','verda','verdes','verdes','green'],['yellow','amarillo','groga','amarillos','grocs','yellow'],['orange','naranja','taronja','naranjas','taronges','orange']];
+for(let l=0;l<4;l++){
+ VISUAL[l]=[];
+ // 5 perros: posición y color.
+ const dogLoc=[['on','encima de la mesa','damunt de la taula','on the table'],['under','debajo de la mesa','davall de la taula','under the table'],['right','a la derecha de la mesa','a la dreta de la taula','to the right of the table'],['under','debajo de la mesa','davall de la taula','under the table'],['right','a la derecha de la mesa','a la dreta de la taula','to the right of the table']];
+ for(let i=0;i<5;i++){
+ const clr=['black','white','grey','orange','black'][i],alt=clr==='black'?'white':'black';const col=T({black:'negro',white:'blanco',grey:'gris',orange:'naranja'}[clr],{black:'negre',white:'blanc',grey:'gris',orange:'taronja'}[clr],clr==='grey'?'grey':clr);
+ const loc=dogLoc[i];const other=dogLoc[(i+1)%5][0];
+ pic(l,F(k=>k==='en'?`The ${col.en} dog is sleeping ${loc[3]}.`:`El ${k==='ca'?'gos':'perro'} ${col[k]} ${k==='ca'?'dorm':'duerme'} ${loc[k==='ca'?2:1]}.`),
+ T('Comprueba el color y la posición.','Comprova el color i la posició.','Check colour and position.'),
+ [{k:'dog',c:clr,pos:loc[0]},{k:'dog',c:alt,pos:loc[0]},{k:'dog',c:clr,pos:other},{k:'dog',c:alt,pos:other}]);
+ }
+ // 5 manzanas, cantidad, color, soporte (cesta/mesa).
+ for(let i=0;i<5;i++){
+ const n=i%2?2:3,c=['red','green','yellow','red','green'][i],place=i%3?'basket':'table';const count=T(n===2?'dos':'tres',n===2?'dues':'tres',n===2?'two':'three');const color=T({red:'rojas',green:'verdes',yellow:'amarillas'}[c],{red:'roges',green:'verdes',yellow:'grogues'}[c],c);const where=T(place==='basket'?'en la cesta':'sobre la mesa',place==='basket'?'a la cistella':'damunt de la taula',place==='basket'?'in the basket':'on the table');
+ pic(l,F(k=>k==='en'?`There are ${count.en} ${color.en} apples ${where.en}.`:k==='ca'?`Hi ha ${count.ca} pomes ${color.ca} ${where.ca}.`:`Hay ${count.es} manzanas ${color.es} ${where.es}.`),
+ T('Comprueba la cantidad, el color y el lugar.','Comprova la quantitat, el color i el lloc.','Check the number, colour and place.'),
+ [{k:'apple',n,c,pos:place},{k:'apple',n:n===2?3:2,c,pos:place},{k:'apple',n,c:c==='red'?'green':'red',pos:place},{k:'apple',n,c,pos:place==='basket'?'table':'basket'}]);
+ }
+ // 5 globos: cantidad, color y quién los tiene
+ for(let i=0;i<5;i++){
+ const n=i%2?2:3,c=['blue','red','yellow','green','orange'][i],who=i%2?'boy':'girl';const numb=T(n===2?'dos':'tres',n===2?'dos':'tres',n===2?'two':'three');const colour=T({green:'verdes',red:'rojos',yellow:'amarillos',blue:'azules',orange:'naranjas'}[c],{green:'verds',red:'rojos',yellow:'grocs',blue:'blaus',orange:'taronges'}[c],c);const subj=T(who==='boy'?'El niño':'La niña',who==='boy'?'El xiquet':'La xiqueta',who==='boy'?'The boy':'The girl');
+ pic(l,F(k=>k==='en'?`${subj.en} is holding ${numb.en} ${colour.en} balloons.`:`${subj[k]} ${k==='ca'?'porta':'lleva'} ${numb[k]} ${k==='ca'?'globus':'globos'} ${colour[k]}.`),
+ T('Fíjate en la persona, el número y el color.','Fixa’t en la persona, el nombre i el color.','Check who, how many and which colour.'),
+ [{k:'balloons',n,c,who},{k:'balloons',n:n===2?3:2,c,who},{k:'balloons',n,c:c==='green'?'red':'green',who},{k:'balloons',n,c,who:who==='boy'?'girl':'boy'}]);
+ }
+ // 5 relaciones comparativas de dos recipientes: más, menos e igualdad.
+ const waterSituations=[
+  [80,35,T('El vaso azul tiene más agua que el rojo.','El got blau té més aigua que el roig.','The blue glass has more water than the red one.')],
+  [20,75,T('El vaso rojo tiene más agua que el azul.','El got roig té més aigua que el blau.','The red glass has more water than the blue one.')],
+  [55,55,T('Los dos vasos tienen la misma cantidad de agua.','Els dos gots tenen la mateixa quantitat d’aigua.','The two glasses contain the same amount of water.')],
+  [15,90,T('El vaso azul tiene menos agua que el rojo.','El got blau té menys aigua que el roig.','The blue glass has less water than the red one.')],
+  [90,20,T('El vaso rojo tiene menos agua que el azul.','El got roig té menys aigua que el blau.','The red glass has less water than the blue one.')]
+ ];
+ for(const [blue,red,sentence] of waterSituations){
+ pic(l,sentence,T('Compara los niveles de agua.','Compara els nivells d’aigua.','Compare the water levels.'),
+ blue===red?[{k:'water',blue,red},{k:'water',blue:80,red:20},{k:'water',blue:20,red:80},{k:'water',blue:70,red:10}]:[{k:'water',blue,red},{k:'water',blue:red,red:blue},{k:'water',blue:50,red:50},{k:'water',blue:70,red:10}]);
+ }
+ // 5 escenas variadas: orden de dos acciones, reciclaje y regalos
+ const sequence=[['wash','eat'],['read','play'],['eat','wash'],['play','read'],['wash','play']];
+ const namesStep={wash:T('lavarse las manos','llavar-se les mans','washing hands'),eat:T('comer la manzana','menjar la poma','eating the apple'),read:T('leer','llegir','reading'),play:T('jugar','jugar','playing')};
+ for(let i=0;i<5;i++){
+ const [a,b]=sequence[i];
+ pic(l,F(k=>k==='en'?`The first action is ${namesStep[a].en}, and the second is ${namesStep[b].en}.`:k==='ca'?`Primer cal ${namesStep[a].ca} i després ${namesStep[b].ca}.`:`Primero hay que ${namesStep[a].es} y después ${namesStep[b].es}.`),
+ T('Comprueba el orden de las dos acciones.','Comprova l’ordre de les dues accions.','Check the order of both actions.'),
+ [{k:'sequence',steps:[a,b]},{k:'sequence',steps:[b,a]},{k:'sequence',steps:[a,a]},{k:'sequence',steps:[b,b]}]);
+ }
+ if(l>=2){
+  // El segundo y tercer ciclo incorporan dirección, secuencia, materiales y comparaciones.
+  VISUAL[l]=[];
+  const groups=[
+   ['girl','red'],['boy','blue'],['girl','green'],['boy','yellow'],['girl','orange']
+  ];
+  const colorName={red:T('rojo','roig','red'),blue:T('azul','blau','blue'),green:T('verde','verd','green'),yellow:T('amarillo','groc','yellow'),orange:T('naranja','taronja','orange')};
+  for(let i=0;i<5;i++){
+   const [who,c]=groups[i],cc=colorName[c],other=c==='red'?'blue':'red';
+   pic(l,F(k=>k==='en'?`The ${who==='girl'?'girl':'boy'} gives a ${cc.en} present to the ${who==='girl'?'boy':'girl'}.`:`${who==='girl'?(k==='ca'?'La xiqueta':'La niña'):(k==='ca'?'El xiquet':'El niño')} ${k==='ca'?'dona un regal':'entrega un regalo'} ${cc[k]} ${who==='girl'?(k==='ca'?'al xiquet':'al niño'):(k==='ca'?'a la xiqueta':'a la niña')}.`),
+    T('¿Quién da el regalo y de qué color es?','Qui dona el regal i de quin color és?','Who gives the present, and what colour is it?'),
+    [{k:'gift',from:who,c},{k:'gift',from:who==='girl'?'boy':'girl',c},{k:'gift',from:who,c:other},{k:'gift',from:who==='girl'?'boy':'girl',c:other}]);
+  }
+  const rec=[['glass','blue'],['paper','green'],['glass','yellow'],['paper','red'],['glass','orange']];
+  for(let i=0;i<5;i++){
+   const [item,bin]=rec[i],cc=colorName[bin],other=bin==='blue'?'red':'blue';
+   const ob=T(item==='glass'?'una botella de vidrio':'una hoja de papel',item==='glass'?'una botella de vidre':'un full de paper',item==='glass'?'a glass bottle':'a sheet of paper');
+   pic(l,F(k=>k==='en'?`The boy puts ${ob.en} into the ${cc.en} bin.`:`El ${k==='ca'?'xiquet posa':'niño deposita'} ${ob[k]} ${k==='ca'?'al contenidor':'en el contenedor'} ${cc[k]}.`),
+   T('Fíjate en el material y el color del contenedor.','Fixa’t en el material i el color del contenidor.','Check the material and the bin colour.'),
+   [{k:'recycle',item,bin},{k:'recycle',item:item==='glass'?'paper':'glass',bin},{k:'recycle',item,bin:other},{k:'recycle',item:item==='glass'?'paper':'glass',bin:other}]);
+  }
+  const um=[['girl','blue'],['boy','red'],['girl','yellow'],['boy','green'],['girl','orange']];
+  for(let i=0;i<5;i++){
+   const [from,c]=um[i],cc=colorName[c],other=c==='blue'?'red':'blue';
+   pic(l,F(k=>k==='en'?`In the rain, the ${from==='girl'?'girl':'boy'} lends a ${cc.en} umbrella to the ${from==='girl'?'boy':'girl'}.`:k==='ca'?`Davall de la pluja, ${from==='girl'?'la xiqueta':'el xiquet'} presta un paraigua ${cc.ca} a ${from==='girl'?'un xiquet':'una xiqueta'}.`:`Bajo la lluvia, ${from==='girl'?'la niña':'el niño'} presta un paraguas ${cc.es} a ${from==='girl'?'un niño':'una niña'}.`),
+   T('Identifica quién presta el paraguas y su color.','Identifica qui presta el paraigua i el color.','Identify who lends the umbrella and its colour.'),
+   [{k:'umbrella',from,c,rain:true},{k:'umbrella',from:from==='girl'?'boy':'girl',c,rain:true},{k:'umbrella',from,c:other,rain:true},{k:'umbrella',from,c,rain:false}]);
+  }
+  const cyc=[['red',true],['blue',false],['yellow',true],['green',false],['orange',true]];
+  for(let i=0;i<5;i++){
+   const [helmet,front]=cyc[i],cc=colorName[helmet],other=helmet==='red'?'blue':'red';
+   pic(l,F(k=>k==='en'?`The cyclist wears a ${cc.en} helmet and rides ${front?'in front of':'behind'} the tree.`:k==='ca'?`El ciclista porta un casc ${cc.ca} i passa ${front?'per davant':'per darrere'} de l’arbre.`:`El ciclista lleva un casco ${cc.es} y pasa ${front?'por delante':'por detrás'} del árbol.`),
+   T('Observa el color del casco y el lado del árbol.','Observa el color del casc i el costat de l’arbre.','Check the helmet colour and the position by the tree.'),
+   [{k:'cycle',helmet,front},{k:'cycle',helmet:other,front},{k:'cycle',helmet,front:!front},{k:'cycle',helmet:other,front:!front}]);
+  }
+  const seq=[['wash','eat'],['read','play'],['eat','wash'],['play','read'],['wash','play']];
+  for(let i=0;i<5;i++){
+   const [a,b]=seq[i];
+   pic(l,F(k=>k==='en'?`The first action is ${namesStep[a].en}, and the second is ${namesStep[b].en}.`:k==='ca'?`Primer cal ${namesStep[a].ca} i després ${namesStep[b].ca}.`:`Primero hay que ${namesStep[a].es} y después ${namesStep[b].es}.`),
+   T('¿Qué acción ocurre primero y cuál después?','Quina acció passa primer i quina després?','Which action happens first and which happens next?'),
+   [{k:'sequence',steps:[a,b]},{k:'sequence',steps:[b,a]},{k:'sequence',steps:[a,a]},{k:'sequence',steps:[b,b]}]);
+  }
+ }
+
+ B.picture[l]=B.picture[l].concat(VISUAL[l]).slice(0,25);
+}
+// B.build comparte el mismo banco de frases que B.read.
+B.build=B.read;
+
+B.build=B.read;
+
+const PALETTE={black:'#353640',white:'#f4eee5',grey:'#8b92a0',orange:'#e5a059',red:'#e96765',blue:'#5c9dd9',green:'#63af79',yellow:'#f1c352'};
+function sceneSVG(v){
+ const c=k=>PALETTE[k]||k;
+ let z='';
+ const grass='<path d="M0 130 Q120 119 240 130 L240 150 H0Z" fill="#e7f3db"/><path d="M12 138H228" stroke="#bad9b4" stroke-width="2"/>';
+ const person=(x,y,girl)=>`<g transform="translate(${x},${y})"><circle cx="0" cy="-23" r="10" fill="#e7b38d" stroke="#ad7b61" stroke-width="1.5"/><path d="M-10 -27 Q0 -41 10 -26" fill="none" stroke="#4c383b" stroke-width="5" stroke-linecap="round"/><path d="M-7 -12 L7 -12 ${girl?'L15 20 L-15 20Z':'L10 24 H-10Z'}" fill="${girl?'#da7dac':'#70a8d3'}" stroke="#587890" stroke-width="1.5"/><path d="M-7 24L-8 38 M7 24L8 38" stroke="#52506a" stroke-width="4" stroke-linecap="round"/></g>`;
+ if(v.k==='dog'){
+   const p=v.pos==='under'?[96,97]:v.pos==='on'?[96,31]:[178,98];
+   z=`<rect x="42" y="64" width="145" height="13" rx="3" fill="#b88656" stroke="#95653f" stroke-width="2"/><path d="M58 77V132 M172 77V132" stroke="#9b6e45" stroke-width="9" stroke-linecap="round"/>`;
+   z+=`<g transform="translate(${p[0]},${p[1]})"><path d="M3 17Q-18 2 -10 -3" stroke="${c(v.c)}" stroke-width="8" fill="none" stroke-linecap="round"/><ellipse cx="23" cy="18" rx="28" ry="17" fill="${c(v.c)}" stroke="#7c7776" stroke-width="1.4"/><circle cx="55" cy="10" r="15" fill="${c(v.c)}" stroke="#7c7776" stroke-width="1.4"/><path d="M45 0 L43 -13 L56 -2 M60 -3 L73 -12 L69 7" fill="${c(v.c)}" stroke="#777" stroke-width="1.3"/><circle cx="63" cy="8" r="2.2" fill="${v.c==='black'?'#fff':'#252525'}"/><ellipse cx="70" cy="16" rx="4" ry="2.5" fill="#444"/><path d="M12 30 L7 33 M27 32 L22 35" stroke="${c(v.c)}" stroke-width="6" stroke-linecap="round"/></g>`;
+ } else if(v.k==='apple'){
+   if(v.pos==='basket')z+=`<path d="M52 80 Q120 65 188 80 L173 127 Q120 140 67 127 Z" fill="#daa875" stroke="#9a623e" stroke-width="3"/><path d="M74 93H165M79 111H159M95 81L104 129M141 80L137 129" stroke="#bb8351" stroke-width="4"/>`;
+   else z+=`<rect x="40" y="100" width="160" height="9" rx="3" fill="#b88656"/><path d="M57 109V139M184 109V139" stroke="#9b6e45" stroke-width="7"/>`;
+   let ps=v.n===2?[[96,68],[143,68]]:[[78,68],[120,61],[162,68]];
+   if(v.pos==='table')ps=ps.map(([x,y])=>[x,y+12]);
+   z+=ps.map(([x,y])=>`<g><circle cx="${x}" cy="${y}" r="19" fill="${c(v.c)}" stroke="#7e9b55" stroke-width="1"/><path d="M${x} ${y-17}q-2 -11 4 -16" fill="none" stroke="#696c3b" stroke-width="3"/><ellipse cx="${x+9}" cy="${y-23}" rx="10" ry="5" transform="rotate(28 ${x+9} ${y-23})" fill="#6aa773"/><ellipse cx="${x-7}" cy="${y-7}" rx="4" ry="8" fill="#ffffff44"/></g>`).join('');
+ } else if(v.k==='cat'){
+  z+=`<rect x="43" y="87" width="154" height="38" rx="11" fill="${c(v.sofa)}" stroke="#896e8b" stroke-width="2"/><rect x="32" y="77" width="26" height="45" rx="11" fill="${c(v.sofa)}"/><rect x="181" y="77" width="26" height="45" rx="11" fill="${c(v.sofa)}"/><path d="M57 121v14M183 121v14" stroke="#715768" stroke-width="7"/>`;
+  const y=v.pos==='on'?51:115;
+  z+=`<g transform="translate(87 ${y})"><ellipse cx="22" cy="10" rx="29" ry="16" fill="${c(v.cat)}" stroke="#6a666d" stroke-width="1.6"/><circle cx="54" cy="3" r="15" fill="${c(v.cat)}" stroke="#6a666d" stroke-width="1.6"/><path d="M42 -7 L42 -23 L55 -10 L65 -23 L68 -7" fill="${c(v.cat)}" stroke="#6a666d" stroke-width="1.6"/><path d="M-2 6 Q-21 -12 -17 -23" fill="none" stroke="${c(v.cat)}" stroke-width="7" stroke-linecap="round"/><circle cx="49" cy="1" r="2"/><circle cx="60" cy="1" r="2"/><path d="M50 10L57 10" stroke="#444" stroke-width="2"/></g>`;
+ } else if(v.k==='books'){
+   z+=`<rect x="62" y="55" width="117" height="79" rx="17" fill="#be9eeb" stroke="#8267ad" stroke-width="3"/><path d="M85 58Q90 20 122 32Q147 28 155 58" fill="none" stroke="#8267ad" stroke-width="7"/><rect x="69" y="88" width="100" height="42" rx="10" fill="#a58cd7"/><path d="M81 103H158" stroke="#7562aa" stroke-width="3"/>`;
+   const x=v.pos==='in'?85:169,y=v.pos==='in'?49:102;
+   if(v.pos==='out')z+=`<rect x="159" y="129" width="65" height="5" fill="#b88d5e"/>`;
+   for(let i=0;i<v.n;i++)z+=`<g transform="translate(${x+i*18},${y+(v.pos==='out'?-i*14:0)})"><rect x="0" y="0" width="17" height="49" rx="2" fill="${c(v.c)}" stroke="#5879a0" stroke-width="1.4"/><path d="M3 9H14M3 40H14" stroke="#fff8" stroke-width="2"/></g>`;
+ } else if(v.k==='birds'){
+   z+=`<rect x="95" y="75" width="55" height="61" rx="2" fill="#f2d6ac" stroke="#ad8e67" stroke-width="2"/><path d="M85 75 L122 41 L159 75Z" fill="#d6746b"/><rect x="115" y="106" width="17" height="30" fill="#8f7e6c"/>`;
+   for(let i=0;i<v.n;i++){let x=(v.side==='left'?27:183)+i*24,y=55-i*10;z+=`<g transform="translate(${x} ${y})"><ellipse cx="0" cy="0" rx="15" ry="10" fill="${c(v.c)}" stroke="#848285" stroke-width="1"/><path d="M2 -2Q-8 -14 -11 -4Q-4 3 2 -2" fill="#fff7"/><path d="M12 0L22 4L12 7Z" fill="#d18f54"/><circle cx="7" cy="-4" r="2" fill="#222"/></g>`;}
+ } else if(v.k==='balloons'){
+   z+=person(117,89,v.who==='girl');
+   for(let i=0;i<v.n;i++){let x=47+i*35,y=20+((i%2)*13);z+=`<ellipse cx="${x}" cy="${y+13}" rx="15" ry="20" fill="${c(v.c)}" stroke="#8e7ca2" stroke-width="1.5"/><path d="M${x} ${y+33}L${x-3} ${y+38}L${x+3} ${y+38}Z" fill="${c(v.c)}"/><path d="M${x} ${y+38}Q${x+10} 77 110 85" stroke="#9a8ca0" stroke-width="1.2" fill="none"/>`}
+ } else if(v.k==='sequence'){
+   z='<rect x="8" y="23" width="100" height="104" rx="14" fill="#fff" stroke="#d7d1e4" stroke-width="2"/><rect x="132" y="23" width="100" height="104" rx="14" fill="#fff" stroke="#d7d1e4" stroke-width="2"/><path d="M111 77H128M120 69L129 77L120 85" stroke="#9d82d8" stroke-width="4" fill="none" stroke-linecap="round"/>';
+   v.steps.forEach((s,i)=>{const icons={wash:'🧼',eat:'🍎',read:'📖',play:'⚽'};z+=`<text x="${i?182:58}" y="91" font-size="56" text-anchor="middle">${icons[s]||'❔'}</text>`});
+ } else if(v.k==='cycle'){
+   const tree='<path d="M125 75V135" stroke="#987049" stroke-width="15"/><circle cx="113" cy="62" r="31" fill="#83c98d"/><circle cx="142" cy="59" r="28" fill="#70b97c"/>';
+   const biker=`<g transform="translate(${v.front?72:100} 0)"><circle cx="22" cy="122" r="20" fill="none" stroke="#485d79" stroke-width="5"/><circle cx="96" cy="122" r="20" fill="none" stroke="#485d79" stroke-width="5"/><path d="M22 122L45 91L67 122L22 122M45 91L96 122L75 87" stroke="#ca8579" stroke-width="5" fill="none"/><path d="M51 89L58 61L84 79" stroke="#40485e" stroke-width="6" fill="none"/><circle cx="55" cy="51" r="12" fill="#ecb993"/><path d="M43 51Q56 27 67 51Z" fill="${c(v.helmet)}" stroke="#856e80" stroke-width="1"/></g>`;
+   z=v.front?tree+biker:biker+tree;
+ } else if(v.k==='gift'){
+   z+=person(52,75,v.from==='girl');z+=person(189,75,v.from==='boy');
+   z+=`<path d="M76 71H158M149 63L161 71L149 79" stroke="#9271cb" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="104" y="59" width="29" height="30" rx="3" fill="${c(v.c)}" stroke="#6980a1" stroke-width="1"/><path d="M118 59V89M104 70H133" stroke="#fff" stroke-width="4"/><path d="M118 60Q98 41 107 49Q118 51 118 60Q138 41 131 50Q123 52 118 60" stroke="#fff" stroke-width="2" fill="none"/>`;
+ } else if(v.k==='recycle'){
+   z+=person(45,78,false);z+=`<rect x="114" y="59" width="92" height="79" rx="7" fill="${c(v.bin)}" stroke="#6e8190" stroke-width="2"/><rect x="106" y="55" width="107" height="14" rx="4" fill="${c(v.bin)}" stroke="#607081" stroke-width="2"/><rect x="140" y="60" width="42" height="5" rx="2" fill="#414953"/><path d="M157 87L172 102L159 117L145 103Z" fill="none" stroke="#fff9" stroke-width="4"/>`;
+   if(v.item==='glass')z+=`<g transform="rotate(-29 96 56)"><rect x="90" y="39" width="12" height="30" rx="5" fill="#75c8b0" stroke="#3d8d80" stroke-width="2"/><rect x="94" y="34" width="4" height="8" fill="#75c8b0"/></g>`;
+   else z+=`<g transform="rotate(-29 96 54)"><rect x="83" y="41" width="27" height="29" rx="2" fill="#fff" stroke="#8a96a8" stroke-width="2"/><path d="M87 48H104M87 55H102" stroke="#889bb2" stroke-width="1"/></g>`;
+ } else if(v.k==='umbrella'){
+    if(v.rain)for(let i=0;i<14;i++){let x=15+i*16,y=16+(i%4)*9;z+=`<path d="M${x} ${y}l-5 11" stroke="#75b4d7" stroke-width="2.3"/>`}
+    z+=person(54,78,v.from==='girl');z+=person(184,78,v.from==='boy');
+    z+=`<path d="M82 79H150M142 71L151 79L142 87" stroke="#8469bc" stroke-width="4" fill="none"/><path d="M112 48Q139 -1 166 48Z" fill="${c(v.c)}" stroke="#5f6e8f" stroke-width="2"/><path d="M139 48V107Q139 117 130 114" stroke="#655d78" stroke-width="3" fill="none"/>`;
+ } else if(v.k==='water'){
+    [['blue',v.blue,50],['red',v.red,145]].forEach(([clr,pct,x])=>{
+     const h=70*Number(pct)/100,y=124-h;
+     z+=`<rect x="${x+4}" y="${y}" width="46" height="${h}" fill="#80bce5" opacity=".68"/><path d="M${x} 49L${x+3} 124Q${x+27} 132 ${x+54} 124L${x+56} 49" fill="none" stroke="${c(clr)}" stroke-width="6" stroke-linecap="round"/><path d="M${x+6} ${y}H${x+50}" stroke="#4c9fd3" stroke-width="2"/>`;
+    });
+ }
+ return `<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><rect width="240" height="150" rx="13" fill="#eff7f9"/>${grass}${z}</svg>`;
+}
+
+'use strict';
+(()=>{
+const STORAGE='pequenas-frases-v01';
+const MODES=['read','listen','picture','comprehension','build','differences','vocabulary','inference'];
+const ICONS=['📖','🔊','🖼️','❓','🧩','🔎','💡','🧠'];
+const LEVELS=['green','yellow','pink','blue'];
+const TEXT={
+es:{title:'Pequeñas Frases',strap:'Aprender jugando',lang:'Idioma',type:'Tipo de letra',speed:'Velocidad de voz',sl:'Lenta',sn:'Normal',sf:'Rápida',nav:'Mis actividades',modes:['Leo frases','Escucho e identifico','Elijo la imagen','¿Qué dice?','Construyo frases','Detecto diferencias','Descubro significados','Leo y deduzco'],descs:['Lee a tu ritmo. Toca cada palabra para escucharla o pide que lean toda la frase.','Escucha con atención y elige la frase escrita exactamente igual.','Lee la frase y selecciona la única viñeta que representa todos los detalles.','Lee y responde a una pregunta sobre lo que dice el texto.','Coloca las palabras en orden para formar una frase con sentido.','Lee las dos frases y decide si comunican lo mismo.','Usa el contexto para averiguar qué significa una palabra.','Lee con atención, relaciona pistas y elige la conclusión mejor justificada.'],lv:['Verde','Amarillo','Rosa','Azul'],lvsub:['Frases sencillas · 1.º','Detalles · 2.º','Relaciones · 3.º–4.º','Ideas complejas · 5.º–6.º'],choose:'Elige la respuesta correcta',speak:'Escuchar frase',again:'Repetir',next:'Otra actividad',hint:'Dame una pista',check:'Comprobar',undo:'Deshacer',clear:'Reiniciar',readDone:'Ya la he leído',readHint:'Pulsa una palabra para escucharla.',listenHint:'Pulsa el altavoz y escucha atentamente.',pick:'Selecciona una de las cuatro viñetas',rebuild:'Ordena las palabras',same:'Dicen lo mismo',different:'Significan cosas diferentes',question:'Pregunta',success:'¡Muy bien! Has comprendido el mensaje.',retry:'Casi. Vuelve a leer y fíjate en los detalles.',readThanks:'¡Buena lectura! Sigue practicando.',orderWrong:'Todavía no es esa frase. Revisa el orden y la puntuación.',orderOk:'¡Correcto! Has formado la frase.',word:'¿Qué significa la palabra?',audioWarn:'La voz depende de los idiomas y voces instalados en el dispositivo. Si una voz falta, el juego escrito sigue funcionando.',audioOk:'Lectura por voz disponible · Puedes repetirla cuando quieras.',audioOff:'Este navegador no dispone de lectura por voz. Puedes continuar con las actividades visuales.',progress:'Mi progreso',stats:'Seguimiento',done:'Actividades completadas',first:'Aciertos al primer intento',withHelp:'Resueltas con pista',practiced:'Frases practicadas',noStats:'Aún no hay actividades resueltas en este idioma.',rst:'Borrar estadísticas',confirm:'¿Borrar las estadísticas guardadas de los tres idiomas?',statsInfo:'Los porcentajes muestran aciertos al primer intento, no un diagnóstico del nivel lector. Los datos se guardan solo en este dispositivo.',foot:'Sin puntos ni prisas: puedes repetir las actividades cuando quieras.',keyboard:'Teclas 1–4 para elegir · Espacio para escuchar · Intro para seguir',auto:'Avanzar automáticamente al acertar',count:'Ejercicio',wait:'Escucha la frase y elige cuál has oído.',readPrompt:'Lee en voz alta o en silencio.',helpRead:'Lee despacio, separa las palabras y comprueba los signos de puntuación.',helpBuild:'La próxima palabra debe ser:',helpDiff:'Fíjate en las negaciones, cantidades, orden y relaciones.',skip:'Puedes cambiar de ejercicio cuando quieras.',lck:'Has acertado. Puedes continuar.',tryAgain:'Inténtalo de nuevo.',voiceLanguage:'Puede que no haya una voz adecuada instalada para este idioma.',resetSuccess:'Las estadísticas locales se han borrado.',notVerified:'Esta lectura no se evalúa con el micrófono.'},
+ca:{title:'Pequeñas Frases',strap:'Aprendre jugant',lang:'Idioma',type:'Tipus de lletra',speed:'Velocitat de veu',sl:'Lenta',sn:'Normal',sf:'Ràpida',nav:'Les meues activitats',modes:['Llig frases','Escolte i identifique','Trie la imatge','Què diu?','Construïsc frases','Detecte diferències','Descobrisc significats','Llig i deduïsc'],descs:['Llig al teu ritme. Toca cada paraula per escoltar-la o demana que lligen tota la frase.','Escolta amb atenció i tria la frase escrita exactament igual.','Llig la frase i tria l’única vinyeta que representa tots els detalls.','Llig i respon una pregunta sobre el que diu el text.','Ordena les paraules per formar una frase amb sentit.','Llig les dues frases i decidix si diuen el mateix.','Usa el context per a descobrir el significat d’una paraula.','Llig amb atenció, relaciona pistes i tria la conclusió més ben justificada.'],lv:['Verd','Groc','Rosa','Blau'],lvsub:['Frases senzilles · 1r','Detalls · 2n','Relacions · 3r–4t','Idees complexes · 5é–6é'],choose:'Tria la resposta correcta',speak:'Escoltar la frase',again:'Repetir',next:'Una altra activitat',hint:'Dona’m una pista',check:'Comprovar',undo:'Desfer',clear:'Reiniciar',readDone:'Ja l’he llegida',readHint:'Prem una paraula per a escoltar-la.',listenHint:'Prem l’altaveu i escolta atentament.',pick:'Tria una de les quatre vinyetes',rebuild:'Ordena les paraules',same:'Diuen el mateix',different:'Tenen significats diferents',question:'Pregunta',success:'Molt bé! Has comprés el missatge.',retry:'Quasi. Torna a llegir i fixa’t en els detalls.',readThanks:'Molt bona lectura! Continua practicant.',orderWrong:'Encara no és eixa frase. Revisa l’ordre i els signes.',orderOk:'Correcte! Has format la frase.',word:'Què significa la paraula?',audioWarn:'La veu depén de les veus instal·lades en el dispositiu. Si en falta alguna, el joc escrit continua funcionant.',audioOk:'Lectura per veu disponible · Pots repetir-la quan vulgues.',audioOff:'Este navegador no permet llegir amb veu. Pots continuar les activitats visuals.',progress:'El meu progrés',stats:'Seguiment',done:'Activitats completades',first:'Encerts al primer intent',withHelp:'Resoltes amb pista',practiced:'Frases practicades',noStats:'Encara no hi ha activitats resoltes en este idioma.',rst:'Esborrar estadístiques',confirm:'Vols esborrar les estadístiques guardades dels tres idiomes?',statsInfo:'Els percentatges indiquen encerts al primer intent, no un diagnòstic del nivell lector. Les dades sols es desen en este dispositiu.',foot:'Sense punts ni presses: pots repetir les activitats sempre que vulgues.',keyboard:'Tecles 1–4 per a triar · Espai per a escoltar · Intro per a seguir',auto:'Avançar automàticament en encertar',count:'Exercici',wait:'Escolta la frase i tria la que has sentit.',readPrompt:'Llig en veu alta o en silenci.',helpRead:'Llig a poc a poc, separa les paraules i comprova els signes de puntuació.',helpBuild:'La paraula següent ha de ser:',helpDiff:'Fixa’t en les negacions, quantitats, ordre i relacions.',skip:'Pots canviar d’exercici quan vulgues.',lck:'Has encertat. Ja pots continuar.',tryAgain:'Torna-ho a intentar.',voiceLanguage:'Potser no hi ha una veu adequada instal·lada per a este idioma.',resetSuccess:'S’han esborrat les estadístiques locals.',notVerified:'Esta lectura no s’avalua amb el micròfon.'},
+en:{title:'Pequeñas Frases',strap:'Learning through play',lang:'Language',type:'Letter case',speed:'Voice speed',sl:'Slow',sn:'Normal',sf:'Fast',nav:'My activities',modes:['Read sentences','Listen and identify','Choose the picture','What does it say?','Build sentences','Spot the difference','Discover meanings','Read and infer'],descs:['Read at your own pace. Tap a word to hear it or listen to the whole sentence.','Listen carefully and select the exact written sentence.','Read and select the only picture showing every detail.','Read and answer a question about the text.','Put the words in order to make a sentence.','Read both sentences and decide if they mean the same.','Use the context to work out what a word means.','Read carefully, connect the clues and choose the best-supported conclusion.'],lv:['Green','Yellow','Pink','Blue'],lvsub:['Simple sentences · Year 1','Details · Year 2','Connections · Years 3–4','Complex ideas · Years 5–6'],choose:'Choose the right answer',speak:'Listen to sentence',again:'Replay',next:'Another activity',hint:'Give me a hint',check:'Check',undo:'Undo',clear:'Start over',readDone:'I have read it',readHint:'Tap a word to hear it.',listenHint:'Tap the speaker and listen carefully.',pick:'Select one of the four pictures',rebuild:'Put the words in order',same:'Same meaning',different:'Different meanings',question:'Question',success:'Well done! You understood the message.',retry:'Almost! Read again and look for details.',readThanks:'Good reading! Keep practising.',orderWrong:'Not quite. Check the word order and punctuation.',orderOk:'Correct! You built the sentence.',word:'What does this word mean?',audioWarn:'Speech depends on the voices installed on your device. Written games still work if a voice is missing.',audioOk:'Text-to-speech available · You can replay whenever you like.',audioOff:'This browser has no text-to-speech support. You can continue the visual activities.',progress:'My progress',stats:'Learning progress',done:'Activities completed',first:'Correct first attempts',withHelp:'Solved using hints',practiced:'Sentences practised',noStats:'No activities completed in this language yet.',rst:'Clear statistics',confirm:'Clear saved progress for all three languages?',statsInfo:'Percentages show first-attempt accuracy; they are not a reading-level diagnosis. Data are stored only on this device.',foot:'No points or rush: you can repeat each activity whenever you wish.',keyboard:'Keys 1–4 to choose · Space to listen · Enter to continue',auto:'Move on automatically after a correct answer',count:'Exercise',wait:'Listen and choose the sentence you heard.',readPrompt:'Read aloud or silently.',helpRead:'Read slowly, separate the words and notice the punctuation.',helpBuild:'The next word should be:',helpDiff:'Pay attention to negatives, numbers, order and relationships.',skip:'You can change exercises at any time.',lck:'Correct! You can continue.',tryAgain:'Try again.',voiceLanguage:'A suitable voice may not be installed for this language.',resetSuccess:'Local progress data cleared.',notVerified:'Reading aloud is not checked using a microphone.'}
+};
+const $=id=>document.getElementById(id);const pick=(o,lang=st.lang)=>o&&typeof o==='object'&&Object.prototype.hasOwnProperty.call(o,lang)?o[lang]:String(o||'');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{const o=[...a];for(let i=o.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[o[i],o[j]]=[o[j],o[i]]}return o};
+function load(){try{return JSON.parse(localStorage.getItem(STORAGE)||'{}')}catch(e){return {}}}
+const data=load();
+const st={lang:['es','ca','en'].includes(data.lang)?data.lang:'es',case:data.case==='lower'?'lower':'upper',speed:[.82,.95,1.1].includes(Number(data.speed))?Number(data.speed):.95,auto:!!data.auto,mode:'read',level:0,task:null,solved:false,tries:0,helped:false,feedback:'',status:'',wrongIndex:-1,session:0,selected:[],stat:data.stat&&typeof data.stat==='object'?data.stat:{},timer:null};
+const deck={};
+function save(){try{localStorage.setItem(STORAGE,JSON.stringify({lang:st.lang,case:st.case,speed:st.speed,auto:st.auto,stat:st.stat}))}catch(e){}}
+const ui=()=>TEXT[st.lang];
+const caseClass=()=>`case-${st.case}`;
+const statKey=()=>`${st.lang}:${st.mode}:${st.level}`;
+function track(isRead=false){const key=statKey();const s=st.stat[key]||{n:0,first:0,help:0,read:0};if(isRead){s.read=(s.read||0)+1}else{s.n=(s.n||0)+1;if(st.tries===0&&!st.helped)s.first=(s.first||0)+1;if(st.helped)s.help=(s.help||0)+1}st.stat[key]=s;save()}
+function ensureDeck(){const key=statKey();if(!deck[key]?.length){const len=B[st.mode][st.level].length;deck[key]=shuffle(Array.from({length:len},(_,i)=>i));if(len>1&&deck[key][deck[key].length-1]===st.lastItem){[deck[key][deck[key].length-1],deck[key][0]]=[deck[key][0],deck[key][deck[key].length-1]]}}return deck[key]}
+function newExercise(playAudio=false){clearTimeout(st.timer);stopSpeech();st.lastItem=st.task?.id;const i=ensureDeck().pop();const row=B[st.mode][st.level][i];st.task={id:i,row};st.solved=false;st.tries=0;st.helped=false;st.feedback='';st.status='';st.wrongIndex=-1;st.selected=[];st.session++;
+ if(st.mode==='listen'){const opts=shuffle([row.q,...row.wrong].map((o,i)=>({item:o,original:i})));st.task.options=opts.map(o=>pick(o.item));st.task.answer=opts.findIndex(o=>o.original===0)}
+ if(['comprehension','vocabulary','inference'].includes(st.mode)){const opts=shuffle(row.o.map((o,i)=>({item:o,original:i})));st.task.options=opts.map(o=>pick(o.item));st.task.answer=opts.findIndex(o=>o.original===row.a)}
+ if(st.mode==='picture'){const opts=shuffle(row.v.map((o,i)=>({item:o,original:i})));st.task.options=opts.map(o=>o.item);st.task.answer=opts.findIndex(o=>o.original===row.a)}
+ if(st.mode==='differences'){st.task.options=[ui().same,ui().different];st.task.answer=row.same?0:1}
+ if(st.mode==='build'){st.task.words=pick(row).match(/\S+/g)||[];st.task.mix=shuffle(st.task.words.map((_,i)=>i));if(st.task.mix.every((x,i)=>x===i)&&st.task.mix.length>1){[st.task.mix[0],st.task.mix[1]]=[st.task.mix[1],st.task.mix[0]]}}
+ render();if(st.session>1&&window.innerWidth<=970){$('appMain').scrollIntoView({behavior:'smooth',block:'start'})}if(playAudio&&st.mode==='listen')say(pick(row.q));}
+function setMode(m){if(!MODES.includes(m)&&m!=='stats')return;st.mode=m;clearTimeout(st.timer);stopSpeech();if(m==='stats'){st.task=null;render()}else newExercise()}
+function setLevel(l){if(l<0||l>3)return;st.level=l;newExercise(st.mode==='listen')}
+function result(ok,successMsg){if(st.solved)return;if(ok){st.solved=true;st.feedback=successMsg||ui().success;st.status='success';track();confetti();if(st.auto)st.timer=setTimeout(()=>newExercise(st.mode==='listen'),1750)}else{st.tries++;st.feedback=ui().retry;st.status='error'}render()}
+function answer(n){if(st.solved||!st.task||!Number.isInteger(n))return;if(n<0||n>=st.task.options.length)return;st.wrongIndex=n;result(n===st.task.answer)}
+function pickWord(idx){if(st.solved||st.mode!=='build')return;const n=Number(idx);if(!st.task.mix.includes(n)||st.selected.includes(n))return;st.selected.push(n);st.feedback='';st.status='';render()}
+function undo(){if(st.mode!=='build'||st.solved)return;st.selected.pop();st.feedback='';st.status='';render()}
+function resetBuild(){if(st.mode!=='build'||st.solved)return;st.selected=[];st.feedback='';st.status='';render()}
+function checkBuild(){if(st.solved||st.mode!=='build')return;if(st.selected.length!==st.task.words.length){st.feedback=ui().rebuild;st.status='error';render();return}const assembled=st.selected.map(i=>st.task.words[i]).join(' ');st.wrongIndex=-1;const ok=assembled===st.task.words.join(' ');result(ok,ui().orderOk);if(!ok){st.feedback=ui().orderWrong;render()}}
+function markedRead(){if(st.mode!=='read'||st.solved)return;st.solved=true;st.feedback=ui().readThanks;st.status='success';track(true);render()}
+function hint(){if(st.solved||!st.task)return;st.helped=true;const row=st.task.row;const U=ui();let msg;
+ if(st.mode==='read')msg=U.helpRead;
+ else if(st.mode==='listen')msg=U.listenHint;
+ else if(st.mode==='build')msg=U.helpBuild+' «'+st.task.words[st.selected.length]+'»';
+ else if(st.mode==='differences')msg=U.helpDiff;
+ else msg=pick(row.hint||row.cl)||U.retry;
+ st.feedback=msg;st.status='';render()}
+function visibleCase(text,klass=''){return `<span class="${caseClass()} ${klass}">${esc(text)}</span>`}
+function optsHtml(opts,mode){const t=st.task,sol=st.solved;return `<div class="${mode==='picture'?'picture-grid':'choice-grid'} ${mode==='differences'?'two-way':''}">${opts.map((o,i)=>{
+ const cx=sol&&i===t.answer?' correct':!sol&&st.wrongIndex===i&&st.tries>0?' wrong':'';
+ if(mode==='picture')return `<button class="picture-choice${cx}" aria-label="${ui().pick} ${i+1}" onclick="PF.answer(${i})" ${sol?'disabled':''}>${sceneSVG(o)}<span class="pic-no">${i+1}</span></button>`;
+ return `<button class="choice${cx}" onclick="PF.answer(${i})" ${sol?'disabled':''}>${visibleCase(o)}<span class="key">${i+1}</span></button>`}).join('')}</div>`}
+function sentenceHtml(text,clickWords=false){if(!clickWords)return `<div class="sentence ${text.length>100?'smaller':''} ${caseClass()}">${esc(text)}</div>`;
+ let offset=0;const parts=text.match(/\S+/g)||[];
+ return `<div class="sentence sentence-words ${text.length>100?'smaller':''} ${caseClass()}">${parts.map((w,i)=>{const start=text.indexOf(w,offset);offset=start+w.length;return `<button class="speech-word" data-char-start="${start}" data-char-end="${offset}" title="${esc(ui().speak)}" onclick="PF.sayWord(${i})">${esc(w)}</button>`}).join('')}</div>`}
+function exerciseHtml(){const m=st.mode,r=st.task.row,t=st.task,u=ui(),txt=pick(r);if(m==='read')return `<p class="subheading">${u.readPrompt}</p><div class="sentence-card">${sentenceHtml(txt,true)}</div><p class="inline-hint">${u.readHint}</p><div class="row-actions"><button class="btn btn-primary" onclick="PF.speak()">🔊 ${u.speak}</button><button class="btn btn-good" onclick="PF.done()" ${st.solved?'disabled':''}>✓ ${u.readDone}</button></div><p class="inline-hint">${u.notVerified}</p>`;
+ if(m==='listen')return `<button class="target-speaker" aria-label="${u.speak}" onclick="PF.speak()">🔊</button><p class="subheading">${u.wait}</p>${optsHtml(t.options,m)}`;
+ if(m==='picture')return `<div class="sentence-card">${sentenceHtml(pick(r.p))}</div><p class="subheading">${u.pick}</p>${optsHtml(t.options,m)}`;
+ if(m==='comprehension')return `<div class="sentence-card">${sentenceHtml(pick(r.s))}</div><div class="question">${visibleCase(pick(r.q))}</div>${optsHtml(t.options,m)}`;
+ if(m==='build')return `<p class="subheading">${u.rebuild}</p><div class="build-area" aria-label="${u.rebuild}">${st.selected.map((id,k)=>`<button class="word-tile in-slot ${caseClass()}" onclick="PF.removeWord(${k})">${esc(t.words[id])}</button>`).join('')}</div><div class="word-bank">${t.mix.map(id=>`<button class="word-tile ${caseClass()}" onclick="PF.pickWord(${id})" ${st.selected.includes(id)?'disabled':''}>${esc(t.words[id])}</button>`).join('')}</div><div class="row-actions"><button class="btn btn-primary" onclick="PF.check()" ${st.solved?'disabled':''}>✓ ${u.check}</button><button class="btn" onclick="PF.undo()" ${st.solved?'disabled':''}>↶ ${u.undo}</button><button class="btn" onclick="PF.resetBuild()" ${st.solved?'disabled':''}>↺ ${u.clear}</button></div>`;
+ if(m==='differences')return `<div class="comparison"><div class="compare-card"><span class="compare-label">A</span>${visibleCase(pick(r.a))}</div><div class="compare-card"><span class="compare-label">B</span>${visibleCase(pick(r.b))}</div></div>${optsHtml(t.options,m)}`;
+ if(m==='vocabulary')return `<div class="long-text ${caseClass()}">${esc(pick(r.s))}</div><div class="question">${visibleCase(u.word)} <span style="color:var(--teal)">${visibleCase('«'+pick(r.word)+'»')}</span></div>${optsHtml(t.options,m)}`;
+ if(m==='inference')return `<div class="long-text ${caseClass()}">${esc(pick(r.s))}</div><div class="question">${visibleCase(pick(r.q))}</div>${optsHtml(t.options,m)}`;
+ return ''}
+function renderStats(){const u=ui();let entries=MODES.map((m,i)=>{let total=0,first=0,assisted=0,read=0;for(let l=0;l<4;l++){const x=st.stat[`${st.lang}:${m}:${l}`]||{};total+=Number(x.n)||0;first+=Number(x.first)||0;assisted+=Number(x.help)||0;read+=Number(x.read)||0}return {m,label:u.modes[i],total,first,assisted,read}});const n=entries.reduce((a,e)=>a+e.total,0),f=entries.reduce((a,e)=>a+e.first,0),h=entries.reduce((a,e)=>a+e.assisted,0),read=entries.reduce((a,e)=>a+e.read,0);return `<div class="topline"><div><div class="eyebrow">${u.progress}</div><h2>${u.stats}</h2><p class="description">${u.statsInfo}</p></div><div class="help-chip">${st.lang.toUpperCase()}</div></div><div class="stats-grid"><div class="stat-card"><div class="stat-value">${n}</div><div class="stat-label">${u.done}</div></div><div class="stat-card"><div class="stat-value">${n?Math.round(f*100/n)+'%':'—'}</div><div class="stat-label">${u.first}</div></div><div class="stat-card"><div class="stat-value">${h}</div><div class="stat-label">${u.withHelp}</div></div><div class="stat-card"><div class="stat-value">${read}</div><div class="stat-label">${u.practiced}</div></div></div>${n||read?entries.map(e=>`<div class="stat-row"><div><strong>${e.label}</strong><div class="stat-label">${e.m==='read'?e.read+' '+u.practiced:e.total+' '+u.done}</div></div><div>${e.total?`<div class="stat-label" style="text-align:right;margin-bottom:4px">${Math.round(100*e.first/e.total)}%</div><div class="bar"><div style="width:${Math.round(100*e.first/e.total)}%"></div></div>`:'—'}</div></div>`).join(''):`<p class="inline-hint">${u.noStats}</p>`}<div class="row-actions"><button class="btn btn-ghost" onclick="PF.clearStats()">🗑 ${u.rst}</button></div>`}
+function render(){const u=ui();document.documentElement.lang=st.lang;document.title=`${u.title} · v0.2`;$('appTitle').textContent=u.title;$('footerTitle').textContent=u.title;$('strap').textContent=u.strap;$('languageLabel').textContent=u.lang;$('caseLabel').textContent=u.type;$('speedLabel').textContent=u.speed;$('navTitle').textContent=u.nav;$('navFoot').textContent=u.foot;$('footerKeyboard').textContent=u.keyboard;
+ $('langSelect').value=st.lang;$('caseSelect').value=st.case;$('speedSelect').value=String(st.speed);
+ $('navItems').innerHTML=MODES.map((m,i)=>`<button class="nav-button ${st.mode===m?'active':''}" onclick="PF.mode('${m}')"><span class="nav-emoji">${ICONS[i]}</span><span>${esc(u.modes[i])}</span></button>`).join('')+`<button class="nav-button ${st.mode==='stats'?'active':''}" onclick="PF.mode('stats')"><span class="nav-emoji">📊</span><span>${u.progress}</span></button>`;
+ if(st.mode==='stats'){$('appMain').innerHTML=renderStats();voiceStatus();return}
+ const modeIndex=MODES.indexOf(st.mode);
+ $('appMain').innerHTML=`<div class="topline"><div><div class="eyebrow">${u.nav} · ${modeIndex+1}/8</div><h2>${esc(u.modes[modeIndex])}</h2><p class="description">${esc(u.descs[modeIndex])}</p></div><div class="help-chip">${u.count} ${st.session} · ${B[st.mode][st.level].length} ${st.lang==='en'?'available':'disponibles'}</div></div><div class="read-steps">${LEVELS.map((c,i)=>`<button class="read-step ${c} ${st.level===i?'selected':''}" onclick="PF.level(${i})" aria-pressed="${st.level===i}"><span>${u.lv[i]}</span><small>${u.lvsub[i]}</small></button>`).join('')}</div><section class="exercise" aria-live="off">${exerciseHtml()}</section><div class="feedback ${st.status==='success'?'success':st.status==='error'?'error':''}" aria-live="polite">${esc(st.feedback||' ')}</div><div class="toolbar"><div class="toolbar-bottom"><button class="btn" onclick="PF.hint()" ${st.solved?'disabled':''}>💡 ${u.hint}</button><button class="btn btn-primary" onclick="PF.next()">↻ ${u.next}</button></div><label class="toggle-label"><input type="checkbox" ${st.auto?'checked':''} onchange="PF.auto(this.checked)"> ${u.auto}</label></div><p class="small-guide" style="text-align:center;margin-top:15px">${u.keyboard}</p>`;
+ voiceStatus();}
+function voiceStatus(){const u=ui(),element=$('voiceStatus');if(!('speechSynthesis' in window)){element.className='voice-status warning';element.textContent='⚠ '+u.audioOff;return}let voices=[];try{voices=speechSynthesis.getVoices()}catch(e){}const found=voices.some(v=>(v.lang||'').toLowerCase().startsWith(({es:'es',ca:'ca',en:'en'})[st.lang]));element.className='voice-status '+(found?'ok':'warning');element.textContent=(found?'🔊 '+u.audioOk:'ℹ '+u.audioWarn+(voices.length?' '+u.voiceLanguage:''))}
+function stopSpeech(){if('speechSynthesis' in window)try{speechSynthesis.cancel()}catch(e){} }
+function say(text,highlight=false){if(!('speechSynthesis' in window))return;stopSpeech();const s=new SpeechSynthesisUtterance(text);const code={es:'es-ES',ca:'ca-ES',en:'en-GB'}[st.lang];s.lang=code;s.rate=st.speed;s.pitch=1;const vv=speechSynthesis.getVoices();const exact=vv.find(v=>(v.lang||'').toLowerCase()===code.toLowerCase());const loose=vv.find(v=>(v.lang||'').toLowerCase().startsWith(code.slice(0,2)));const v=exact||loose;if(v)s.voice=v;if(highlight){s.onboundary=e=>{const buttons=document.querySelectorAll('.speech-word');buttons.forEach(b=>{const start=Number(b.dataset.charStart),end=Number(b.dataset.charEnd);b.classList.toggle('speaking',e.charIndex>=start&&e.charIndex<end)})};s.onend=()=>document.querySelectorAll('.speech-word').forEach(b=>b.classList.remove('speaking'))}try{speechSynthesis.speak(s)}catch(e){}}
+function speak(){if(!st.task)return;const r=st.task.row;const spoken=st.mode==='listen'?pick(r.q):st.mode==='read'||st.mode==='build'?pick(r):['picture'].includes(st.mode)?pick(r.p):'s' in r?pick(r.s):st.mode==='differences'?pick(r.a):'';say(spoken,st.mode==='read')}
+function sayWord(idx){if(st.mode!=='read')return;const words=pick(st.task.row).match(/\S+/g)||[];const w=words[idx];if(w)say(w.replace(/[.,;:!?¡¿]+$/g,''))}
+function confetti(){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const layer=document.createElement('div');layer.className='confetti-layer';const colors=['#a99aed','#77ccb3','#e9b65e','#e595a9','#8ebce5'];for(let i=0;i<23;i++){const b=document.createElement('i');b.className='confetti-bit';b.style.left=`${Math.random()*100}%`;b.style.background=colors[i%colors.length];b.style.animationDelay=`${Math.random()*.2}s`;b.style.setProperty('--dx',`${Math.floor(Math.random()*160-80)}px`);layer.appendChild(b)}document.body.appendChild(layer);setTimeout(()=>layer.remove(),2500)}
+function clearStats(){if(!confirm(ui().confirm))return;st.stat={};save();render()}
+window.PF={mode:setMode,level:setLevel,next:()=>newExercise(st.mode==='listen'),answer,hint,speak,sayWord,done:markedRead,pickWord,removeWord:k=>{if(st.solved)return;st.selected.splice(k,1);st.feedback='';render()},undo,resetBuild,check:checkBuild,auto:x=>{st.auto=!!x;save()},clearStats};
+$('langSelect').addEventListener('change',e=>{st.lang=e.target.value;save();if(st.mode==='stats')render();else newExercise()});
+$('caseSelect').addEventListener('change',e=>{st.case=e.target.value;save();render()});
+$('speedSelect').addEventListener('change',e=>{st.speed=Number(e.target.value);save();render()});
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName))return;if(st.mode==='stats')return;if(/^[1-4]$/.test(e.key)&&!e.altKey&&!e.ctrlKey&&!e.metaKey){if(st.mode==='build'){const i=Number(e.key)-1;const arr=st.task.mix.filter(k=>!st.selected.includes(k));if(arr[i]!==undefined)pickWord(arr[i])}else if(st.mode!=='read')answer(Number(e.key)-1)}else if(e.key===' '){e.preventDefault();speak()}else if(e.key==='Enter'&&st.solved){newExercise(st.mode==='listen')}else if(e.key==='Backspace'&&st.mode==='build'){e.preventDefault();undo()}});
+if('speechSynthesis' in window){speechSynthesis.onvoiceschanged=voiceStatus;}
+newExercise();
+})();
+</script>
+</body></html>
