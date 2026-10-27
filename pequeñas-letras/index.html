@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#7256cb">
-<title>Pequeñas Letras · Lectoescritura v0.5.1</title>
+<title>Pequeñas Letras · Lectoescritura v0.5.3</title>
 <style>
 :root{--ink:#292946;--muted:#706e86;--purple:#6952c2;--purple-dark:#5540a6;--pale:#eee9fd;--bg:#f6f5fb;--edge:#e9e6f3;--teal:#147f78;--yellow:#fff2cb;--good:#14795e;--bad:#a14b52;--shadow:0 16px 48px rgba(56,45,104,.09);color-scheme:light}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:radial-gradient(ellipse at 7% 6%,#ebe5ff 0,transparent 28%),radial-gradient(ellipse at 95% 95%,#dff5f1 0,transparent 32%),var(--bg);min-height:100vh;color:var(--ink)}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f0a838;outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.45}
@@ -54,7 +54,7 @@ header{max-width:1400px;margin:auto;display:flex;align-items:center;justify-cont
 
 .object-table{display:inline-block;vertical-align:middle;width:150px;max-width:100%;height:135px;object-fit:contain}
 .reveal-emoji .object-table{width:115px;height:110px}
-/* v0.5.1: word reading source filters and word identification quiz */
+/* v0.5.2: word reading source filters and word identification quiz */
 .reading-modes{display:flex;flex-wrap:wrap;gap:8px;margin:17px auto 8px;justify-content:center}
 .mode-pill{border:2px solid #e4def2;border-radius:99px;padding:10px 14px;background:#f7f5fd;color:#49405f;font-weight:780;min-height:44px;transition:transform .15s,border-color .15s}
 .mode-pill:hover{transform:translateY(-2px);border-color:#a59bd6}
@@ -65,7 +65,7 @@ header{max-width:1400px;margin:auto;display:flex;align-items:center;justify-cont
 .bank-note{text-align:center;font-size:13px;color:var(--muted);margin:8px auto 0;max-width:700px}
 @media(max-width:630px){.reading-modes{gap:6px}.mode-pill{padding:9px 12px;min-height:43px;font-size:12px}.bank-note{font-size:12px}}
 
-/* v0.5.1.1: readable word choices in a fixed 2-by-2 layout, including phones. */
+/* v0.5.2.1: readable word choices in a fixed 2-by-2 layout, including phones. */
 .choice-grid.word-choice-grid{
   width:min(100%,780px);
   display:grid;
@@ -117,12 +117,53 @@ header{max-width:1400px;margin:auto;display:flex;align-items:center;justify-cont
   .choice-grid.word-choice-grid .choice{min-height:82px;padding:19px 6px 11px}
   .reading-modes .mode-pill.with-skill{min-width:0;flex:1 1 calc(50% - 8px)}
 }
+
+/* v0.5.3 — Escucha sílabas: respuestas en cuadrícula 2 × 2,
+   cada sílaba completa en una única línea, también en pantallas pequeñas. */
+.choice-grid.syllable-choice-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:min(100%,610px);
+  gap:clamp(9px,1.8vw,16px);
+  align-items:stretch;
+}
+.choice-grid.syllable-choice-grid .choice{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  width:100%;
+  min-width:0;
+  min-height:94px;
+  padding:20px 12px 13px;
+}
+.choice-grid.syllable-choice-grid .choice-text{
+  display:inline-block;
+  max-width:100%;
+  white-space:nowrap;
+  word-break:keep-all;
+  overflow-wrap:normal;
+  font-size:clamp(25px,4vw,44px);
+  line-height:1.12;
+}
+.choice-grid.syllable-choice-grid .choice kbd{
+  position:absolute;
+  top:7px;
+  right:10px;
+  float:none;
+  font-size:12px;
+}
+@media(max-width:630px){
+ .choice-grid.syllable-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .choice-grid.syllable-choice-grid .choice{min-height:84px;padding:20px 5px 12px}
+ .choice-grid.syllable-choice-grid .choice-text{font-size:clamp(21px,7vw,34px)}
+}
 </style>
 </head>
 <body>
 <header><div class="brand"><div class="logo" aria-hidden="true">✎</div><div><small>Aprender jugando</small><h1 id="appTitle">Pequeñas Letras</h1></div></div><div class="prefs"><label class="pref"><span id="languageLabel">Idioma</span><select id="langSelect" aria-label="Idioma"><option value="es">Castellano</option><option value="ca">Valencià</option><option value="en">English</option></select></label><label class="pref"><span id="caseLabel">Tipo de letra</span><select id="caseSelect" aria-label="Tipo de letra"><option value="upper">MAYÚSCULAS</option><option value="lower">minúsculas</option></select></label><label class="pref"><span id="speedLabel">Velocidad de voz</span><select id="speedSelect" aria-label="Velocidad de voz"><option value="0.82">Lenta</option><option value="0.95" selected>Normal</option><option value="1.1">Rápida</option></select></label></div></header>
 <div class="shell"><nav class="sidebar" aria-label="Actividades"><div class="nav-title" id="navTitle">Actividades</div><div id="navItems"></div><div class="sidebar-bottom" id="navFoot"></div></nav><main class="workspace" id="appMain" tabindex="-1"></main></div>
-<div class="voice-status" id="voiceStatus" role="status" aria-live="polite"></div><footer><span id="footerAppTitle">Pequeñas Letras</span> · v0.5.1 · HTML · <span id="footerKeyboard">Ratón y teclado</span></footer>
+<div class="voice-status" id="voiceStatus" role="status" aria-live="polite"></div><footer><span id="footerAppTitle">Pequeñas Letras</span> · v0.5.3 · HTML · <span id="footerKeyboard">Ratón y teclado</span></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 'use strict';
@@ -138,7 +179,7 @@ for(const [l,d] of Object.entries(tx)){
  d.identifyDesc={es:'Escucha una palabra completa y elige cómo se escribe.',ca:'Escolta una paraula sencera i tria com s’escriu.',en:'Listen to a whole word and choose its spelling.'}[l];
  d.identifyPrompt={es:'Escucha la palabra y selecciona la escritura correcta.',ca:'Escolta la paraula i tria com s’escriu correctament.',en:'Listen to the word and choose the correct spelling.'}[l];
  d.identifyGuide={es:'Escucha y elige',ca:'Escolta i tria',en:'Listen and choose'}[l];
- d.readBankIntro={es:'Ahora puedes leer monosílabas y bisílabas del banco de lectura en voz alta.',ca:'Ara pots llegir monosíl·labes i bisíl·labes del banc de lectura en veu alta.',en:'Read one- and two-syllable words from the read-aloud bank.'}[l];
+ d.readBankIntro={es:'Lee palabras de los mismos cuatro niveles que «Leo en voz alta». Pulsa las partes para escucharlas.',ca:'Llig paraules dels mateixos quatre nivells que «Llegisc en veu alta». Prem les parts per a escoltar-les.',en:'Read words from the same four difficulty levels as Read aloud. Tap each part to hear it.'}[l];
  d.noIllustration={es:'Comprueba cómo se escribe y se pronuncia.',ca:'Comprova com s’escriu i com es pronuncia.',en:'Check how the word is written and pronounced.'}[l];
  d.readCheck={es:'Descubrir',ca:'Descobrir',en:'Reveal'}[l];
  d.identifyKeys={es:'Pulsa 1–4 para responder, R para escuchar de nuevo y N para cambiar de palabra.',ca:'Prem 1–4 per a respondre, R per a escoltar de nou i N per a canviar de paraula.',en:'Press 1–4 to answer, R to listen again, N for another word.'}[l];
@@ -166,10 +207,23 @@ const pairs={
  },
  // English is NOT made by Cartesian syllable multiplication: curated real chunks/words only.
  en:{
-  CV:['be','by','do','go','he','hi','me','my','no','so','to','we'],
-  VC:['am','an','as','at','ax','ed','ex','if','in','is','it','of','on','or','ox','up','us']
+  // The short pairs below are spelling chunks of real English words (ba-t, ca-t, fa-n...).
+  // Unlike Spanish, a two-letter English fragment does not always have one consistent sound.
+  // Q normally needs QU and X has no regular native CV onset: teach these in longer patterns.
+  CV:['ba','be','bi','bo','bu','by','ca','ce','ci','co','cu','da','de','di','do','du',
+      'fa','fe','fi','fo','fu','ga','ge','gi','go','gu','ha','he','hi','ho','hu',
+      'ja','je','ji','jo','ju','ka','ke','ki','ko','la','le','li','lo','lu',
+      'ma','me','mi','mo','mu','my','na','ne','ni','no','nu','pa','pe','pi','po','pu',
+      'ra','re','ri','ro','ru','sa','se','si','so','su','ta','te','ti','to','tu',
+      'va','ve','vi','vo','wa','we','wi','wo','ya','ye','yi','yo','za','ze','zi','zo'],
+  VC:['ab','ac','ad','ag','ak','al','am','an','ap','ar','as','at','ax','ay',
+      'eb','ec','ed','eg','el','em','en','ep','er','es','et','ex',
+      'ib','ic','id','if','ig','il','im','in','ip','ir','is','it','ix',
+      'ob','oc','od','of','og','ol','om','on','op','or','os','ot','ox','oy',
+      'ub','uc','ud','ug','ul','um','un','up','ur','us','ut']
  }
 };
+const PAIR_LEVELS={"es":{"three":["pan","par","paz","pas","sol","son","soy","sal","mar","mal","mas","mes","mil","mis","ven","vas","ver","vez","dan","das","dar","dos","don","del","tan","tal","ten","tos","tus","con","col","cor","fin","fue","fui","gol","gas","gel","gen","luz","las","les","los","sur","sus","sin","san","sed","ser","pez","pie","por","pon"],"complex":["tren","tres","tras","tron","tran","flor","flan","fran","fras","plan","plas","gran","gris","grin","cruz","crin","cris","clan","clip","clon","club","blan","brin","bron","brus","prin","pren","pres"]},"ca":{"three":["pam","pas","pal","sol","son","soc","sot","mar","mal","mas","mai","cap","car","cas","cau","nas","nap","nau","nat","gos","gol","got","dit","diu","dic","rei","res","rem","peu","pel","pes","pet","set","sec","ser","seu","sen","sac","sal","sap","pou","pot","poc","pol"],"complex":["tren","tres","truc","gris","grup","groc","gran","cranc","cric","crec","creu","blau","bloc","blat","plou","plor","prou","prat","flor","floc","clau","clot","club","glop","drac"]},"en":{"three":["cat","can","cap","cab","car","dog","dot","don","sun","sum","sup","sub","pen","pet","peg","pea","bed","bet","beg","bee","hat","ham","had","has","man","mat","map","mad","pig","pin","pit","pie","red","rep","run","rug","rat","top","ton","toy","toe","sit","sip","six","sin","cup","cut","cub","cue","fan","fat","far","fun"],"complex":["ship","shop","shot","shut","chip","chin","chat","chop","stop","star","step","stem","train","trap","tree","trip","frog","from","free","fruit","play","plan","plug","plot","rain","rail","rate","raid","blue","blow","blip","blog","snow","snap","snip","snug","street","strap","strip","strong","black","block","blend","blink"]}};
 const words={
  es:[['casa',['ca','sa'],'🏠'],['mesa',['me','sa'],'🖼️'],['mano',['ma','no'],'✋'],['pato',['pa','to'],'🦆'],['gato',['ga','to'],'🐈'],['sopa',['so','pa'],'🥣'],['luna',['lu','na'],'🌙'],['mapa',['ma','pa'],'🗺️'],['pelota',['pe','lo','ta'],'⚽'],['mariposa',['ma','ri','po','sa'],'🦋'],['pirata',['pi','ra','ta'],'🏴‍☠️'],['zapato',['za','pa','to'],'👟']],
  ca:[['casa',['ca','sa'],'🏠'],['poma',['po','ma'],'🍎'],['lluna',['llu','na'],'🌙'],['sopa',['so','pa'],'🥣'],['moto',['mo','to'],'🏍️'],['rosa',['ro','sa'],'🌹'],['mare',['ma','re'],'👩'],['pare',['pa','re'],'👨'],['pilota',['pi','lo','ta'],'⚽'],['balena',['ba','le','na'],'🐋'],['sabata',['sa','ba','ta'],'👟'],['papallona',['pa','pa','llo','na'],'🦋']],
@@ -202,8 +256,8 @@ const readingBanks={
   blue:`TRES|PLUJA|BLAU|GLOBUS|TRACTOR|AUTOBÚS|TREN|TRINEU|GROC|VERMELL|BRANCA|BANC|CASTELL|CARTA|PRINCESA|ESTOIG|MARTELL|GRONXADOR|SAMARRETA|ELEFANT|ENTREPÀ|FANTASMA|FINESTRA|PRUNA|TRIANGLE|TROMPETA|PLATJA|ARMARI|MAQUINETA|GRAPADORA|CALCULADORA|ASTRONAUTA|INFERMERA|XOCOLATA|TISORES|CARPETA|LIBÈL·LULA|CLAU|CRANC`
  },
  es:{
-  green:`PAN|MAR|SOL|SAL|LUZ|PAZ|FIN|PIE|VOZ|DOS|TRES|FE|TÉ|SÍ|NO|YO|TÚ|ÉL|REY|MES|COL|SUR|GAS|MAL|MIL|CAL|TEN|VEN|HOY|SOY|HAY|SER|PAR|RÍO|DÍA|PEZ`,
-  yellow:`CASA|MESA|GATO|PATO|BOCA|LUNA|SOPA|PALA|CAMA|PELO|PERA|MANO|GOMA|COLA|VIDA|VINO|NUBE|DADO|VELA|FILA|MAPA|MOTO|PUMA|NIDO|BOLA|RANA|ROSA|ROPA|RATÓN|SILLA|PERRO|LLAVE|QUESO|BESO|NATA|TAPA|PATO|CUBO`,
+  green:`PAN|MAR|SOL|SAL|LUZ|PAZ|FIN|PIE|VOZ|DOS|TRES|FE|TÉ|SÍ|NO|YO|TÚ|ÉL|REY|MES|COL|SUR|GAS|MAL|MIL|CAL|TEN|VEN|HOY|SOY|HAY|SER|PAR|PEZ`,
+  yellow:`CASA|MESA|GATO|PATO|BOCA|LUNA|SOPA|PALA|CAMA|PELO|PERA|MANO|GOMA|COLA|VIDA|VINO|NUBE|DADO|VELA|FILA|MAPA|MOTO|PUMA|NIDO|BOLA|RANA|ROSA|ROPA|RATÓN|SILLA|PERRO|LLAVE|QUESO|BESO|NATA|TAPA|PATO|CUBO|RÍO|DÍA`,
   pink:`PELOTA|PIRATA|MALETA|CADENA|CAMISA|BALLENA|MEDUSA|GALLINA|SIRENA|PATATA|ZAPATO|HELADO|MORADO|MONEDA|MARIPOSA|TOMATE|ELEFANTE|TELÉFONO|SEMÁFORO|CUCHARA|NARANJA|COCODRILO|CARAMELO|CALENDARIO|BICICLETA|MARGARITA|ZAPATERO|ABEJA|PALOMA|PÁJARO|ESCALERA`,
   blue:`TREN|TRES|BLANCO|BRAZO|BRUJA|GLOBO|PLANTA|PLATO|PLAZA|GRILLO|GRANDE|PRINCESA|PUENTE|ESCUELA|ESTRELLA|TROMPETA|TRIÁNGULO|TRACTOR|CANGREJO|AUTOBÚS|ESCRITORIO|PRIMAVERA|CHOCOLATE|PROFESORA|ASTRONAUTA|GRAPADORA|CALCULADORA|EXPLORADOR|BIBLIOTECA|FANTÁSTICO|TRANSBORDADOR|CRUCERO|CRUCIGRAMA|CRISTAL|CRÁNEO`
  },
@@ -223,23 +277,24 @@ const readI18n={
  en:{title:'Read aloud',desc:'Read words into the microphone. Progress from green to blue with no confirmed mistakes.',colors:['Green','Yellow','Pink','Blue'],skills:['One-syllable words','Easy two-syllable words','Longer words','Complex spelling'],prompt:'Read this word aloud, without asking for a hint.',start:'🎤 Speak',listen:'Listening…',micError:'I could not hear you. Please try again; this is not counted as a mistake.',heard:'I heard',uncertain:'I might have misheard you. You can try again without losing progress.',retry:'🔁 Try again',sayRight:'✓ I said it correctly',markWrong:'✗ I need practice',great:'Well done! Correct reading.',practice:'Listen to how it sounds and practise again.',model:'🔊 Hear correct word',manual:'Adult marking',manualTip:'Speech recognition is unavailable. An adult should assess the reading.',manualRight:'✓ Correct (adult)',manualWrong:'↻ Needs practice (adult)',goal:'Goal to advance',clean:'First-try correct',streak:'Mistake-free round',rules:'To advance: read at least 90% of different words correctly on the first try with no hints. A confirmed mistake restarts the clean round but never removes completed levels.',reset:'↺ Restart round',resetConfirm:'Restart the correct answers for this round?',completed:'Level completed!',final:'You completed all four colours!',auto:'Moving to the next colour automatically.',manualNote:'You can choose any colour above, even before unlocking it.',unsupported:'Your browser does not support speech recognition. Try Chrome or Edge with microphone permission, or use adult marking.',waiting:'Select “Speak” and read the word. The app will not say it first.',review:'Word awaiting review',missing:'Speech recognition is not available here. No penalty.',preview:'Listening to the model makes this a practice attempt, not an assessed answer.',assisted:'Great practice! This word will return for a try without help.',errRound:'The mistake-free round starts again. Keep practising.',micBlocked:'Microphone permission was denied. Check your settings.',all:'All levels completed',check:'Oral reading assessment · Speech recognition can make mistakes, especially with children.'}
 };
 for(const [lang,guide,keys] of [['es','Lectura guiada','Teclado: barra espaciadora para hablar; Tab y Enter para pulsar botones.'],['ca','Lectura guiada','Teclat: barra espaiadora per a parlar; Tab i Retorn per als botons.'],['en','Guided reading','Keyboard: Space to speak; Tab and Enter to select buttons.']]){readI18n[lang].guide=guide;readI18n[lang].keys=keys;}
-// v0.5.1: reuse the existing read-aloud green and yellow banks, not new guessed words.
+// v0.5.2: reuse the existing read-aloud green and yellow banks, not new guessed words.
 const LEARN_SPLITS = {"es":{"casa":["ca","sa"],"mesa":["me","sa"],"gato":["ga","to"],"pato":["pa","to"],"boca":["bo","ca"],"luna":["lu","na"],"sopa":["so","pa"],"pala":["pa","la"],"cama":["ca","ma"],"pelo":["pe","lo"],"pera":["pe","ra"],"mano":["ma","no"],"goma":["go","ma"],"cola":["co","la"],"vida":["vi","da"],"vino":["vi","no"],"nube":["nu","be"],"dado":["da","do"],"vela":["ve","la"],"fila":["fi","la"],"mapa":["ma","pa"],"moto":["mo","to"],"puma":["pu","ma"],"nido":["ni","do"],"bola":["bo","la"],"rana":["ra","na"],"rosa":["ro","sa"],"ropa":["ro","pa"],"ratón":["ra","tón"],"silla":["si","lla"],"perro":["pe","rro"],"llave":["lla","ve"],"queso":["que","so"],"beso":["be","so"],"nata":["na","ta"],"tapa":["ta","pa"],"cubo":["cu","bo"],"río":["rí","o"],"día":["dí","a"]},"ca":{"poma":["po","ma"],"goma":["go","ma"],"pera":["pe","ra"],"cola":["co","la"],"roda":["ro","da"],"vaca":["va","ca"],"moto":["mo","to"],"nata":["na","ta"],"tapa":["ta","pa"],"pala":["pa","la"],"pela":["pe","la"],"pila":["pi","la"],"gota":["go","ta"],"gorra":["gor","ra"],"bossa":["bos","sa"],"bassa":["bas","sa"],"fada":["fa","da"],"fulla":["fu","lla"],"figa":["fi","ga"],"bota":["bo","ta"],"boca":["bo","ca"],"pota":["po","ta"],"copa":["co","pa"],"sabó":["sa","bó"],"cama":["ca","ma"],"serra":["ser","ra"],"sopa":["so","pa"],"lupa":["lu","pa"],"mico":["mi","co"],"roca":["ro","ca"],"rosa":["ro","sa"],"roba":["ro","ba"],"nina":["ni","na"],"nena":["ne","na"],"rata":["ra","ta"],"casa":["ca","sa"]},"en":{"rabbit":["rab","bit"],"tiger":["ti","ger"],"lemon":["lem","on"],"apple":["ap","ple"],"table":["ta","ble"],"pizza":["piz","za"],"paper":["pa","per"],"water":["wa","ter"],"happy":["hap","py"],"puppy":["pup","py"],"kitten":["kit","ten"],"robot":["ro","bot"],"zero":["ze","ro"],"zebra":["ze","bra"],"open":["o","pen"],"hotel":["ho","tel"],"seven":["sev","en"],"music":["mu","sic"],"baby":["ba","by"],"lady":["la","dy"],"sunny":["sun","ny"],"rainy":["rain","y"],"sister":["sis","ter"],"mother":["moth","er"],"father":["fa","ther"],"rocket":["rock","et"],"pocket":["pock","et"],"basket":["bas","ket"],"dinner":["din","ner"],"window":["win","dow"],"pencil":["pen","cil"],"salad":["sal","ad"],"carrot":["car","rot"],"garden":["gar","den"],"button":["but","ton"],"teddy":["ted","dy"],"farmer":["farm","er"],"camel":["cam","el"]}};
 const LEARN_IMAGES = {"es":{"pan":"🍞","mar":"🌊","sol":"☀️","sal":"🧂","luz":"💡","paz":"🕊️","fin":"🏁","pie":"🦶","voz":"🗣️","dos":"2️⃣","tres":"3️⃣","fe":"🙏","té":"🍵","sí":"✅","no":"⛔","yo":"👤","tú":"👋","él":"🧒","rey":"👑","mes":"🗓️","col":"🥬","sur":"🧭","gas":"🔥","mal":"🤒","mil":"🔢","cal":"🪨","ten":"✋","ven":"👋","hoy":"📆","soy":"👤","hay":"📦","ser":"🧍","par":"👟","río":"🏞️","día":"🌅","pez":"🐟","casa":"🏠","gato":"🐈","pato":"🦆","boca":"👄","luna":"🌙","sopa":"🥣","pala":"🏖️","cama":"🛏️","pelo":"💇","pera":"🍐","mano":"✋","goma":"","cola":"🥤","vida":"🌱","vino":"🍇","nube":"☁️","dado":"🎲","vela":"🕯️","fila":"🚶","mapa":"🗺️","moto":"🏍️","puma":"🐆","nido":"🪺","bola":"⚽","rana":"🐸","rosa":"🌹","ropa":"👚","ratón":"🐭","silla":"🪑","perro":"🐕","llave":"🔑","queso":"🧀","beso":"😘","nata":"🥛","tapa":"🫙","cubo":"🪣","mesa":"🪑"},"ca":{"pa":"🍞","mà":"✋","foc":"🔥","sol":"☀️","peu":"🦶","cap":"🗣️","llit":"🛏️","gos":"🐕","cor":"❤️","mar":"🌊","fil":"🧵","ou":"🥚","rei":"👑","col":"🥬","suc":"🧃","mel":"🍯","nas":"👃","ruc":"🫏","món":"🌍","set":"7️⃣","pal":"🪵","sal":"🧂","gat":"🐈","bol":"🥣","got":"🥛","deu":"🔟","cuc":"🐛","pou":"🕳️","rem":"🚣","vi":"🍇","os":"🦴","dit":"☝️","riu":"🏞️","tap":"🧴","niu":"🪺","dos":"2️⃣","neu":"❄️","dau":"🎲","gall":"🐓","poma":"🍎","goma":"","pera":"🍐","cola":"🥤","roda":"🛞","vaca":"🐄","moto":"🏍️","nata":"🥛","tapa":"🫙","pala":"🏖️","pela":"","pila":"🔋","gota":"💧","gorra":"🧢","bossa":"👜","bassa":"💧","fada":"🧚","fulla":"🍃","figa":"🫒","bota":"🥾","boca":"👄","pota":"🐾","copa":"🏆","sabó":"🧼","cama":"🛏️","serra":"⛰️","sopa":"🥣","lupa":"🔍","mico":"🐒","roca":"🪨","rosa":"🌹","roba":"👕","nina":"🪆","nena":"👧","rata":"🐀","casa":"🏠"},"en":{"cat":"🐈","dog":"🐕","sun":"☀️","pen":"🖊️","cup":"🥤","bed":"🛏️","map":"🗺️","pig":"🐖","fox":"🦊","red":"🔴","hat":"🎩","hen":"🐔","top":"🔝","lip":"👄","bus":"🚌","man":"👨","pan":"🍳","jam":"🍓","mud":"","rug":"","leg":"🦵","box":"📦","net":"🥅","ten":"🔟","run":"🏃","hop":"🐇","pot":"🍲","van":"🚐","zip":"🤐","log":"🪵","big":"🐘","sit":"🪑","dad":"👨","mum":"👩","pet":"🐕","hit":"🥁","rabbit":"🐇","tiger":"🐅","lemon":"🍋","apple":"🍎","table":"🪑","pizza":"🍕","paper":"📄","water":"💧","happy":"😀","puppy":"🐶","kitten":"🐱","robot":"🤖","zero":"0️⃣","zebra":"🦓","open":"🚪","hotel":"🏨","seven":"7️⃣","music":"🎵","baby":"👶","lady":"👩","sunny":"☀️","rainy":"🌧️","sister":"👧","mother":"👩","father":"👨","rocket":"🚀","pocket":"👖","basket":"🧺","dinner":"🍽️","window":"🪟","pencil":"✏️","salad":"🥗","carrot":"🥕","garden":"🌼","button":"🔘","teddy":"🧸","farmer":"👨‍🌾","camel":"🐪"}};
-const learnReadModes=['green','yellow','original','mixed'];
+const IDENTIFY_EXTRA={"es":{"green":["mar","mal","más","pan","par","paz","sol","son","soy","pie","piel","pies","dos","don","doy","voy","vos","voz","fin","fiel","sed","ser","sé","tan","tal","tap"],"yellow":["casa","cama","cara","capa","caja","cala","pato","pala","paso","paja","pavo","palo","pelo","pera","peso","pena","perro","gato","gana","gama","gasa","gala","mano","mapa","masa","mata","malo","sopa","soda","sola","soga","roca","rosa","ropa","rollo","luna","lupa","luto","luces"],"pink":["maleta","mariposa","margarita","madera","mañana","maquinita","camisa","cadena","calendario","caramelo","caravana","camioneta","elefante","elegante","elevador","electricidad","bicicleta","biblioteca","bigotudo","bilingüe","zapatero","zapatilla","zapatería","zapatito"],"blue":["tren","tres","tractor","trompeta","triángulo","trineo","travesura","planta","plato","plaza","pluma","plástico","grande","grillo","grúa","gravedad","princesa","primavera","prisionero","profesora","cristal","crucero","crucigrama","cráneo","escuela","escritorio","estrella","escalera"]},"ca":{"green":["sol","son","soc","sot","mar","mal","mas","mai","pa","pal","pam","pas","pau","gat","gas","gall","cap","car","cas","cau","dit","diu","dins","sal","sap","sac","sant","pou","pot","poc","gos","gol","got","cor","col","cop","reu","rei","res","rem","peu","pel","pes","pet","set","ser","sec","seu"],"yellow":["poma","pota","poca","popa","casa","cama","capa","cara","cala","canya","goma","gota","gorra","gossa","roda","rosa","roba","roca","bota","boca","bossa","bona","pala","papa","paga","palla","pera","pela","pena","pesa","sopa","sola","soga","sota","fada","fama","fava","fase","mico","mira","mida","miga"],"pink":["cadena","camisa","cadira","campana","caragol","cambrera","galleda","gallina","galeta","galopar","gavina","pirata","pilota","pintura","pintada","pinzell","maleta","maraca","marinera","maragda","sabata","saludar","salutació","samarreta","torrada","tomaca","torreta","tornada"],"blue":["tren","tres","trineu","triangle","tractor","trompeta","truita","gronxador","grapadora","granja","granet","gràcia","carta","castell","carpeta","calculadora","caragol","cranc","cristall","cremallera","crònica","cridòria","pluja","platja","planta","plàtan","plànol"]},"en":{"green":["cat","can","cap","cab","car","dog","dot","doll","dock","done","sun","sum","sup","sub","sue","pen","pet","peg","pea","per","bed","bet","beg","bell","bend","hat","ham","had","has","hand","man","mat","map","mad","max","pig","pin","pit","pill","pink","red","rep","rest","rent","read","top","toy","ton","toe","took","sit","sip","six","sick","sin","cup","cut","cub","cue","curl"],"yellow":["rabbit","radar","rapid","racket","ranger","tiger","tiny","title","timid","tickle","lemon","level","lesson","letter","legend","apple","apron","apply","aptly","table","tablet","talent","tasty","taxi","puppy","puppet","puzzle","purple","robot","rocket","robin","roller","paper","panda","parent","party","packet","camel","carrot","candy","castle","cabin","sister","silver","signal","simple","button","butter","bubble","buddy"],"pink":["banana","basketball","barbecue","badminton","bakery","potato","population","policeman","poisonous","polarisation","dinosaur","dictionary","digital","difference","difficult","telephone","television","telescope","territory","calculator","calendar","carnival","camera","cafeteria","elephant","elevator","elegant","electricity","elementary"],"blue":["spring","spray","sprout","spread","street","strong","strange","strawberry","train","triangle","trumpet","trouble","through","thought","thousand","thunder","school","scratch","scream","scissors","bridge","bright","brother","brown","breakfast","bread","breathe","breakdown","princess","problem","promise","protection"]}};
+const EXTRA_READING_SPLITS={"es":{"casa":["ca","sa"],"mesa":["me","sa"],"gato":["ga","to"],"pato":["pa","to"],"boca":["bo","ca"],"luna":["lu","na"],"sopa":["so","pa"],"pala":["pa","la"],"cama":["ca","ma"],"pelo":["pe","lo"],"pera":["pe","ra"],"mano":["ma","no"],"goma":["go","ma"],"cola":["co","la"],"vida":["vi","da"],"nube":["nu","be"],"dado":["da","do"],"vela":["ve","la"],"fila":["fi","la"],"mapa":["ma","pa"],"moto":["mo","to"],"puma":["pu","ma"],"nido":["ni","do"],"bola":["bo","la"],"rana":["ra","na"],"rosa":["ro","sa"],"ropa":["ro","pa"],"ratón":["ra","tón"],"silla":["si","lla"],"perro":["pe","rro"],"llave":["lla","ve"],"queso":["que","so"],"beso":["be","so"],"nata":["na","ta"],"tapa":["ta","pa"],"cubo":["cu","bo"],"río":["rí","o"],"día":["dí","a"],"pelota":["pe","lo","ta"],"pirata":["pi","ra","ta"],"maleta":["ma","le","ta"],"cadena":["ca","de","na"],"camisa":["ca","mi","sa"],"ballena":["ba","lle","na"],"medusa":["me","du","sa"],"gallina":["ga","lli","na"],"sirena":["si","re","na"],"patata":["pa","ta","ta"],"zapato":["za","pa","to"],"helado":["he","la","do"],"morado":["mo","ra","do"],"moneda":["mo","ne","da"],"mariposa":["ma","ri","po","sa"],"tomate":["to","ma","te"],"elefante":["e","le","fan","te"],"teléfono":["te","lé","fo","no"],"semáforo":["se","má","fo","ro"],"cuchara":["cu","cha","ra"],"naranja":["na","ran","ja"],"cocodrilo":["co","co","dri","lo"],"caramelo":["ca","ra","me","lo"],"calendario":["ca","len","da","rio"],"bicicleta":["bi","ci","cle","ta"],"margarita":["mar","ga","ri","ta"],"zapatero":["za","pa","te","ro"],"abeja":["a","be","ja"],"paloma":["pa","lo","ma"],"pájaro":["pá","ja","ro"],"escalera":["es","ca","le","ra"],"blanco":["blan","co"],"brazo":["bra","zo"],"bruja":["bru","ja"],"globo":["glo","bo"],"planta":["plan","ta"],"plato":["pla","to"],"plaza":["pla","za"],"grillo":["gri","llo"],"grande":["gran","de"],"princesa":["prin","ce","sa"],"puente":["puen","te"],"escuela":["es","cue","la"],"estrella":["es","tre","lla"],"trompeta":["trom","pe","ta"],"triángulo":["trián","gu","lo"],"tractor":["trac","tor"],"cangrejo":["can","gre","jo"],"autobús":["au","to","bús"],"escritorio":["es","cri","to","rio"],"primavera":["pri","ma","ve","ra"],"chocolate":["cho","co","la","te"],"profesora":["pro","fe","so","ra"],"astronauta":["as","tro","nau","ta"],"grapadora":["gra","pa","do","ra"],"calculadora":["cal","cu","la","do","ra"],"explorador":["ex","plo","ra","dor"],"biblioteca":["bi","blio","te","ca"],"fantástico":["fan","tás","ti","co"],"transbordador":["trans","bor","da","dor"],"crucero":["cru","ce","ro"],"crucigrama":["cru","ci","gra","ma"],"cristal":["cris","tal"],"cráneo":["crá","ne","o"]},"ca":{"poma":["po","ma"],"goma":["go","ma"],"pera":["pe","ra"],"cola":["co","la"],"roda":["ro","da"],"vaca":["va","ca"],"moto":["mo","to"],"nata":["na","ta"],"tapa":["ta","pa"],"pala":["pa","la"],"pela":["pe","la"],"pila":["pi","la"],"gota":["go","ta"],"gorra":["gor","ra"],"bossa":["bos","sa"],"bassa":["bas","sa"],"fada":["fa","da"],"fulla":["fu","lla"],"figa":["fi","ga"],"bota":["bo","ta"],"boca":["bo","ca"],"pota":["po","ta"],"copa":["co","pa"],"sabó":["sa","bó"],"cama":["ca","ma"],"serra":["ser","ra"],"sopa":["so","pa"],"lupa":["lu","pa"],"mico":["mi","co"],"roca":["ro","ca"],"rosa":["ro","sa"],"roba":["ro","ba"],"nina":["ni","na"],"nena":["ne","na"],"rata":["ra","ta"],"casa":["ca","sa"],"pirata":["pi","ra","ta"],"pilota":["pi","lo","ta"],"cadena":["ca","de","na"],"maleta":["ma","le","ta"],"cirera":["ci","re","ra"],"camisa":["ca","mi","sa"],"balena":["ba","le","na"],"galleda":["ga","lle","da"],"cadira":["ca","di","ra"],"medusa":["me","du","sa"],"gallina":["ga","lli","na"],"sirena":["si","re","na"],"rodona":["ro","do","na"],"patata":["pa","ta","ta"],"sabata":["sa","ba","ta"],"galeta":["ga","le","ta"],"torrada":["tor","ra","da"],"ampolla":["am","po","lla"],"estrella":["es","tre","lla"],"telèfon":["te","lè","fon"],"tigre":["ti","gre"],"maraca":["ma","ra","ca"],"moneda":["mo","ne","da"],"farina":["fa","ri","na"],"botiga":["bo","ti","ga"],"pluja":["plu","ja"],"globus":["glo","bus"],"tractor":["trac","tor"],"autobús":["au","to","bús"],"trineu":["tri","neu"],"vermell":["ver","mell"],"branca":["bran","ca"],"castell":["cas","tell"],"carta":["car","ta"],"princesa":["prin","ce","sa"],"estoig":["es","toig"],"martell":["mar","tell"],"gronxador":["gron","xa","dor"],"samarreta":["sa","ma","rre","ta"],"elefant":["e","le","fant"],"entrepà":["en","tre","pà"],"fantasma":["fan","tas","ma"],"finestra":["fi","nes","tra"],"pruna":["pru","na"],"triangle":["tri","an","gle"],"trompeta":["trom","pe","ta"],"platja":["plat","ja"],"armari":["ar","ma","ri"],"maquineta":["ma","qui","ne","ta"],"grapadora":["gra","pa","do","ra"],"calculadora":["cal","cu","la","do","ra"],"astronauta":["as","tro","nau","ta"],"infermera":["in","fer","me","ra"],"xocolata":["xo","co","la","ta"],"tisores":["ti","so","res"],"carpeta":["car","pe","ta"],"libèl·lula":["li","bèl","lu","la"]},"en":{"banana":["ba","na","na"],"potato":["po","ta","to"],"tomato":["to","ma","to"],"elephant":["el","e","phant"],"computer":["com","pu","ter"],"animal":["an","i","mal"],"holiday":["hol","i","day"],"bicycle":["bi","cy","cle"],"butterfly":["but","ter","fly"],"pineapple":["pine","ap","ple"],"avocado":["av","o","ca","do"],"supermarket":["su","per","mar","ket"],"helicopter":["hel","i","cop","ter"],"crocodile":["croc","o","dile"],"telephone":["tel","e","phone"],"octopus":["oc","to","pus"],"calculator":["cal","cu","la","tor"],"submarine":["sub","ma","rine"],"rainbow":["rain","bow"],"strawberry":["straw","ber","ry"],"triangle":["tri","an","gle"],"trumpet":["trum","pet"],"princess":["prin","cess"],"chocolate":["choc","o","late"],"astronaut":["as","tro","naut"],"playground":["play","ground"],"friendship":["friend","ship"],"toothbrush":["tooth","brush"],"breakfast":["break","fast"],"kitchen":["kitch","en"],"daughter":["daugh","ter"],"scissors":["scis","sors"],"squirrel":["squir","rel"]}};
+const learnReadModes=readingTiers;
 const identifyModes=['green','yellow','pink','blue'];
 function readCatalog(){
  const lang=state.lang;
- const monos=readingBanks[lang].green.filter(w=>!(lang==='es'&&['río','día'].includes(w)));
- const bis=readingBanks[lang].yellow.concat(lang==='es'?['río','día']:[]);
- const create=(word)=>[word,LEARN_SPLITS[lang][word]||[word],LEARN_IMAGES[lang][word]||''];
- const bank1=monos.map(create),bank2=bis.map(create);
- if(state.readMode==='green')return bank1;
- if(state.readMode==='yellow')return bank2;
- if(state.readMode==='original')return words[lang];
- return [...bank1,...bank2,...words[lang].filter(w=>!monos.includes(w[0])&&!bis.includes(w[0]))];
+ // All four difficulty groups share exactly the same base banks as Read aloud.
+ return readingBanks[lang][state.readMode].map(word=>{
+  const original=words[lang].find(w=>w[0]===word);
+  const syllables=LEARN_SPLITS[lang][word]||EXTRA_READING_SPLITS[lang][word]||(original?original[1]:[word]);
+  const picture=(original?.[2]||LEARN_IMAGES[lang][word]||'');
+  return [word,syllables,picture];
+ });
 }
-function readModeLabels(){return {es:['Monosílabas','Bisílabas','Originales','Mezcladas'],ca:['Monosíl·labes','Bisíl·labes','Originals','Mesclades'],en:['One syllable','Two syllables','Original words','Mixed']}[state.lang]}
+function readModeLabels(){return readLabels().colors}
 function identifyModeLabels(){return readLabels().colors}
 // The same progression used by «Leo en voz alta», in one-word button subtitles.
 function identifySkillLabels(){
@@ -257,12 +312,25 @@ function editDistance(a,b){
  return r[x.length][y.length];
 }
 function newIdentifyQuiz(prev){
- const bank=readingBanks[state.lang][state.identifyMode];
- const target=pick(bank,prev);
- // Distractors share a level and, where possible, look/sound similar.
- const candidates=bank.filter(s=>s!==target).map(w=>({w,score:editDistance(target,w)+Math.abs(w.length-target.length)*.4+(w[0]!==target[0]?.6:0)+Math.random()*2.2})).sort((a,b)=>a.score-b.score);
- const best=shuffle(candidates.slice(0,Math.max(9,Math.min(16,candidates.length)))).slice(0,3).map(x=>x.w);
+ const tier=state.identifyMode;
+ const bank=[...new Set([...readingBanks[state.lang][tier],...IDENTIFY_EXTRA[state.lang][tier]])];
+ // Do not present targets whose first two written letters cannot be contrasted
+ // against at least TWO other real words in the same difficulty band.
+ const viable=bank.filter(w=>bank.filter(x=>x!==w&&x.slice(0,2)===w.slice(0,2)).length>=2);
+ const target=pick(viable.length?viable:bank,prev);
+ const same=bank.filter(w=>w!==target&&w.slice(0,2)===target.slice(0,2));
+ const ranked=arr=>arr.map(w=>({w,score:editDistance(target,w)+Math.abs(w.length-target.length)*.2+Math.random()*.4})).sort((a,b)=>a.score-b.score).map(v=>v.w);
+ const close=ranked(same);
+ const best=close.slice(0,3);
+ if(best.length<3){
+  const others=ranked(bank.filter(w=>w!==target&&!best.includes(w)));
+  best.push(...others.slice(0,3-best.length));
+ }
  state.quiz={target,options:shuffle([target,...best])};state.quizResult=null;
+}
+function readingTierTabs(selected,action){
+ const t=readLabels();
+ return '<div class="read-steps">'+readingTiers.map((tier,i)=>`<button type="button" class="read-step ${tier} ${selected===tier?'selected':''}" data-action="${action}" data-mode="${tier}" aria-pressed="${selected===tier}"><strong>${safe(t.colors[i])}</strong><small>${safe(t.skills[i])}</small></button>`).join('')+'</div>';
 }
 function readingModesUI(modes,selected,action,labels,skills=[]){
  return '<div class="reading-modes" role="group">'+modes.map((mode,i)=>`<button type="button" class="mode-pill ${mode} ${mode===selected?'active':''} ${skills[i]?'with-skill':''}" data-action="${action}" data-mode="${mode}" aria-pressed="${mode===selected}" aria-label="${safe(labels[i]+(skills[i]?' · '+skills[i]:''))}"><span>${safe(labels[i])}</span>${skills[i]?`<small>${safe(skills[i])}</small>`:''}</button>`).join('')+'</div>';
@@ -370,7 +438,7 @@ const names={es:'castellano',ca:'valencià',en:'British English'};
 const defaultState={lang:'es',caseMode:'upper',speed:'0.95'};
 let settings;try{settings={...defaultState,...JSON.parse(localStorage.getItem(STORAGE)||'{}')}}catch(_){settings={...defaultState}};
 if(!tx[settings.lang])settings.lang='es';if(!['upper','lower'].includes(settings.caseMode))settings.caseMode='upper';
-const state={...settings,activity:'alphabet',letterIdx:12,quizMode:'name',quiz:null,quizResult:null,machineKind:'CV',machineA:'m',machineB:'a',currentWord:null,selected:[],cardOrder:[],wordDone:false,revealed:false,hint:0,feedback:'',feedbackType:'',readMode:'green',identifyMode:'green'};
+const state={...settings,activity:'alphabet',letterIdx:12,quizMode:'name',quiz:null,quizResult:null,machineKind:'CV',machineA:'m',machineB:'a',currentWord:null,selected:[],cardOrder:[],wordDone:false,revealed:false,hint:0,feedback:'',feedbackType:'',readMode:'green',identifyMode:'green',pairMode:'two'};
 let voiceList=[], toastTimer=null, speakIndex=0, currentUtterance=null, activeAudio=null, speechFallbackTimer=null, promptTimer=null, advanceTimer=null, exerciseToken=0, soundContext=null;
 const $=id=>document.getElementById(id),T=()=>tx[state.lang];
 const cap=str=>state.caseMode==='upper'?str.toLocaleUpperCase(locales[state.lang]):str.toLocaleLowerCase(locales[state.lang]);
@@ -519,12 +587,33 @@ function mistake(message){soundEffect('error');wrongAnimation();speak(message)}
 function letterName(l){const namesMap={es:{a:'a',b:'be',c:'ce',d:'de',e:'e',f:'efe',g:'ge',h:'hache',i:'i',j:'jota',k:'ka',l:'ele',m:'eme',n:'ene',ñ:'eñe',o:'o',p:'pe',q:'cu',r:'erre',s:'ese',t:'te',u:'u',v:'uve',w:'uve doble',x:'equis',y:'y griega',z:'zeta'},ca:{a:'a',b:'be',c:'ce',ç:'ce trencada',d:'de',e:'e',f:'efe',g:'ge',h:'hac',i:'i',j:'jota',k:'ca',l:'ele',m:'eme',n:'ene',o:'o',p:'pe',q:'cu',r:'erre',s:'esse',t:'te',u:'u',v:'ve',w:'ve doble',x:'ics',y:'i grega',z:'zeta'}};return state.lang==='en'?l.toUpperCase():namesMap[state.lang][l]||l}
 function letterExampleMarkup(l,word){const lower=word.toLocaleLowerCase(locales[state.lang]);const pos=lower.indexOf(l);if(pos<0)return safe(cap(word));const src=cap(word);return safe(src.slice(0,pos))+'<span class="active-char">'+safe(src.slice(pos,pos+l.length))+'</span>'+safe(src.slice(pos+l.length))}
 function getLetter(){return letters[state.lang][state.letterIdx%letters[state.lang].length]}
+
+const PAIR_MODES=['two','three','complex'];
+const PAIR_MODE_LABELS={"es":["2 letras","3 letras","Complejas"],"ca":["2 lletres","3 lletres","Complexes"],"en":["2 letters","3 letters","Complex"]};
+function syllableBank(){
+ if(state.pairMode==='two')return [...new Set([...pairs[state.lang].CV,...pairs[state.lang].VC])];
+ return PAIR_LEVELS[state.lang][state.pairMode];
+}
+function setPairMode(mode){
+ if(!PAIR_MODES.includes(mode))return;
+ clearExerciseQueue();state.pairMode=mode;makeQuiz();render();queuePrompt();
+}
+function makeSyllableQuiz(prev){
+ const bank=syllableBank();
+ // At least two distractors share the initial letter with the target.
+ const eligible=bank.filter(w=>bank.filter(x=>x!==w&&x[0]===w[0]).length>=2);
+ const target=pick(eligible.length?eligible:bank,prev);
+ const siblings=shuffle(bank.filter(w=>w!==target&&w[0]===target[0]));
+ const best=siblings.slice(0,3);
+ if(best.length<3)best.push(...shuffle(bank.filter(w=>w!==target&&!best.includes(w))).slice(0,3-best.length));
+ state.quiz={target,options:shuffle([target,...best])};state.quizResult=null;
+}
 function getPairs(){return pairs[state.lang][state.machineKind]}
 function getWord(){return state.currentWord||words[state.lang][0]}
 function makeQuiz(prev){resetFeedback();let options,target;
  if(state.activity==='identifyWord'){newIdentifyQuiz(prev);return;}
  if(state.activity==='findLetter'){const allowed={es:'aeioumnptlsfjñdr',ca:'aeioumnptlsfjdrv',en:'abcdefghijklmnoprstuvwyz'};const valid=letters[state.lang].filter(item=>state.quizMode==='name'||(allowed[state.lang].includes(item[0])&&!item[3]&&item[1].startsWith(item[0])));target=pick(valid,prev);let pool=shuffle(letters[state.lang].filter(item=>item!==target));options=shuffle([target,...pool.slice(0,3)]).map(a=>a[0]);state.quiz={target:target[0],word:target[1],options};}
- else {const all=[...pairs[state.lang].CV,...pairs[state.lang].VC];target=pick(all,prev);const others=shuffle(all.filter(s=>s!==target));options=shuffle([target,...others.slice(0,3)]);state.quiz={target,options}}state.quizResult=null;
+ else {makeSyllableQuiz(prev);return;}state.quizResult=null;
 }
 function newWord(exclude){resetFeedback();const w=pick(state.activity==='readWord'?readCatalog():words[state.lang],exclude);state.currentWord=w;state.selected=[];state.wordDone=false;state.revealed=false;const candidates=[...new Set(words[state.lang].flatMap(x=>x[1]))].filter(p=>!w[1].includes(p));const distractors=shuffle(candidates).slice(0,Math.max(2,5-w[1].length));const targetCards=w[1].map((v,i)=>({id:'target-'+i,text:v}));const distractorCards=distractors.map((v,i)=>({id:'decoy-'+i,text:v}));state.cardOrder=shuffle([...targetCards,...distractorCards]);}
 function newExercise(){
@@ -550,7 +639,7 @@ function go(activity){
  }
  render();queuePrompt();
 }
-function renderNav(){const t=T();$('appTitle').textContent=t.title;$('languageLabel').textContent=t.lang;$('caseLabel').textContent=t.case;$('speedLabel').textContent=t.speed;$('navTitle').textContent=t.nav;$('navFoot').textContent=t.foot;$('footerKeyboard').textContent=t.keyboard;$('footerAppTitle').textContent=t.title;document.title=t.title+' · v0.5.1';document.documentElement.lang=state.lang==='ca'?'ca':state.lang;
+function renderNav(){const t=T();$('appTitle').textContent=t.title;$('languageLabel').textContent=t.lang;$('caseLabel').textContent=t.case;$('speedLabel').textContent=t.speed;$('navTitle').textContent=t.nav;$('navFoot').textContent=t.foot;$('footerKeyboard').textContent=t.keyboard;$('footerAppTitle').textContent=t.title;document.title=t.title+' · v0.5.2';document.documentElement.lang=state.lang==='ca'?'ca':state.lang;
  $('langSelect').value=state.lang;$('caseSelect').value=state.caseMode;$('speedSelect').value=state.speed;
  const speed=$('speedSelect');[t.sl,t.sn,t.sf].forEach((v,i)=>{speed.options[i].textContent=v});const caps=$('caseSelect');caps.options[0].textContent=state.lang==='en'?'UPPERCASE':'MAYÚSCULAS';caps.options[1].textContent=state.lang==='en'?'lowercase':state.lang==='ca'?'minúscules':'minúsculas';
  $('navItems').innerHTML=NAV.map((id,i)=>`<button class="nav-button ${id===state.activity?'active':''}" data-action="nav" data-id="${id}" aria-current="${id===state.activity?'page':'false'}"><span class="nav-emoji">${icons[i]}</span><span>${safe(i===6?readLabels().title:i===7?t.identifyTitle:t.short[i])}</span></button>`).join('');}
@@ -558,11 +647,11 @@ function shell(content){const t=T(),idx=NAV.indexOf(state.activity);const names=
 function feedbackHtml(){return `<div class="feedback ${state.feedbackType}" id="feedback" aria-live="polite">${safe(state.feedback)}</div>`}
 function abc(){const t=T(),l=getLetter();let items=letters[state.lang].map((letter,i)=>`<button class="mini-letter ${state.letterIdx===i?'selected':''}" data-action="selectLetter" data-index="${i}" aria-pressed="${state.letterIdx===i}">${esc(letter[0])}</button>`).join('');
  shell(`<div class="letter-grid" aria-label="${safe(t.activities[0])}">${items}</div><section class="exercise"><div class="letter-stage"><div class="giant-letter">${esc(l[0])}</div><div><span class="big-emoji" role="img" aria-label="${safe(l[1])}">${l[2]}</span><div class="sample-word">${letterExampleMarkup(l[0],l[1])}</div><div class="intro-line">${safe(t.sample)}</div><div class="audio-actions"><button class="btn btn-primary" data-action="letterExample">♪ ${safe(t.wordSound)}</button><button class="btn" data-action="letterName">♫ ${safe(t.name)}</button></div></div></div><p class="reading-explanation">${safe(l[3]?t.special:t.soundHelp)}</p></section>${feedbackHtml()}`)}
-function quizScreen(){const t=T(),isLetter=state.activity==='findLetter',isWord=state.activity==='identifyWord';if(!state.quiz)makeQuiz();const q=state.quiz;
+function quizScreen(){const t=T(),isLetter=state.activity==='findLetter',isWord=state.activity==='identifyWord',isSyllable=state.activity==='findPair';if(!state.quiz)makeQuiz();const q=state.quiz;
  const mode=isLetter?`<div class="segmented" role="group" aria-label="${safe(t.activities[1])}"><button class="${state.quizMode==='name'?'selected':''}" data-action="quizMode" data-mode="name" aria-pressed="${state.quizMode==='name'}">${safe(t.nameMode)}</button><button class="${state.quizMode==='example'?'selected':''}" data-action="quizMode" data-mode="example" aria-pressed="${state.quizMode==='example'}">${safe(t.soundMode)}</button></div>`:'';
  const prompt=isLetter?(state.quizMode==='name'?t.promptName:t.promptExample):isWord?t.identifyPrompt:t.promptSyllable;
- const choices=q.options.map((option,i)=>{const response=state.quizResult===option;return `<button class="choice ${response?(option===q.target?'correct':'wrong'):''}" data-action="answer" data-index="${i}" ${state.quizResult===q.target?'disabled':''}><kbd>${i+1}</kbd>${isWord?`<span class="choice-text">${esc(option)}</span>`:esc(option)}</button>`}).join('');
- shell(`${isWord?readingModesUI(identifyModes,state.identifyMode,'identifyMode',identifyModeLabels(),identifySkillLabels()):mode}<section class="exercise"><button type="button" class="target-speaker" data-action="repeat" aria-label="${safe(t.listen)}" title="${safe(t.listen)}">🔊</button><p class="target-caption">${safe(prompt)}</p><div class="choice-grid ${isWord?'word-choice-grid':''}">${choices}</div>${state.hint?`<p class="hint">${safe(isLetter?(state.quizMode==='name'?fmt(t.hintLetter,{value:cap(q.word)}):fmt(t.hintLetter,{value:cap(q.word)})):isWord?cap(q.target.slice(0,2)+'…'):fmt(t.hintSyllable,{value:cap(q.target[0])}))}</p>`:''}</section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.again)}</button><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button>${state.quizResult===q.target?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)}
+ const choices=q.options.map((option,i)=>{const response=state.quizResult===option;return `<button class="choice ${response?(option===q.target?'correct':'wrong'):''}" data-action="answer" data-index="${i}" ${state.quizResult===q.target?'disabled':''}><kbd>${i+1}</kbd>${isWord||isSyllable?`<span class="choice-text">${esc(option)}</span>`:esc(option)}</button>`}).join('');
+ shell(`${isWord?readingModesUI(identifyModes,state.identifyMode,'identifyMode',identifyModeLabels(),identifySkillLabels()):(isLetter?mode:readingModesUI(PAIR_MODES,state.pairMode,'pairMode',PAIR_MODE_LABELS[state.lang]))}<section class="exercise"><button type="button" class="target-speaker" data-action="repeat" aria-label="${safe(t.listen)}" title="${safe(t.listen)}">🔊</button><p class="target-caption">${safe(prompt)}</p><div class="choice-grid ${isWord?'word-choice-grid':isSyllable?'syllable-choice-grid':''}">${choices}</div>${state.hint?`<p class="hint">${safe(isLetter?(state.quizMode==='name'?fmt(t.hintLetter,{value:cap(q.word)}):fmt(t.hintLetter,{value:cap(q.word)})):isWord?cap(q.target.slice(0,2)+'…'):fmt(t.hintSyllable,{value:cap(q.target[0])}))}</p>`:''}</section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.again)}</button><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button>${state.quizResult===q.target?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)}
 function machine(){const t=T(),pairsSet=getPairs();const A=[...new Set(pairsSet.map(p=>p[0]))];const B=[...new Set(pairsSet.map(p=>p[1]))];const isValid=pairsSet.includes(state.machineA+state.machineB);const chosenPart=(symbols,selected,part)=>symbols.map((ch,i)=>`<button class="letter-choice ${'aeiou'.includes(ch)?'vowel':''} ${ch===selected?'chosen':''}" data-action="machineLetter" data-part="${part}" data-value="${safe(ch)}" aria-pressed="${ch===selected}">${esc(ch)}</button>`).join('');
  shell(`<div class="segmented" role="group"><button data-action="machineKind" data-kind="CV" class="${state.machineKind==='CV'?'selected':''}" aria-pressed="${state.machineKind==='CV'}">${safe(t.cv)}</button><button data-action="machineKind" data-kind="VC" class="${state.machineKind==='VC'?'selected':''}" aria-pressed="${state.machineKind==='VC'}">${safe(t.vc)}</button></div><section class="exercise"><p class="subheading">${safe(t.chooseLetters)}</p><div class="sy-machine"><div><div class="column-label">${safe(t.firstLetter)}</div><div class="letter-choices">${chosenPart(A,state.machineA,'a')}</div></div><div class="machine-plus">+</div><div><div class="column-label">${safe(t.secondLetter)}</div><div class="letter-choices">${chosenPart(B,state.machineB,'b')}</div></div></div><div class="result-syllable" aria-live="polite"><span class="${isValid?'first':'placeholder'}">${esc(state.machineA)}</span><span class="${isValid?'second':'placeholder'}">${esc(state.machineB)}</span></div><p class="machine-note">${safe(isValid?t.pair:t.chooseValid)}</p><div class="row-actions"><button class="btn btn-primary" data-action="repeat" ${isValid?'':'disabled'}>▶ ${safe(t.syllable)}</button></div></section>${feedbackHtml()}<div class="row-actions"><button class="btn btn-ghost" data-action="hint">💡 ${safe(t.help)}</button></div>`)}
 const mesaTableImage='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMTU2IiByb2xlPSJpbWciIGFyaWEtbGFiZWw9Ik1lc2EgZGUgbWFkZXJhIGNvbiBjdWF0cm8gcGF0YXMiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0id29vZCIgeDE9IjAiIHkxPSIwIiB4Mj0iLjgiIHkyPSIxIj48c3RvcCBzdG9wLWNvbG9yPSIjZDc5NzU2Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYWQ2ODNkIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PGVsbGlwc2UgY3g9Ijk5IiBjeT0iMTQ1IiByeD0iODYiIHJ5PSI4IiBmaWxsPSIjZGNlM2U1Ii8+PGcgc3Ryb2tlPSIjNzc0NDIyIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0zMiA0OGgxNXY4NHEtMSA5LTggOXQtNy05eiIgZmlsbD0iI2E2NmI0NSIvPjxwYXRoIGQ9Ik0xNTEgNDdoMTV2ODVxLTEgOS04IDl0LTctOXoiIGZpbGw9IiM5ODVhMzUiLz48cGF0aCBkPSJNNTcgNzJoMTN2NjVxMCA2LTcgNnQtNi02eiIgZmlsbD0iI2FiNzE0NyIvPjxwYXRoIGQ9Ik0xMjkgNzJoMTN2NjVxMCA2LTcgNnQtNi02eiIgZmlsbD0iI2I1NzU0NSIvPjxwYXRoIGQ9Ik0yMSA0NmwyNC0xOWgxMTJsMjEgMTktMjEgMTlINDV6IiBmaWxsPSJ1cmwoI3dvb2QpIi8+PHBhdGggZD0iTTIxIDQ2aDE1N3YxM3EtMTMgMTItMjIgMTJINDZxLTEzIDAtMjUtMTJ6IiBmaWxsPSIjYjg3NDQyIi8+PHBhdGggZD0iTTQ1IDQ2aDEzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWFiNzgxIiBzdHJva2Utd2lkdGg9IjMiLz48L2c+PHBhdGggZD0iTTcwIDMwbC0xNCAyOU0xMjcgMzBsMTkgMjgiIHN0cm9rZT0iI2M5ODQ1MCIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIuNjUiLz48L3N2Zz4=';
@@ -577,13 +666,13 @@ function readWord(){
  const buttons=w[1].map((part,i)=>`<button data-action="readPart" data-index="${i}" title="${safe(t.listenParts)}">${esc(part)}</button>`).join('');
  const reveal=state.revealed?(isPicture?`<div class="reveal"><span class="reveal-emoji" role="img" aria-label="${safe(w[0])}">${wordIllustration(w)}</span><span class="reveal-text">${esc(w[0])}</span></div>`:
  `<div class="reveal"><span class="reveal-emoji" aria-hidden="true">✓</span><span class="reveal-text">${esc(w[0])}</span><p class="reading-explanation">${safe(t.noIllustration)}</p></div>`):'<div class="hidden-art" aria-hidden="true">?</div>';
- shell(`${readingModesUI(learnReadModes,state.readMode,'readMode',readModeLabels())}<p class="bank-note">${safe(t.readBankIntro)}</p><section class="exercise"><p class="subheading">${safe(t.readNow)}</p><div class="big-reading">${esc(w[0])}</div><div class="reading-tiles">${buttons}</div>${reveal}<p class="reading-explanation">${safe(t.listenParts)}</p></section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.whole)}</button><button class="btn ${state.revealed?'btn-good':'btn-primary'}" data-action="reveal">${state.revealed?'✓':'👀'} ${safe(t.readCheck)}</button>${state.revealed?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)
+ shell(`${readingTierTabs(state.readMode,'readMode')}<p class="bank-note">${safe(t.readBankIntro)}</p><section class="exercise"><p class="subheading">${safe(t.readNow)}</p><div class="big-reading">${esc(w[0])}</div><div class="reading-tiles">${buttons}</div>${reveal}<p class="reading-explanation">${safe(t.listenParts)}</p></section>${feedbackHtml()}<div class="row-actions"><button class="btn" data-action="repeat">▶ ${safe(t.whole)}</button><button class="btn ${state.revealed?'btn-good':'btn-primary'}" data-action="reveal">${state.revealed?'✓':'👀'} ${safe(t.readCheck)}</button>${state.revealed?`<button class="btn btn-primary" data-action="new">→ ${safe(t.next)}</button>`:''}</div>`)
 }
 
 // Fit each whole word to its button; never split, truncate or hide a word.
-function fitIdentifyWordOptions(){
- if(state.activity!=='identifyWord')return;
- document.querySelectorAll('.word-choice-grid .choice').forEach(button=>{
+function fitChoiceOptions(){
+ if(!['identifyWord','findPair'].includes(state.activity))return;
+ document.querySelectorAll('.word-choice-grid .choice, .syllable-choice-grid .choice').forEach(button=>{
   const text=button.querySelector('.choice-text');
   if(!text)return;
   text.style.fontSize='';
@@ -595,7 +684,7 @@ function fitIdentifyWordOptions(){
   }
  });
 }
-function render(){renderNav();if(state.activity==='alphabet')abc();else if(['findLetter','findPair','identifyWord'].includes(state.activity))quizScreen();else if(state.activity==='machine')machine();else if(state.activity==='buildWord')buildWord();else if(state.activity==='readAloud')renderReadAloud();else readWord();fitIdentifyWordOptions();updateVoiceStatus()}
+function render(){renderNav();if(state.activity==='alphabet')abc();else if(['findLetter','findPair','identifyWord'].includes(state.activity))quizScreen();else if(state.activity==='machine')machine();else if(state.activity==='buildWord')buildWord();else if(state.activity==='readAloud')renderReadAloud();else readWord();fitChoiceOptions();updateVoiceStatus()}
 function repeat(){if(state.activity==='readAloud'){readModel();return}if(state.activity==='alphabet'){speak(getLetter()[1])}else if(state.activity==='findLetter'){const q=state.quiz;speak(state.quizMode==='name'?letterName(q.target):q.word)}else if(state.activity==='findPair'){speakIsolatedSyllable(state.quiz.target)}else if(state.activity==='identifyWord'){speak(state.quiz.target)}else if(state.activity==='machine'){if(getPairs().includes(state.machineA+state.machineB))speakIsolatedSyllable(state.machineA+state.machineB);else toast(T().chooseValid)}else if(state.activity==='buildWord'||state.activity==='readWord'){speak(getWord()[0])}}
 function answer(i){
  if(!state.quiz||state.quizResult===state.quiz.target)return;
@@ -652,6 +741,7 @@ function handleClick(evt){
  const a=el.dataset.action;
  if(a==='readMode')return setReadMode(el.dataset.mode);
  if(a==='identifyMode')return setIdentifyMode(el.dataset.mode);
+ if(a==='pairMode')return setPairMode(el.dataset.mode);
  if(a==='readTier')return chooseReadTier(el.dataset.tier);
  if(a==='readBegin')return readBegin();
  if(a==='readCorrect')return acceptRead(true);
@@ -728,7 +818,7 @@ function onLangCaseChange(){
  if(['buildWord','readWord'].includes(state.activity))newWord();
  render();queuePrompt();
 }
-$('langSelect').addEventListener('change',e=>{state.lang=e.target.value;onLangCaseChange()});$('caseSelect').addEventListener('change',e=>{state.caseMode=e.target.value;saveSettings();render()});$('speedSelect').addEventListener('change',e=>{state.speed=e.target.value;saveSettings();updateVoiceStatus()});document.addEventListener('click',handleClick);document.addEventListener('keydown',handleKeyboard);window.addEventListener('resize',fitIdentifyWordOptions);
+$('langSelect').addEventListener('change',e=>{state.lang=e.target.value;onLangCaseChange()});$('caseSelect').addEventListener('change',e=>{state.caseMode=e.target.value;saveSettings();render()});$('speedSelect').addEventListener('change',e=>{state.speed=e.target.value;saveSettings();updateVoiceStatus()});document.addEventListener('click',handleClick);document.addEventListener('keydown',handleKeyboard);window.addEventListener('resize',fitChoiceOptions);
 // HTML drag-and-drop for mouse users; keyboard and click are equally functional.
 document.addEventListener('dragstart',e=>{const tile=e.target.closest('.tile');if(!tile||tile.disabled||state.activity!=='buildWord')return;e.dataTransfer.setData('text/plain',tile.dataset.index);e.dataTransfer.effectAllowed='move'});document.addEventListener('dragover',e=>{if(e.target.closest('#dropzone')&&state.activity==='buildWord'){e.preventDefault();e.dataTransfer.dropEffect='move'}});document.addEventListener('drop',e=>{if(e.target.closest('#dropzone')&&state.activity==='buildWord'){e.preventDefault();const i=Number(e.dataTransfer.getData('text/plain'));if(Number.isInteger(i))chooseTile(i)}});
 if('speechSynthesis' in window){window.speechSynthesis.onvoiceschanged=updateVoiceStatus;window.setTimeout(updateVoiceStatus,600);window.setTimeout(updateVoiceStatus,2300)}
